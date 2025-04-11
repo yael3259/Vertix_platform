@@ -1,0 +1,163 @@
+.AddPostForm {
+    max-width: 500px;
+    margin: auto;
+    margin-top: 20px;
+    padding: 2rem;
+    background-color: #eaeaea;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    direction: rtl;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.AddPostForm h2 {
+    color: #9b4600;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.AddPostForm label {
+    font-weight: bold;
+}
+
+.AddPostForm input,
+.AddPostForm textarea,
+.AddPostForm button {
+    direction: rtl;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    cursor: text;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.apload_files input {
+    background-color: #ffffff;
+    min-height: 50px;
+}
+
+.AddPostForm textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.filesPart {
+    background-color: #ffa76049;
+    padding: 0 20px 20px 20px;
+    border-radius: 0.5rem;
+}
+
+.choose_file_label {
+    color: #9b551c;
+}
+
+.apload_files {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.aploadfile {
+    display: flex;
+    flex-direction: column;
+    width: 215px;
+}
+
+.aploadfile label {
+    padding-bottom: 18px;
+    font-weight: bold;
+    color: #535353;
+}
+
+.aploadfile label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    direction: rtl;
+}
+
+.aploadfile input[type="text"],
+.aploadfile input[type="file"] {
+    margin-top: 4px;
+    width: 100%;
+}
+
+.bg_color_change {
+    width: 40px !important;
+    height: 40px;
+    border-radius: 50% !important;
+    background-color: #ffffff;
+    cursor: pointer !important;
+    padding: 0 !important;
+}
+
+.bg_color_change::-webkit-color-swatch {
+    border-radius: 50%;
+    border: none;
+}
+
+.HEXcolor {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 7px;
+    letter-spacing: 1.5px;
+}
+
+.AddPostForm button {
+    background-color: #ed8128;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.AddPostForm button:hover {
+    background-color: #d57425;
+}
+
+#requireInput {
+    color: #ed8128;
+}
+
+.error {
+    color: rgb(255, 43, 43);
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.react-select-container {
+    direction: rtl;
+    text-align: right;
+    cursor: pointer;
+}
+
+.react-select__option--is-focused {
+    background-color: #d3d3d3 !important;
+    color: #000 !important;
+}
+
+.react-select__option--is-selected {
+    background-color: #ffd8b9 !important;
+    color: rgb(0, 0, 0) !important;
+}
+
+.react-select__control {
+    border-radius: 0.5rem !important;
+    border: 1px solid #ccc !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.react-select__control:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}

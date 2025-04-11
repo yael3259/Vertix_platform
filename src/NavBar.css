@@ -1,0 +1,107 @@
+.navbar_page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 13px 24px;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar_left {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.navbar_center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar_right {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.search-icon {
+    font-size: 15px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    padding: 6px;
+    margin-left: -2px;
+    color: #787878;
+    position: absolute;
+    z-index: 100;
+    left: 7px;
+}
+
+.search_in_navbar {
+    background-color: #e8e8e8ca;
+    border-radius: 20px 8px 8px 20px;
+    color: #555;
+    font-size: 16px;
+    width: 140px;
+    direction: rtl;
+    padding: 7px 7px 7px 30px;
+    cursor: text;
+    border: 2px solid transparent;
+    outline: none;
+    position: relative;
+}
+
+.search_in_navbar:focus {
+    background-color: #e8e8e889;
+    border-bottom: 2px solid #00ff84a5;
+    border-left: 2px solid #00ff84a5;
+    outline: none;
+    transition: border 1.2s ease-in-out;
+}
+
+.links_list {
+    display: flex;
+    gap: 40px;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: #555;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s;
+}
+
+.nav-link {
+    text-decoration: none;
+}
+
+.nav-item:hover,
+.nav-item:active {
+    color: #02dca9;
+}
+
+.logo {
+    color: #02dca9;
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 0.8px;
+    font-family: cursive;
+    cursor: pointer;
+}
+
+.logo_nav-link {
+    text-decoration: none;
+}
