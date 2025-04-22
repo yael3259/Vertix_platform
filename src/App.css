@@ -1,0 +1,11 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    /* או מה שאת רוצה */
+}
+
+.app {
+    min-height: 100vh;
+    background-color: white;
+}

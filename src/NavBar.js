@@ -46,6 +46,12 @@ export const NavBar = () => {
                             <span>בית</span>
                         </div>
                     </NavLink>
+                    <NavLink to="/login" className="nav-link">
+                        <div className="nav-item" >
+                            <img src={profile} width={20} height={20} alt="אורח" id="guest"/>
+                            <span>אורח</span>
+                        </div>
+                    </NavLink>
                 </div>
             </div>
 

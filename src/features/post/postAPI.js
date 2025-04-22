@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 
-let baseURL= `${process.env.REACT_APP_BASE_URL}/post` || "http://localhost:5000/domain/api/post";
+let baseURL = `${process.env.REACT_APP_BASE_URL}/post` || "http://localhost:5000/domain/api/post";
 
 
 
@@ -26,3 +26,11 @@ export const deletePost = (id) => {
 // export const toggleLikePost = (postId, userId) => {
 //     return axios.post(`${baseURL}${postId}`, {userId});
 // }
+
+export const addComment = (comment, postId) => {
+    return axios.post(`${baseURL}/comment/${postId}`, comment);
+}
+
+export const getCommentOfPostById = (postId) => {
+    return axios.get(`${baseURL}/comments/${postId}`);
+}

@@ -63,10 +63,13 @@ export const AddPostForm = () => {
     };
 
     const categoryOptions = [
-        { value: 'פיתוח', label: 'פיתוח' },
-        { value: 'עיצוב', label: 'עיצוב' },
-        { value: 'רעיון', label: 'רעיון' },
-        { value: 'השראה', label: 'השראה' }
+        { value: 'השראה ורגש', label: 'השראה ורגש' },
+        { value: 'שאלות והתלבטויות', label: 'שאלות והתלבטויות' },
+        { value: 'ממים ובדיחות', label: 'ממים ובדיחות' },
+        { value: 'טיפים שימושיים', label: 'טיפים שימושיים' },
+        { value: 'פיתוח אישי', label: 'פיתוח אישי' },
+        { value: 'עיצוב ויצירה', label: 'עיצוב ויצירה' },
+        { value: 'טכנולוגיה וחדשנות', label: 'טכנולוגיה וחדשנות' }
     ];
 
     return (
@@ -91,23 +94,23 @@ export const AddPostForm = () => {
             {errors.category && <span className="error">{errors.category.message}</span>}
 
             <label>תוכן<span id="requireInput"> *</span></label>
-            <textarea
+            <textarea className="post-content"
                 {...register("content", {
                     required: "שדה חובה",
                     minLength: { value: 15, message: "לפחות 15 תווים" },
-                    maxLength: { value: 150, message: "מקסימום 150 תווים" },
+                    maxLength: { value: 1000, message: "מקסימום 1000 תווים" },
                 })}
                 placeholder="מה תרצה לשתף?"
             ></textarea>
             {errors.content && <span className="error">{errors.content.message}</span>}
 
             <div className="filesPart">
-                <p style={{ fontWeight: 'Bold' }}>הוספת וידאו/ תמונה</p>
-                <p className="choose_file_label">בחרו באפשרות אחת והעלו קובץ תקין עם סיומת jpeg /.png /.mp4.</p>
+                <p style={{ fontWeight: 'Bold' }}>הוספת וידאו / תמונה</p>
+                <p className="choose_file_label">בחר באפשרות אחת והעלה קובץ תקין עם סיומת jpeg /.png /.mp4.</p>
                 <div className="apload_files">
                     <div className="aploadfile">
                         <label><Link2 size={18} />
-                            קישור לוידאו/ תמונה
+                            קישור לוידאו / תמונה
                         </label>
                         <input type="text" {...register("imagePost")} placeholder="כתובת URL" />
                     </div>

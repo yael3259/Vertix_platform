@@ -70,7 +70,8 @@
 
 .links_list {
     display: flex;
-    gap: 40px;
+    /* gap: 40px; */
+    gap: 50px;
 }
 
 .nav-item {
@@ -82,6 +83,11 @@
     text-decoration: none;
     font-size: 1rem;
     transition: color 0.3s;
+}
+
+#guest{
+    background-color: #02dca9;
+    border-radius: 50px;
 }
 
 .nav-link {
