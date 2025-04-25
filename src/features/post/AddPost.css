@@ -1,10 +1,16 @@
+.addPostPage{
+    background: linear-gradient(135deg, #ff9a2757, #e8ffd9);
+    padding: 50px;
+}
+
 .AddPostForm {
     max-width: 500px;
     margin: auto;
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 2rem;
-    background-color: #eaeaea;
+    background-color: #efefef;
+    border: 2px solid rgba(148, 148, 148, 0.421);
     border-radius: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     direction: rtl;

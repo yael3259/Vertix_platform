@@ -109,17 +109,22 @@ export const Feed = () => {
                             {/* <div className="choosenColorByUser" style={{ backgroundColor: item.backgroundColor }}> */}
                             <div className="top_post">
                                 <div className="userName_txt">
-                                    <img src={category} alt="" className="categoryIcon" />
+                                    <img src={category} className="categoryIcon" />
                                     <p className="category_txt">{item.category}</p>
                                 </div>
                                 <div className="userName_txt">
                                     <p>שם משתמש</p>
-                                    <img src={"https://cdn-icons-png.freepik.com/256/12522/12522481.png?ga=GA1.1.1754982332.1740749915&semt=ais_hybrid"} alt="" className="profile_Picture" />
+                                    <img src="https://cdn-icons-png.freepik.com/256/12522/12522481.png?ga=GA1.1.1754982332.1740749915&semt=ais_hybrid" className="profile_Picture" />
+
+                                    {/* <img
+                                        src={user.profilePicture && user.profilePicture.trim() !== "" ? user.profilePicture : "https://path.to/default-image.png"}
+                                        className="profile_Picture"
+                                    /> */}
                                 </div>
                             </div>
                             <p className="postingDate_txt">לפני {timeAgo(item.postingDate)}</p>
                             <p className="item-content" style={{ backgroundColor: item.backgroundColor }}>{item.content}</p>
-                            {item.imagePost && (
+                            {item.imagePost && item.imagePost.trim() !== "" && (
                                 item.imagePost.endsWith('.mp4') ? (
                                     <video
                                         className="post-image"
@@ -181,7 +186,15 @@ export const Feed = () => {
                                 <div key={index} className="random-user">
                                     <button className="add-friend-btn">+</button>
                                     <p className="name_to_connect">{user.userName}</p>
-                                    <img src={user.profilePicture} className="profile_Picture" />
+                                    {/* <img src={user.profilePicture || "https://cdn-icons-png.freepik.com/256/12522/12522481.png"} className="profile_Picture" /> */}
+                                    <img
+                                        src={user.profilePicture}
+                                        className="profile_Picture"
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = "https://cdn-icons-png.freepik.com/256/12522/12522481.png";
+                                        }}
+                                    />
                                 </div>
                             ))
                         ) : (

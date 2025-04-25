@@ -8,6 +8,8 @@ import { AddPostForm } from "./features/post/AddPost";
 import { RegistrationPage } from "./features/user/sign_in";
 import { ProfilePage } from "./features/user/profilePage";
 import { ResetPassword } from "./features/user/forgotPassword";
+import { TrackingTable } from "./features/achievement/trackingTable";
+import { AddAchievement } from "./features/achievement/addAchievement";
 
 
 
@@ -25,6 +27,8 @@ function App() {
             <Route path="/signin" element={<RegistrationPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/reset_pass" element={<ResetPassword />} />
+            <Route path="/table" element={<TrackingTable />} />
+            <Route path="/addAchievement" element={<AddAchievement />} />
 
           </Routes>
 
