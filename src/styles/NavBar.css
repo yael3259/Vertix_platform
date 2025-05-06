@@ -85,9 +85,24 @@
     transition: color 0.3s;
 }
 
-#guest{
-    background-color: #02dca9;
+#guest {
+    background-color: #92f7df;
     border-radius: 50px;
+}
+
+#else-color{
+    color: #a8c06b;
+    font-weight: 500;
+}
+
+#female-color {
+    color: rgb(177, 78, 121);
+    font-weight: 500;
+}
+
+#male-color {
+    color: rgb(78, 124, 184);
+    font-weight: 500;
 }
 
 .nav-link {
@@ -100,12 +115,10 @@
 }
 
 .logo {
-    color: #02dca9;
-    font-size: 1.5rem;
-    font-weight: bold;
-    letter-spacing: 0.8px;
-    font-family: cursive;
-    cursor: pointer;
+    width: 82px;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: -4px;
 }
 
 .logo_nav-link {

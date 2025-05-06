@@ -2,44 +2,56 @@ import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Select from "react-select";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Link2, Upload } from "lucide-react";
-import "./AddPost.css";
-import { addPost } from "./postAPI";
-import { Bold } from "lucide-react";
+import "../../styles/post/AddPost.css";
+import { addPost } from "../../routes/PostAPI";
+import { useUserContext } from "../../contexts/UserContext";
+import EmojiPicker from 'emoji-picker-react';
+import { faildAlert } from "../../components/Alerts";
 
 
 
 export const AddPostForm = () => {
     const { register, handleSubmit, formState: { errors }, control, setValue } = useForm();
     const [color, setColor] = useState("#ffffff");
+    const [showPicker, setShowPicker] = useState(false);
+    const [content, setContent] = useState("");
     const navigate = useNavigate();
+    const { user } = useUserContext();
 
     useEffect(() => {
-        setValue("backgroundColor", getBackgroundColorWithOpacity(color, 0.2));
+        setValue("backgroundColor", opacityBackground(color, 0.2));
     }, []);
 
     const onSubmit = async (data) => {
         console.log(data);
 
+        if (!user){
+            faildAlert('משתמש לא מחובר');
+            return;
+        }
         const formData = new FormData();
 
         formData.append("category", data.category.value);
-        formData.append("content", data.content);
+        formData.append("content", content);
         formData.append("imagePost", data.imagePost);
         formData.append("backgroundColor", data.backgroundColor);
 
         if (data.mediaFile && data.mediaFile[0]) {
             formData.append("mediaFile", data.mediaFile[0]);
         }
-
+        
         try {
             const res = await addPost(formData);
             console.log("Response from server:", res);
             alert("הפוסט נוסף בהצלחה");
             navigate("/feed");
+
         } catch (err) {
             console.error("שגיאה בשליחת הפוסט:", err);
-            alert("אירעה שגיאה בשליחת הפוסט");
+            faildAlert("אירעה שגיאה בשליחת הפוסט");
         }
     };
 
@@ -47,7 +59,12 @@ export const AddPostForm = () => {
         console.log("Validation failed:", formErrors);
     };
 
-    const getBackgroundColorWithOpacity = (hex, alpha = 0.5) => {
+    const handleEmojiClick = (emojiData) => {
+        setContent(prevContent => prevContent + emojiData.emoji);
+        setShowPicker(false);
+    };
+
+    const opacityBackground = (hex, alpha = 0.5) => {
         const bigint = parseInt(hex.replace("#", ""), 16);
         const r = (bigint >> 16) & 255;
         const g = (bigint >> 8) & 255;
@@ -58,7 +75,7 @@ export const AddPostForm = () => {
     const handleColorChange = (e) => {
         const hexColor = e.target.value;
         setColor(hexColor);
-        const rgbaColor = getBackgroundColorWithOpacity(hexColor, 0.2);
+        const rgbaColor = opacityBackground(hexColor, 0.2);
         setValue("backgroundColor", rgbaColor);
     };
 
@@ -95,14 +112,32 @@ export const AddPostForm = () => {
                 {errors.category && <span className="error">{errors.category.message}</span>}
 
                 <label>תוכן<span id="requireInput"> *</span></label>
-                <textarea className="post-content"
-                    {...register("content", {
-                        required: "שדה חובה",
-                        minLength: { value: 15, message: "לפחות 15 תווים" },
-                        maxLength: { value: 1000, message: "מקסימום 1000 תווים" },
-                    })}
-                    placeholder="מה תרצה לשתף?"
-                ></textarea>
+                <div className="textarea-wrapper">
+                    <textarea
+                        className="post-content"
+                        {...register("content", {
+                            required: "שדה חובה",
+                            minLength: { value: 15, message: "לפחות 15 תווים" },
+                            maxLength: { value: 1000, message: "מקסימום 1000 תווים" },
+                        })}
+                        placeholder="מה תרצה לשתף?"
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
+                    ></textarea>
+
+                    <div
+                        type="button"
+                        className="emoji-button"
+                        onClick={() => setShowPicker(!showPicker)}
+                    >
+                        😊
+                    </div>
+                    {showPicker && (
+                        <div className="emoji-picker-container">
+                            <EmojiPicker onEmojiClick={handleEmojiClick} />
+                        </div>
+                    )}
+                </div>
                 {errors.content && <span className="error">{errors.content.message}</span>}
 
                 <div className="filesPart">
@@ -140,8 +175,9 @@ export const AddPostForm = () => {
                     {...register("backgroundColor", { required: true })}
                 />
 
-                <button type="submit">פרסם פוסט</button>
+                <button type="submit" className="addPostSubmit">פרסם פוסט</button>
             </form>
+            <ToastContainer position="bottom-center" />
         </div>
     );
 };

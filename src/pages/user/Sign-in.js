@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { faildAlert, successAlert, warningAlert } from "../../alerts/All_Alerts";
-import { addUser } from './userAPI';
-import './loginPage.css';
+import { faildAlert, successAlert } from "../../components/Alerts";
+import { addUser } from '../../routes/UserAPI';
+import "../../styles/user/Log-in.css";
 import { FaUser, FaLock, FaEnvelope, FaLink, FaStar } from 'react-icons/fa';
 
 
@@ -26,7 +26,7 @@ export const RegistrationPage = () => {
         const validationErrors = {};
         if (!userName || userName.length < 3)
             validationErrors.userName = "שם משתמש חייב להכיל לפחות 3 תווים";
-        if (nickname.length == 1 || nickname.length > 20)
+        if (nickname.length === 1 || nickname.length > 20)
             validationErrors.nickname = "כינוי חייב להכיל בין 2-20 תווים";
         if (!password || password.length < 5)
             validationErrors.password = "סיסמה חייבת להכיל לפחות 5 תווים";
@@ -42,14 +42,15 @@ export const RegistrationPage = () => {
             setErrors(validationErrors);
             return;
         }
-
         setLoading(true);
+
         try {
-            const res = await addUser({ email, password, userName, nickname, gender, profilePicture });
-            successAlert("נרשמת בהצלחה!");
+            let res = await addUser({ email, password, userName, nickname, gender, profilePicture });
+            console.log(res);
+            console.log("נרשמת בהצלחה!");
             navigate("/login");
         } catch (err) {
-            faildAlert(err.response?.data?.message || "שגיאה בלתי צפויה, נסה שוב");
+            faildAlert(err.response?.data?.message || "שגיאה");
         } finally {
             setLoading(false);
         }

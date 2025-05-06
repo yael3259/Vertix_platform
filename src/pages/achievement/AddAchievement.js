@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Controller, useForm } from "react-hook-form";
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
-import "./addAchievement.css";
-import { addAchievement } from './achievementAPI';
+import "../../styles/achievement/AddAchievement.css";
+import { addAchievement } from '../../routes/AchievementAPI';
 
 
 

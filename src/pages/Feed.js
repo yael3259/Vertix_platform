@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import "./Feed.css";
+import "../styles/Feed.css";
 import { useNavigate } from "react-router-dom";
-import { getAllPosts } from "./postAPI";
-import { getRandomUsers } from "../user/userAPI";
-import { AddPostForm } from "./AddPost";
-import comment from "./files/comment.png";
-import like from "./files/like.png";
-import star from "./files/star.png";
-import category from "./files/category.png";
+import { getAllPosts } from "../routes/PostAPI";
+import { getRandomUsers } from "../routes/UserAPI";
+import comment from "../files/icons/comment.png";
+import like from "../files/icons/like.png";
+import clicked_like from "../files/icons/clicked_like.png";
+import star from "../files/icons/star.png";
+import category from "../files/icons/category.png";
+import { FaPaperPlane } from 'react-icons/fa';
+import { useUserContext } from '../contexts/UserContext';
 
 
 
@@ -18,6 +20,8 @@ export const Feed = () => {
     const [randomUsers, setRandomUsers] = useState([]);
     const [searchText, setSearchText] = useState('');
     const navigate = useNavigate();
+    const { user } = useUserContext();
+
 
     useEffect(() => {
         loadPosts(page, searchText);
@@ -29,12 +33,19 @@ export const Feed = () => {
         setLoading(true);
         getAllPosts(currentPage, 15, searchText)
             .then((res) => {
+                const postsWithFlag = res.data.map(post => ({
+                    ...post,
+                    showComments: false
+                }));
+
+                const sortedPosts = postsWithFlag.sort((a, b) => new Date(b.postingDate) - new Date(a.postingDate));
+
                 if (currentPage === 1) {
-                    setArr(res.data.reverse());
+                    setArr(sortedPosts);
                 } else {
                     setArr((prevArr) => {
-                        const newPosts = res.data.filter(post => !prevArr.some(existingPost => existingPost._id === post._id));
-                        return [...prevArr, ...newPosts.reverse()];
+                        const newPosts = sortedPosts.filter(post => !prevArr.some(existingPost => existingPost._id === post._id));
+                        return [...prevArr, ...newPosts];
                     });
                 }
             })
@@ -46,6 +57,10 @@ export const Feed = () => {
                     setLoading(false);
                 }, 1500);
             });
+    };
+
+    const LoadMorePosts = () => {
+        setPage(page + 1);
     };
 
     const timeAgo = (timestamp) => {
@@ -68,12 +83,11 @@ export const Feed = () => {
     };
 
     const toggleComments = (postId) => {
-        setArr(prevArr => prevArr.map(post => {
-            if (post._id === postId) {
-                return { ...post, showComments: !post.showComments };
-            }
-            return post;
-        }));
+        setArr(prevArr =>
+            prevArr.map(post =>
+                post._id === postId ? { ...post, showComments: !post.showComments } : post
+            )
+        );
     };
 
     const loadRandomUsers = () => {
@@ -101,14 +115,11 @@ export const Feed = () => {
                 </div>
                 <div className="feed_part" >
                     <div className="addpost_feed" onClick={() => { linkToAddPostForm() }}>צור פוסט חדש</div>
-                    {/* {loading ? (
-                        <p className="loading">...טוען פוסטים</p>
-                    ) : ( */}
+
                     {arr.map((item) => (
                         <div className="grid-item" key={item._id} >
-                            {/* <div className="choosenColorByUser" style={{ backgroundColor: item.backgroundColor }}> */}
                             <div className="top_post">
-                                <div className="userName_txt">
+                                <div className="userName_txt" id="categoryPart">
                                     <img src={category} className="categoryIcon" />
                                     <p className="category_txt">{item.category}</p>
                                 </div>
@@ -117,7 +128,7 @@ export const Feed = () => {
                                     <img src="https://cdn-icons-png.freepik.com/256/12522/12522481.png?ga=GA1.1.1754982332.1740749915&semt=ais_hybrid" className="profile_Picture" />
 
                                     {/* <img
-                                        src={user.profilePicture && user.profilePicture.trim() !== "" ? user.profilePicture : "https://path.to/default-image.png"}
+                                        src={user.profilePictureUser && user.profilePictureUser.trim() !== "" ? user.profilePictureUser : "https://path.to/default-image.png"}
                                         className="profile_Picture"
                                     /> */}
                                 </div>
@@ -138,44 +149,64 @@ export const Feed = () => {
                                     <img src={item.imagePost} className="post-image" />
                                 )
                             )}
-                            {/* </div> */}
 
                             <div className="item-likes-comments">
-                                <p>
-                                    לייקים {item.likes}
+                                <p className="likes">
                                     <img src={like} alt="like icon" className="like-icon" />
+                                    <span>{item.likes} לייקים</span>
                                 </p>
-                                <p>
+                                <p className="favorite">
                                     מועדף
                                     <img src={star} alt="star icon" className="star-icon" />
                                 </p>
-                                <p tabIndex="0"
+                                <p tabIndex="0" className="comments"
                                     onClick={() => toggleComments(item._id)}>
-                                    תגובות {item.comments.length}
-                                    <img src={comment} alt="Comment icon" className="comment-icon" />
+                                    <img src={comment} alt="comment icon" className="comment-icon" />
+                                    <span> {item.comments.length} תגובות</span>
                                 </p>
                             </div>
 
-                            {item.showComments && item.comments.map((comment) => (
-                                <div className="comment" key={comment._id}>
-                                    <div className="comment-header">
-                                        <p className="comment-avatar" />
-                                        <div className="comment-details">
-                                            <span className="comment-date">לפני {(timeAgo(comment.commentDate))}</span>
-                                            <div className="userDeatails_comment">
-                                                <span className="comment-author">yael</span>
-                                                <img src={"https://cdn-icons-png.freepik.com/256/12522/12522481.png?ga=GA1.1.1754982332.1740749915&semt=ais_hybrid"} alt="" className="comment-author" />
-                                            </div>
-                                        </div>
+                            {item.showComments && (
+                                <>
+                                    <div id="border-top"></div>
+                                    <div className="addComment">
+                                        <button className="send-comment-btn"><FaPaperPlane /></button>
+                                        <input
+                                            type="text"
+                                            placeholder="הוסף תגובה..."
+                                            className="comment-input"
+                                        />
+                                        <img src={user.profilePictureUser} className="userUrlInComments" />
                                     </div>
-                                    <p className="comment-text">{comment.text}</p>
-                                </div>
-                            ))}
+
+                                    {item.comments.map((comment) => (
+                                        <div className="comment" key={comment._id}>
+                                            <div className="comment-header">
+                                                <p className="comment-avatar" />
+                                                <div className="comment-details">
+                                                    <span className="comment-date">לפני {(timeAgo(comment.commentDate))}</span>
+                                                    <div className="userDeatails_comment">
+                                                        <span className="comment-author">yael</span>
+                                                        <img
+                                                            src={"https://cdn-icons-png.freepik.com/256/12522/12522481.png?ga=GA1.1.1754982332.1740749915&semt=ais_hybrid"}
+                                                            alt=""
+                                                            className="comment-author"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p className="comment-text">{comment.text}</p>
+                                        </div>
+                                    ))}
+                                </>
+                            )}
                         </div>
                     ))}
-                    {/* )} */}
+
                     <div className="load-more">
-                        <button onClick={() => setPage(page + 1)} disabled={loading}>טען עוד</button>
+                        <button onClick={LoadMorePosts} disabled={loading} className="load-button">
+                            {loading ? <div className="spinner" /> : "טען עוד"}
+                        </button>
                     </div>
                 </div>
                 <div className="right">
@@ -186,7 +217,6 @@ export const Feed = () => {
                                 <div key={index} className="random-user">
                                     <button className="add-friend-btn">+</button>
                                     <p className="name_to_connect">{user.userName}</p>
-                                    {/* <img src={user.profilePicture || "https://cdn-icons-png.freepik.com/256/12522/12522481.png"} className="profile_Picture" /> */}
                                     <img
                                         src={user.profilePicture}
                                         className="profile_Picture"

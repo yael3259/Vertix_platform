@@ -74,14 +74,49 @@
     background-color: #65c7ec;
 }
 
+#details_section {
+    border-right: 2px solid transparent;
+    padding-right: 20px;
+    margin-bottom: 70px;
+}
+
+#details_section:hover {
+    border-right: 2px solid #6d7ff7;
+    transition: all 0.3s ease;
+}
+
+#skills_section{
+    border-right: 2px solid transparent;
+    padding-right: 20px;
+}
+
+#skills_section:hover{
+    border-right: 2px solid #5eeeb5;
+    transition: all 0.3s ease;
+}
+
+#posts_section{
+    border-right: 2px solid transparent;
+    padding-right: 20px;
+    margin-bottom: 70px;
+}
+
+#posts_section:hover{
+    border-right: 2px solid #ee5ea6;
+    transition: all 0.3s ease;
+}
+
 .profile-body {
     padding-top: 30px;
 }
 
-
 .detail-row {
     margin-bottom: 10px;
     font-size: 16px;
+}
+
+#skills_section {
+    margin-bottom: 70px;
 }
 
 .tags {
@@ -93,9 +128,41 @@
 .tag {
     background-color: #e0f5ff;
     color: #0078aa;
-    padding: 6px 14px;
+    padding: 10px 15px;
     border-radius: 20px;
     font-size: 14px;
+    align-self: center;
+}
+
+.tags input[type="text"] {
+    width: 50%;
+    max-width: 158px;
+    padding: 10px 10px;
+    border: 2px solid #ddd;
+    border-radius: 0 10px 10px 0;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.tags input[type="text"]:focus {
+    border-color: #3dbf89;
+    outline: none;
+}
+
+.tags button {
+    padding: 10px 10px;
+    font-size: 16px;
+    background-color: #3dbf89;
+    color: white;
+    margin-right: -10px;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tags button:hover {
+    background-color: #339d70;
 }
 
 .buttom_section {
@@ -109,7 +176,7 @@
     background: linear-gradient(145deg, #f9f9fb, #e8edf2);
     border-top: 2px solid #d9dce1;
     border-radius: 0 0 28px 28px;
-    box-shadow: inset 0 8px 20px rgba(0,0,0,0.02);
+    box-shadow: inset 0 8px 20px rgba(0, 0, 0, 0.02);
 }
 
 .card-section {
@@ -127,12 +194,6 @@
     transition: all 0.3s ease;
     border: 1px solid #e1e7ec;
     overflow: hidden;
-}
-
-.card-section:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.1);
-    border-color: #92e2d1;
 }
 
 .card-section .icon {
@@ -168,10 +229,13 @@
 }
 
 @keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-6px);
-  }
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-6px);
+    }
 }

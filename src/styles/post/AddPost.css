@@ -1,4 +1,4 @@
-.addPostPage{
+.addPostPage {
     background: linear-gradient(135deg, #ff9a2757, #e8ffd9);
     padding: 50px;
 }
@@ -9,10 +9,10 @@
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 2rem;
-    background-color: #efefef;
+    background-color: #f6f6f6;
     border: 2px solid rgba(148, 148, 148, 0.421);
     border-radius: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.057); */
     direction: rtl;
     display: flex;
     flex-direction: column;
@@ -50,9 +50,36 @@
     min-height: 50px;
 }
 
-.AddPostForm textarea {
+.textarea-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.post-content {
+    width: 100%;
+    min-height: 120px;
+    padding: 10px 40px 10px 35px;
+    box-sizing: border-box;
     resize: vertical;
-    min-height: 80px;
+}
+
+.emoji-button {
+    position: absolute;
+    bottom: 15px;
+    left: 10px;
+    background: transparent !important;
+    border: 3px solid rgba(240, 208, 133, 0.561);
+    border-radius: 30%;
+    padding: 1px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.emoji-picker-container {
+    position: absolute;
+    bottom: 45px;
+    left: 0;
+    z-index: 10;
 }
 
 .filesPart {
@@ -123,15 +150,16 @@
     letter-spacing: 1.5px;
 }
 
-.AddPostForm button {
+.addPostSubmit {
     background-color: #ed8128;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.AddPostForm button:hover {
+.addPostSubmit:hover {
     background-color: #d57425;
+    cursor: pointer;
 }
 
 #requireInput {

@@ -3,7 +3,7 @@ import { getAllUsers, deleteUser } from "./userAPI";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { faildAlert, successAlert, warningAlert } from "../../alerts/All_Alerts";
-import "./showUsers.css";
+import "../../styles/user/ShowUsers.css";
 
 
 

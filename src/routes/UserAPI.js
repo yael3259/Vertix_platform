@@ -15,7 +15,8 @@ export const addUser = (user) => {
 }
 
 export const login = (user) => {
-    return axios.post(baseURL, user);
+    console.log(user)
+    return axios.post(`${baseURL}/login`, user);
 }
 
 export const deleteUser = (userId) => {
@@ -30,9 +31,11 @@ export const resetPasswordUser = (data) => {
     return axios.put(baseURL, data);
 }
 
-export const updateUserDetails = (user) => {
-    return axios.put(`${baseURL}/${user.id}`, user);
+export const updateUserDetails = (user, data) => {
+    console.log("data: ", data, "userID: ", user);
+    return axios.put(`${baseURL}/${user.id}`, data);
 }
+
 export const getRandomUsers = () => {
     return axios.get(`${baseURL}/random`);
 }

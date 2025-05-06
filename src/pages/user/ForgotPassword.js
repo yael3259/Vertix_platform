@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { resetPasswordUser } from "./userAPI";
+import { resetPasswordUser } from "../../routes/UserAPI";
 import { FaLock, FaEnvelope } from "react-icons/fa";
-import "./loginPage.css"; // אותו עיצוב כמו login
+import "../../styles/user/Log-in.css";
+
 
 export const ResetPassword = () => {
     const [email, setEmail] = useState("");

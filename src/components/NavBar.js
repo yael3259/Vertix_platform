@@ -1,22 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { Sun, Moon, Menu, Cloud } from "lucide-react";
+import React from "react";
 import { NavLink } from "react-router-dom";
-import "./NavBar.css";
-import home from "./files/icons/home.png";
-import profile from "./files/icons/profile.png";
-import notification from "./files/icons/notification.png";
+import "../styles/NavBar.css";
+import home from "../files/icons/home.png";
+import profile from "../files/icons/profile.png";
+import notification from "../files/icons/notification.png";
 import '@fortawesome/fontawesome-free/css/all.min.css';
-// import from "./files/icons/";
-
+import logo from '../files/logo.png';
+import { useUserContext } from "../contexts/UserContext";
 
 
 export const NavBar = () => {
+    const { user } = useUserContext();
+
 
     return (
         <div className="navbar_page">
             <div className="navbar_left">
                 <NavLink to="/feed" className="logo_nav-link">
-                    <div className="logo">Vertix</div>
+                    <img src={logo} alt="logo" className="logo" />
                 </NavLink>
             </div>
 
@@ -48,8 +49,12 @@ export const NavBar = () => {
                     </NavLink>
                     <NavLink to="/login" className="nav-link">
                         <div className="nav-item" >
-                            <img src={profile} width={20} height={20} alt="אורח" id="guest"/>
-                            <span>אורח</span>
+                            <img src={user?.profilePictureUser || profile} width={20} height={20} alt="תמונת_משתמש" id="guest" />
+                            <span
+                                id={user?.genderUser === 'נקבה' ? 'female-color' : user?.genderUser === 'זכר' ? 'male-color' : 'else-color'}
+                            >
+                                {user?.userName || 'אורח'}
+                            </span>
                         </div>
                     </NavLink>
                 </div>

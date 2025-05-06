@@ -1,4 +1,4 @@
-import "./trackingTable.css";
+import "../../styles/achievement/TrackingTable.css";
 
 
 

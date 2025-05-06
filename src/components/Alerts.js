@@ -1,10 +1,11 @@
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "../styles/Alerts.css"
 
 
 export const successAlert = (text) => {
     toast.success(
-        <div className="toast">
+        <div style={{ width: "100%", textAlign: "center" }}>
             {text}
         </div>
     );
@@ -13,7 +14,7 @@ export const successAlert = (text) => {
 
 export const faildAlert = (text) => {
     toast.error(
-        <div className="toast">
+        <div style={{ width: "100%", textAlign: "center" }}>
             {text}
         </div>
     );
@@ -22,7 +23,7 @@ export const faildAlert = (text) => {
 
 export const warningAlert = (text) => {
     toast.warning(
-        <div className="toast">
+        <div style={{ width: "100%", textAlign: "center" }}>
             {text}
         </div>
     );

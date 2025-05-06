@@ -1,15 +1,15 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Feed } from "./features/post/Feed";
+import { Feed } from "./pages/Feed";
 import "./App.css"
-import { NavBar } from "./NavBar";
-import LoginForm from './features/user/loginPage';
-import { UserProvider } from "./contexts/user_context";
-import { AddPostForm } from "./features/post/AddPost";
-import { RegistrationPage } from "./features/user/sign_in";
-import { ProfilePage } from "./features/user/profilePage";
-import { ResetPassword } from "./features/user/forgotPassword";
-import { TrackingTable } from "./features/achievement/trackingTable";
-import { AddAchievement } from "./features/achievement/addAchievement";
+import { NavBar } from "./components/NavBar";
+import LoginForm from './pages/user/Log-in';
+import { UserProvider } from "./contexts/UserContext";
+import { AddPostForm } from "./pages/post/AddPost";
+import { RegistrationPage } from "./pages/user/Sign-in";
+import { ProfilePage } from "./pages/user/ProfilePage";
+import { ResetPassword } from "./pages/user/ForgotPassword";
+import { TrackingTable } from "./pages/achievement/TrackingTable";
+import { AddAchievement } from "./pages/achievement/AddAchievement";
 
 
 

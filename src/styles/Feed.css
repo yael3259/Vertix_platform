@@ -48,7 +48,7 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(77, 77, 77, 0.066);
   border: 1px solid rgba(93, 93, 93, 0.265);
-  padding-top: 15px;
+  padding-top: 2px;
   max-width: 500px !important;
   min-width: 500px !important;
   margin-bottom: 15px;
@@ -58,15 +58,12 @@
   transition: box-shadow 0.3s ease-in-out;
 }
 
-.grid-item:hover {
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
 .top_post {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 20px 0 20px;
+  padding: 12px 20px 0 20px;
+  border-radius: 10px 10px 0 0;
 }
 
 .feed_layout {
@@ -76,7 +73,6 @@
   align-items: self-start;
   /* min-height: 100vh; */
   gap: 5px;
-
 }
 
 .left {
@@ -130,14 +126,62 @@
   cursor: pointer;
 }
 
+#border-top{
+  border-top: 2px solid #e7e7e7;
+  margin: 10px 20px 0 20px;
+}
+
+.addComment {
+  display: flex;
+  align-items: center;
+  margin: 20px;
+  padding: 0.5rem;
+  border: 1px solid #a6a2a2;
+  border-radius: 25px;
+  height: 24px;
+  /* background-color: #f9f9f9; */
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.comment-input {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  direction: rtl;
+  font-size: 15px;
+  outline: none;
+  cursor: text;
+}
+
+.send-comment-btn {
+  background-color: #ceaa87;
+  border: none;
+  border-radius: 50%;
+  padding: 7px 8px 8px 6px;
+  margin-left: -3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.send-comment-btn:hover {
+  transform: scale(1.1);
+}
+
 .load-more {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .load-more button {
-  background-color: #0066cc;
+  background-color: #1584f3;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -148,13 +192,36 @@
 }
 
 .load-more button:hover {
-  background-color: #004d99;
+  background-color: #0a65c0;
 }
 
-.loading {
-  text-align: center;
-  font-size: 18px;
-  color: #0066cc;
+.load-button {
+  position: relative;
+  padding: 8px 16px;
+  font-size: 16px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 3px solid transparent;
+  border-top: 3px solid #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .comment-icon,
@@ -173,6 +240,14 @@
   transform: scale(1.3);
 }
 
+.likes, .comments {
+  display: flex;
+  align-items: center;
+  direction: rtl;
+  gap: 1px;
+  font-size: 16px;
+}
+
 .userDeatails_comment{
   display: flex;
   flex-direction: row;
@@ -187,6 +262,22 @@
   height: 22px;
   margin-left: 10px;
   margin-top: 0;
+  font-size: 14px;
+}
+
+.userUrlInComments{
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-right: -3px;
+  height: 32px;
+  width: 32px;
+  object-fit: cover;
+}
+
+.comment-date{
+  font-size: 13px;
+  padding-left: -3px;
 }
 
 .comment-details{
@@ -197,14 +288,13 @@
 }
 
 .comment {
-  background-color: #f4f6f9; /* צבע רקע בהיר */
-  border-radius: 8px; /* פינות מעוגלות */
+  background-color: #f4f6f9;
+  border-radius: 8px;
   padding: 12px;
-  margin-bottom: 10px; /* ריווח בין תגובות */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* צל עדין */
-  font-family: 'Arial', sans-serif; /* פונט נעים לקריאה */
-  font-size: 14px; /* גודל פונט נעים */
+  margin-bottom: 2px;
+  font-size: 14px;
   line-height: 1.6;
+  border-left: 3px solid transparent;
 }
 
 .comment p {
@@ -215,15 +305,15 @@
 }
 
 .comment:hover {
-  background-color: #e0e7ff;
+  border-left: 3px solid #fa7585e2;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: border 0.3s ease;
 }
 
 .postingDate_txt {
   color: #5d5d5d;
   align-items: center;
-  font-size: 13.5px;
+  font-size: 10px;
   text-align: start;
   margin-top: 0;
   padding-left: 20px;
@@ -249,6 +339,10 @@
   width: 20px;
   height: 20px;
   margin-right: 7px;
+}
+
+#categoryPart{
+  color: #5d839b;
 }
 
 .right {
