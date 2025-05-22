@@ -1,14 +1,23 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-
-
+// UserContext.js
+import { createContext, useContext, useState, useEffect } from 'react';
 
 
 const UserContext = createContext();
-
 export const useUserContext = () => useContext(UserContext);
 
 
+
 export const UserProvider = ({ children }) => {
+
+  const getSkillsUser = () => {
+    try {
+      const stored = localStorage.getItem('skillsUser');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  };
+
   const [user, setUser] = useState(() => {
     const storedUser = {
       userId: localStorage.getItem('userId') || null,
@@ -18,8 +27,8 @@ export const UserProvider = ({ children }) => {
       genderUser: localStorage.getItem('genderUser') || 'אחר',
       profilePictureUser: localStorage.getItem('profilePictureUser') || '',
       tokenUser: localStorage.getItem('tokenUser') || null,
-      skillsUser: localStorage.getItem('skillsUser') || null,
-      tagsUser: localStorage.getItem('tagsUser') || null,
+      skillsUser: getSkillsUser(),
+      tagsUser: localStorage.getItem('tagsUser') || [],
       enterDateUser: localStorage.getItem('enterDateUser') || null,
       emailUser: localStorage.getItem('emailUser') || ''
     };
@@ -36,7 +45,7 @@ export const UserProvider = ({ children }) => {
         genderUser: localStorage.getItem('genderUser'),
         profilePictureUser: localStorage.getItem('profilePictureUser'),
         tokenUser: localStorage.getItem('tokenUser'),
-        skillsUser: localStorage.getItem('skillsUser'),
+        skillsUser: getSkillsUser(),
         tagsUser: localStorage.getItem('tagsUser'),
         enterDateUser: localStorage.getItem('enterDateUser'),
         emailUser: localStorage.getItem('emailUser')

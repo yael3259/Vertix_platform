@@ -28,7 +28,7 @@
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    border: 4px solid #9ad2f3;
+    border: 4px solid #bababa;
     object-fit: cover;
 }
 
@@ -81,27 +81,27 @@
 }
 
 #details_section:hover {
-    border-right: 2px solid #6d7ff7;
+    border-right: 2px solid #f7e96d;
     transition: all 0.3s ease;
 }
 
-#skills_section{
+#skills_section {
     border-right: 2px solid transparent;
     padding-right: 20px;
 }
 
-#skills_section:hover{
+#skills_section:hover {
     border-right: 2px solid #5eeeb5;
     transition: all 0.3s ease;
 }
 
-#posts_section{
+#posts_section {
     border-right: 2px solid transparent;
     padding-right: 20px;
     margin-bottom: 70px;
 }
 
-#posts_section:hover{
+#posts_section:hover {
     border-right: 2px solid #ee5ea6;
     transition: all 0.3s ease;
 }
@@ -126,8 +126,8 @@
 }
 
 .tag {
-    background-color: #e0f5ff;
-    color: #0078aa;
+    background-color: #e0fffc;
+    color: #00aa93;
     padding: 10px 15px;
     border-radius: 20px;
     font-size: 14px;
@@ -173,8 +173,8 @@
     margin-top: 50px;
     padding: 60px 30px 40px;
     flex-wrap: wrap;
-    background: linear-gradient(145deg, #f9f9fb, #e8edf2);
-    border-top: 2px solid #d9dce1;
+    background: linear-gradient(145deg, #f9f9fb, #e3fffe);
+    border-top: 2px solid #e3fffe;
     border-radius: 0 0 28px 28px;
     box-shadow: inset 0 8px 20px rgba(0, 0, 0, 0.02);
 }
@@ -205,7 +205,7 @@
 
 .card-section h3 {
     font-size: 20px;
-    color: #2a2a2a;
+    color: #00997d;
     margin-bottom: 12px;
     font-weight: 600;
     letter-spacing: 0.3px;
@@ -222,10 +222,86 @@
     cursor: pointer;
     align-self: flex-start;
     transition: 0.3s ease;
+    text-decoration: none !important;
 }
 
 .card-section .save-btn:hover {
     background: linear-gradient(90deg, #45a099, #56c8bd);
+}
+
+#Achievement-section {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    background: #f9f9f9;
+    border-radius: 16px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+}
+
+.rightSideAchievement {
+    flex: 1;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-width: 280px;
+}
+
+.small_title {
+    color: #848484;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    font-size: 20px;
+}
+
+.leftSideAchievement {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    min-width: 300px;
+    min-height: 80%;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #adadad #e0e0e0;
+}
+
+.leftSideAchievement::-webkit-scrollbar {
+    width: 8px;
+}
+
+.leftSideAchievement::-webkit-scrollbar-track {
+    background: #e0e0e0;
+    border-radius: 8px;
+}
+
+.leftSideAchievement::-webkit-scrollbar-thumb {
+    background-color: #27ae60;
+    border-radius: 8px;
+}
+
+.achievement-item {
+    background-color: #d1f2eb;
+    padding: 1rem;
+    border-left: 6px solid #00c39f;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    color: #2c3e50;
+}
+
+.achievement-item:hover {
+    background-color: #b2dfdb;
+}
+
+.no-achievements {
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 1rem;
 }
 
 @keyframes float {

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Feed.css";
 import { useNavigate } from "react-router-dom";
-import { getAllPosts } from "../routes/PostAPI";
+import { getAllPosts, addComment } from "../routes/PostAPI";
 import { getRandomUsers } from "../routes/UserAPI";
-import comment from "../files/icons/comment.png";
-import like from "../files/icons/like.png";
-import clicked_like from "../files/icons/clicked_like.png";
-import star from "../files/icons/star.png";
-import category from "../files/icons/category.png";
+import commentIcon from "../files/icons/commentIcon.png";
+import likeIcon from "../files/icons/likeIcon.png";
+import clicked_likeIcon from "../files/icons/clicked_likeIcon.png";
+import starIcon from "../files/icons/starIcon.png";
+import categoryIcon from "../files/icons/categoryIcon.png";
+import empty_likeIcon from "../files/icons/empty_likeIcon.png";
+import fill_likeIcon from "../files/icons/fill_likeIcon.png";
 import { FaPaperPlane } from 'react-icons/fa';
 import { useUserContext } from '../contexts/UserContext';
 
@@ -19,8 +21,12 @@ export const Feed = () => {
     const [loading, setLoading] = useState(false);
     const [randomUsers, setRandomUsers] = useState([]);
     const [searchText, setSearchText] = useState('');
+    const [comment, setComment] = useState('');
+    // const [likeUrl, setLikeUrl] = useState('');
     const navigate = useNavigate();
     const { user } = useUserContext();
+    const [likedPosts, setLikedPosts] = useState({});
+
 
 
     useEffect(() => {
@@ -31,8 +37,10 @@ export const Feed = () => {
 
     const loadPosts = (currentPage, searchText = '') => {
         setLoading(true);
+
         getAllPosts(currentPage, 15, searchText)
             .then((res) => {
+                console.log(res.data);
                 const postsWithFlag = res.data.map(post => ({
                     ...post,
                     showComments: false
@@ -90,6 +98,33 @@ export const Feed = () => {
         );
     };
 
+    const addCommentToPost = async (postId, commentText) => {
+        if (!commentText.trim())
+            return;
+
+        try {
+            let res = await addComment(postId, commentText, user.userId);
+            const newComment = res.data;
+
+            setArr(prevArr =>
+                prevArr.map(post => {
+                    if (post._id === postId) {
+                        return { ...post, comments: [...post.comments, newComment] };
+                    }
+                    return post;
+                })
+            );
+            setComment('');
+
+        } catch (err) {
+            console.log('error adding comment', err);
+        }
+    };
+
+    const toggleLike  = async (postId) => {
+        setLikedPosts(prev => ({ ...prev, [postId]: !prev[postId]}));
+    }
+
     const loadRandomUsers = () => {
         getRandomUsers()
             .then((res) => {
@@ -120,17 +155,14 @@ export const Feed = () => {
                         <div className="grid-item" key={item._id} >
                             <div className="top_post">
                                 <div className="userName_txt" id="categoryPart">
-                                    <img src={category} className="categoryIcon" />
+                                    <img src={categoryIcon} className="categoryIcon" />
                                     <p className="category_txt">{item.category}</p>
                                 </div>
                                 <div className="userName_txt">
-                                    <p>שם משתמש</p>
-                                    <img src="https://cdn-icons-png.freepik.com/256/12522/12522481.png?ga=GA1.1.1754982332.1740749915&semt=ais_hybrid" className="profile_Picture" />
-
-                                    {/* <img
-                                        src={user.profilePictureUser && user.profilePictureUser.trim() !== "" ? user.profilePictureUser : "https://path.to/default-image.png"}
-                                        className="profile_Picture"
-                                    /> */}
+                                    <p id="userName_txt">{item.userId?.userName}</p>
+                                    <img src={item.userId?.profilePicture ||
+                                        "https://cdn-icons-png.freepik.com/256/12522/12522481.png?ga=GA1.1.1754982332.1740749915&semt=ais_hybrid"
+                                    } className="profile_Picture" />
                                 </div>
                             </div>
                             <p className="postingDate_txt">לפני {timeAgo(item.postingDate)}</p>
@@ -152,16 +184,22 @@ export const Feed = () => {
 
                             <div className="item-likes-comments">
                                 <p className="likes">
-                                    <img src={like} alt="like icon" className="like-icon" />
+                                    {/* <img src={fill_likeIcon} alt="like icon" className="like-icon" onClick={() => Clicked_like} /> */}
+                                    <img
+                                        src={likedPosts[item._id] ? fill_likeIcon : empty_likeIcon}
+                                        alt="like icon"
+                                        className="like-icon"
+                                        onClick={() => toggleLike(item._id)}
+                                    />
                                     <span>{item.likes} לייקים</span>
                                 </p>
                                 <p className="favorite">
                                     מועדף
-                                    <img src={star} alt="star icon" className="star-icon" />
+                                    <img src={starIcon} alt="star icon" className="star-icon" />
                                 </p>
                                 <p tabIndex="0" className="comments"
                                     onClick={() => toggleComments(item._id)}>
-                                    <img src={comment} alt="comment icon" className="comment-icon" />
+                                    <img src={commentIcon} alt="comment icon" className="comment-icon" />
                                     <span> {item.comments.length} תגובות</span>
                                 </p>
                             </div>
@@ -170,13 +208,15 @@ export const Feed = () => {
                                 <>
                                     <div id="border-top"></div>
                                     <div className="addComment">
-                                        <button className="send-comment-btn"><FaPaperPlane /></button>
+                                        <button className="send-comment-btn" onClick={() => addCommentToPost(item._id, comment)}><FaPaperPlane /></button>
                                         <input
                                             type="text"
                                             placeholder="הוסף תגובה..."
+                                            value={comment}
                                             className="comment-input"
+                                            onChange={(e) => setComment(e.target.value)}
                                         />
-                                        <img src={user.profilePictureUser} className="userUrlInComments" />
+                                        <img src={user.profilePictureUser} className="userUrlInCommentInput" />
                                     </div>
 
                                     {item.comments.map((comment) => (
@@ -186,11 +226,10 @@ export const Feed = () => {
                                                 <div className="comment-details">
                                                     <span className="comment-date">לפני {(timeAgo(comment.commentDate))}</span>
                                                     <div className="userDeatails_comment">
-                                                        <span className="comment-author">yael</span>
+                                                        <span className="comment-author">{comment.userId?.userName}</span>
                                                         <img
-                                                            src={"https://cdn-icons-png.freepik.com/256/12522/12522481.png?ga=GA1.1.1754982332.1740749915&semt=ais_hybrid"}
-                                                            alt=""
-                                                            className="comment-author"
+                                                            // src={"https://cdn-icons-png.freepik.com/256/12522/12522481.png?ga=GA1.1.1754982332.1740749915&semt=ais_hybrid"}
+                                                            src={comment.userId?.profilePicture} className="userUrlInComment"
                                                         />
                                                     </div>
                                                 </div>

@@ -9,10 +9,10 @@
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 2rem;
-    background-color: #f6f6f6;
-    border: 2px solid rgba(148, 148, 148, 0.421);
+    background-color: #ffffff;
+    border: 2px solid rgba(195, 195, 195, 0.421);
     border-radius: 1rem;
-    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.057); */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.057);
     direction: rtl;
     display: flex;
     flex-direction: column;

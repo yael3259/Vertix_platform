@@ -10,6 +10,10 @@ export const getAllUsers = () => {
     return axios.get(baseURL);
 }
 
+export const getOneUser = (userId) => {
+    return axios.get(`${baseURL}/${userId}`)
+}
+
 export const addUser = (user) => {
     return axios.post(baseURL, user);
 }
@@ -24,16 +28,16 @@ export const deleteUser = (userId) => {
 }
 
 export const log_outUser = (userId) => {
-    return axios.delete(`${baseURL}/${userId}`);
+    return axios.put(`${baseURL}/log_out/${userId}`);
 }
 
 export const resetPasswordUser = (data) => {
     return axios.put(baseURL, data);
 }
 
-export const updateUserDetails = (user, data) => {
-    console.log("data: ", data, "userID: ", user);
-    return axios.put(`${baseURL}/${user.id}`, data);
+export const updateUserDetails = (userId, data) => {
+    console.log("data: ", data, "userID: ", userId);
+    return axios.put(`${baseURL}/update/${userId}`, data);
 }
 
 export const getRandomUsers = () => {

@@ -71,7 +71,6 @@
   flex-direction: row;
   justify-content: center;
   align-items: self-start;
-  /* min-height: 100vh; */
   gap: 5px;
 }
 
@@ -126,7 +125,7 @@
   cursor: pointer;
 }
 
-#border-top{
+#border-top {
   border-top: 2px solid #e7e7e7;
   margin: 10px 20px 0 20px;
 }
@@ -220,8 +219,13 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .comment-icon,
@@ -240,7 +244,8 @@
   transform: scale(1.3);
 }
 
-.likes, .comments {
+.likes,
+.comments {
   display: flex;
   align-items: center;
   direction: rtl;
@@ -248,24 +253,31 @@
   font-size: 16px;
 }
 
-.userDeatails_comment{
+.userDeatails_comment {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  margin-bottom: -10px;
 }
 
-.commentsPart{
+.commentsPart {
   padding-top: 40px;
 }
 
-.comment-author{
-  width: 22px;
-  height: 22px;
-  margin-left: 10px;
-  margin-top: 0;
-  font-size: 14px;
+.comment-author {
+  font-size: 12px;
+  font-weight: bold;
+  direction: rtl;
 }
 
-.userUrlInComments{
+.userUrlInComment {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin-left: 10px;
+}
+
+.userUrlInCommentInput {
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -275,12 +287,12 @@
   object-fit: cover;
 }
 
-.comment-date{
+.comment-date {
   font-size: 13px;
   padding-left: -3px;
 }
 
-.comment-details{
+.comment-details {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -301,7 +313,9 @@
   margin: 0;
   color: #333;
   text-align: right;
-  padding-right: 40px;
+  padding-right: 50px;
+  direction: rtl;
+  white-space: pre-wrap;
 }
 
 .comment:hover {
@@ -328,6 +342,10 @@
   font-weight: bold;
 }
 
+#userName_txt {
+  direction: rtl;
+}
+
 .profile_Picture {
   width: 40px;
   height: 40px;
@@ -341,13 +359,13 @@
   margin-right: 7px;
 }
 
-#categoryPart{
+#categoryPart {
   color: #5d839b;
 }
 
 .right {
   background-color: #ffffff;
-  border-radius: 16px;
+  border-radius: 12px;
   padding: 20px;
   font-family: 'Segoe UI', sans-serif;
   color: #2c3e50;

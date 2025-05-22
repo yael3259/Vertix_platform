@@ -28,7 +28,7 @@ export const AddPostForm = () => {
     const onSubmit = async (data) => {
         console.log(data);
 
-        if (!user){
+        if (!user) {
             faildAlert('משתמש לא מחובר');
             return;
         }
@@ -42,9 +42,10 @@ export const AddPostForm = () => {
         if (data.mediaFile && data.mediaFile[0]) {
             formData.append("mediaFile", data.mediaFile[0]);
         }
-        
+        let token = user.tokenUser;
+
         try {
-            const res = await addPost(formData);
+            const res = await addPost(formData, token);
             console.log("Response from server:", res);
             alert("הפוסט נוסף בהצלחה");
             navigate("/feed");

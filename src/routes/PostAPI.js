@@ -4,7 +4,6 @@ import axios from "axios";
 
 
 let baseURL = `${process.env.REACT_APP_BASE_URL}/post` || "http://localhost:5000/domain/api/post";
-const token = localStorage.getItem("token");
 
 
 
@@ -16,9 +15,8 @@ export const getPostById = (id) => {
     return axios.get(`${baseURL}/${id}`);
 }
 
-export const addPost = (post) => {
-    return axios.post(baseURL, post,
-        { headers: { "x-access-token": token } });
+export const addPost = (post, token) => {
+    return axios.post(baseURL, post, { headers: { "x-access-token": token } });
 }
 
 export const deletePost = (id) => {
@@ -29,8 +27,10 @@ export const deletePost = (id) => {
 //     return axios.post(`${baseURL}${postId}`, {userId});
 // }
 
-export const addComment = (comment, postId) => {
-    return axios.post(`${baseURL}/comment/${postId}`, comment);
+export const addComment = (postId, text, userId) => {
+    console.log('postId: ', postId);
+    console.log('comment: ', text);
+    return axios.post(`${baseURL}/comment/${postId}`, { text, userId });
 }
 
 export const getCommentOfPostById = (postId) => {

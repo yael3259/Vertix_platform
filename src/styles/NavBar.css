@@ -83,14 +83,16 @@
     text-decoration: none;
     font-size: 1rem;
     transition: color 0.3s;
+    direction: rtl;
 }
 
 #guest {
     background-color: #92f7df;
     border-radius: 50px;
+    object-fit: cover;
 }
 
-#else-color{
+#else-color {
     color: #a8c06b;
     font-weight: 500;
 }

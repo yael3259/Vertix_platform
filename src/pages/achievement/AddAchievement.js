@@ -4,13 +4,15 @@ import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
 import "../../styles/achievement/AddAchievement.css";
 import { addAchievement } from '../../routes/AchievementAPI';
-
+import { useUserContext } from '../../contexts/UserContext';
 
 
 
 export const AddAchievement = () => {
-    const { register, handleSubmit, formState: { errors }, control, setValue, watch } = useForm();
+    const { register, handleSubmit, formState: { errors }, control } = useForm();
     const navigate = useNavigate();
+    const { user } = useUserContext();
+    let token = user.tokenUser;
 
 
     const onSubmit = async (data) => {
@@ -19,9 +21,9 @@ export const AddAchievement = () => {
         data.category = data.category.value;
 
         try {
-            const res = await addAchievement(data);
+            const res = await addAchievement(data, token);
             console.log('ההישג נוסף בהצלחה', res);
-            navigate("/feed");
+            navigate("/profile");
         } catch (err) {
             console.error("הוספת הישג נכשלה", err);
         }
@@ -31,15 +33,18 @@ export const AddAchievement = () => {
         console.log("Validation failed:", formErrors);
     };
 
-
     const categoryOptions = [
-        { value: 'השראה ורגש', label: 'השראה ורגש' },
-        { value: 'שאלות והתלבטויות', label: 'שאלות והתלבטויות' },
-        { value: 'ממים ובדיחות', label: 'ממים ובדיחות' },
-        { value: 'טיפים שימושיים', label: 'טיפים שימושיים' },
         { value: 'פיתוח אישי', label: 'פיתוח אישי' },
         { value: 'עיצוב ויצירה', label: 'עיצוב ויצירה' },
-        { value: 'טכנולוגיה וחדשנות', label: 'טכנולוגיה וחדשנות' }
+        { value: 'טכנולוגיה וחדשנות', label: 'טכנולוגיה וחדשנות' },
+        { value: 'ספורט ואתגר', label: 'ספורט ואתגר' },
+        { value: 'התנדבות והשפעה חברתית', label: 'התנדבות והשפעה חברתית' },
+        { value: 'מוזיקה והופעה', label: 'מוזיקה והופעה' },
+        { value: 'מדע ולמידה', label: 'מדע ולמידה' },
+        { value: 'יזמות ועסקים', label: 'יזמות ועסקים' },
+        { value: 'כישורי חיים', label: 'כישורי חיים' },
+        { value: 'מנהיגות והובלה', label: 'מנהיגות והובלה' },
+        { value: 'משחק ודרמה', label: 'משחק ודרמה' }
     ];
 
     return (
@@ -52,7 +57,7 @@ export const AddAchievement = () => {
                 <input {...register("title", {
                     required: "שדה חובה",
                     minLength: { value: 4, message: "מינימום 4 תווים" },
-                    maxLength: { value: 20, message: "מקסימום 20 תווים" }
+                    maxLength: { value: 40, message: "מקסימום 40 תווים" }
                 })}
                     placeholder="כותרת" />
                 {errors.title && <span className="error">{errors.title.message}</span>}
@@ -81,12 +86,12 @@ export const AddAchievement = () => {
                     {...register("description", {
                         required: "שדה חובה",
                         minLength: { value: 10, message: "מינימום 10 תווים" },
-                        maxLength: { value: 100, message: "מקסימום 100 תווים" }
+                        maxLength: { value: 350, message: "מקסימום 350 תווים" }
                     })}
                     placeholder="מה תרצה להשיג?"
                 />
                 {errors.description && <span className="error">{errors.description.message}</span>}
-                
+
 
                 <label htmlFor="targetDate" >תאריך יעד<span id="require_Input"> *</span></label>
                 <input type='date'
@@ -95,7 +100,7 @@ export const AddAchievement = () => {
                     })}
                 />
                 {errors.targetDate && <span className="error">{errors.targetDate.message}</span>}
-                
+
 
                 <button type="submit" className="submitButton">הוסף הישג</button>
             </form>

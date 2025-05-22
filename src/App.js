@@ -9,6 +9,7 @@ import { RegistrationPage } from "./pages/user/Sign-in";
 import { ProfilePage } from "./pages/user/ProfilePage";
 import { ResetPassword } from "./pages/user/ForgotPassword";
 import { TrackingTable } from "./pages/achievement/TrackingTable";
+import { Contact } from "./pages/Contact";
 import { AddAchievement } from "./pages/achievement/AddAchievement";
 
 
@@ -16,23 +17,23 @@ import { AddAchievement } from "./pages/achievement/AddAchievement";
 function App() {
   return (
     <div className="app">
-        <UserProvider>
-          <NavBar />
+      <UserProvider>
+        <NavBar />
 
-          <Routes>
-            <Route path="" element={<Feed />} />
-            <Route path="/feed" element={<Feed />} />
-            <Route path="/addPost" element={<AddPostForm />} />
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/signin" element={<RegistrationPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/reset_pass" element={<ResetPassword />} />
-            <Route path="/table" element={<TrackingTable />} />
-            <Route path="/addAchievement" element={<AddAchievement />} />
+        <Routes>
+          <Route path="" element={<Feed />} />
+          <Route path="/feed" element={<Feed />} />
+          <Route path="/addPost" element={<AddPostForm />} />
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/signin" element={<RegistrationPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/reset_pass" element={<ResetPassword />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/table/:achievementId" element={<TrackingTable />} />
+          <Route path="/addAchievement" element={<AddAchievement />} />
+        </Routes>
 
-          </Routes>
-
-        </UserProvider>
+      </UserProvider>
     </div>
   );
 }
