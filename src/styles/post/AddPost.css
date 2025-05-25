@@ -10,9 +10,8 @@
     margin-bottom: 20px;
     padding: 2rem;
     background-color: #ffffff;
-    border: 2px solid rgba(195, 195, 195, 0.421);
+    border: 2px solid #ddc1a1c1;
     border-radius: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.057);
     direction: rtl;
     display: flex;
     flex-direction: column;

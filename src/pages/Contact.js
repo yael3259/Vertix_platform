@@ -42,13 +42,13 @@ export const Contact = () => {
     return (
         <div className="contact-page">
             <form className="contact-form" onSubmit={onSubmit}>
-                <label htmlFor="name">שם:</label>
+                <label htmlFor="name">שם</label>
                 <input type="text" id="name" name="name" required />
 
-                <label htmlFor="email">אימייל:</label>
+                <label htmlFor="email">אימייל</label>
                 <input type="email" id="email" name="email" required />
 
-                <label htmlFor="message">הודעה:</label>
+                <label htmlFor="message">הודעה</label>
                 <textarea id="message" name="message" rows="5" required></textarea>
 
                 <button type="submit">שלח</button>

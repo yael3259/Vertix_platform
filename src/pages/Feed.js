@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../styles/Feed.css";
 import { useNavigate } from "react-router-dom";
 import { getAllPosts, addComment } from "../routes/PostAPI";
 import { getRandomUsers } from "../routes/UserAPI";
 import commentIcon from "../files/icons/commentIcon.png";
-import likeIcon from "../files/icons/likeIcon.png";
-import clicked_likeIcon from "../files/icons/clicked_likeIcon.png";
 import starIcon from "../files/icons/starIcon.png";
 import categoryIcon from "../files/icons/categoryIcon.png";
 import empty_likeIcon from "../files/icons/empty_likeIcon.png";
@@ -22,11 +20,19 @@ export const Feed = () => {
     const [randomUsers, setRandomUsers] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [comment, setComment] = useState('');
-    // const [likeUrl, setLikeUrl] = useState('');
     const navigate = useNavigate();
     const { user } = useUserContext();
     const [likedPosts, setLikedPosts] = useState({});
+    const [selectedCategory, setSelectedCategory] = useState('הכל');
+    const [userNameFilter, setUserNameFilter] = useState('');
 
+    const categories = ['הכל', ...new Set(arr.map(post => post.category))];
+
+    const filteredPosts = arr.filter(post => {
+        const matchCategory = selectedCategory === 'הכל' || post.category === selectedCategory;
+        const matchUser = !userNameFilter || post.userId?.userName.toLowerCase().includes(userNameFilter.toLowerCase());
+        return matchCategory && matchUser;
+    });
 
 
     useEffect(() => {
@@ -121,8 +127,8 @@ export const Feed = () => {
         }
     };
 
-    const toggleLike  = async (postId) => {
-        setLikedPosts(prev => ({ ...prev, [postId]: !prev[postId]}));
+    const toggleLike = async (postId) => {
+        setLikedPosts(prev => ({ ...prev, [postId]: !prev[postId] }));
     }
 
     const loadRandomUsers = () => {
@@ -143,15 +149,26 @@ export const Feed = () => {
         <div className="feed_page">
             <div className="feed_layout">
                 <div className="left">
-                    <p>הצגת פוסטים לפי</p>
-                    <p>תאריך</p>
-                    <p>קטגוריות</p>
-                    <p>משתמש</p>
+                    <p className="filterLabal">סינון פוסטים</p>
+                    <div className="filters">
+                        <p>לפי קטגוריות</p>
+                        <select onChange={(e) => setSelectedCategory(e.target.value)} >
+                            {categories.map((category, index) => (
+                                <option key={index} value={category} >{category}</option>
+                            ))}
+                        </select>
+                        <p>לפי משתמש</p>
+                        <input
+                            type="text"
+                            placeholder="הקלד שם משתמש"
+                            onChange={(e) => setUserNameFilter(e.target.value)} />
+                    </div>
                 </div>
+
                 <div className="feed_part" >
                     <div className="addpost_feed" onClick={() => { linkToAddPostForm() }}>צור פוסט חדש</div>
 
-                    {arr.map((item) => (
+                    {filteredPosts.map((item) => (
                         <div className="grid-item" key={item._id} >
                             <div className="top_post">
                                 <div className="userName_txt" id="categoryPart">

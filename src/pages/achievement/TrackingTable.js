@@ -87,7 +87,7 @@ export const TrackingTable = () => {
                     </div>
 
                     <div className="tableCard">
-                        <h3>טבלת המעקב שלך</h3>
+                        <h3>טבלת מעקב</h3>
 
                         <div className="scrollContainer">
                             <div className="weekDaysHeader">

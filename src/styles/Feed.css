@@ -11,16 +11,15 @@
 }
 
 .addpost_feed {
-  background-color: #61fcd0;
+  background: linear-gradient(135deg, #38f9d7, #5ff290);
   color: #020202;
   font-weight: 500;
   letter-spacing: 0.5px;
   max-width: 438px !important;
   min-width: 438px !important;
-  padding: 20px 30px;
+  padding: 21px 31px;
   text-align: center;
   margin-bottom: 17px;
-  border: 2px solid transparent;
   border-radius: 13px;
   cursor: pointer;
   position: relative;
@@ -75,15 +74,66 @@
 }
 
 .left {
-  background-color: #fbfbfb;
+  background-color: #51f9da73;
+  border-radius: 12px;
+  font-family: inherit;
   position: sticky;
   top: 92px;
-  max-width: 220px;
-  min-width: 220px;
-  border: 2px solid rgb(233, 233, 233);
-  border-radius: 8px;
-  padding: 30px;
+  color: #333;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: fit-content;
+  margin-top: 20px;
+}
+
+.filterLabal {
+  background-color: #ffffff;
+  border: 2px solid #51f9da73;
+  padding: 20px;
+  margin: 0;
+  border-radius: 12px 12px 0px 0px;
+}
+
+.filters {
+  padding: 0 20px 20px 20px;
+}
+
+.left p {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 16px;
   text-align: center;
+  color: #545454;
+}
+
+.left select {
+  margin-bottom: 8px;
+}
+
+.left input{
+  cursor: text !important;
+  text-align: right;
+}
+
+.left select,
+.left input {
+  padding: 8px 10px;
+  width: 100%;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  font-size: 14px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+select option {
+  background-color: white;
+  color: #2e8676;
 }
 
 .post-image {
@@ -439,4 +489,26 @@
 
 .add-friend-btn:hover {
   background-color: #54b4de;
+}
+
+
+@media (max-width: 768px) {
+  .feed_page {
+    background-color: #d8fcf6;
+  }
+
+  .addpost_feed {
+    max-width: 386px !important;
+    min-width: 386px !important;
+  }
+
+  .grid-item {
+    max-width: 400px !important;
+    min-width: 450px !important;
+  }
+
+  .left,
+  .right {
+    display: none !important;
+  }
 }

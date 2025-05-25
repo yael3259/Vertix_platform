@@ -6,7 +6,9 @@ import profile from "../files/icons/profile.png";
 import notification from "../files/icons/notification.png";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import logo from '../files/logo.png';
+import { FaBars } from "react-icons/fa";
 import { useUserContext } from "../contexts/UserContext";
+
 
 
 export const NavBar = () => {
@@ -66,6 +68,10 @@ export const NavBar = () => {
                     <input type="text" className="search_in_navbar" placeholder="חיפוש" />
                 </div>
             </div>
+
+            <button className="openLinksButton">
+                <FaBars />
+            </button>
         </div>
     );
 };

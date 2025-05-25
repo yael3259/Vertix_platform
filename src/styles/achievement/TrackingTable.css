@@ -76,8 +76,9 @@
     padding-bottom: 1.5rem;
     border-bottom: 5px dashed #f0afafa1;
     font-size: 1.3rem;
-    color: #4f4f4f;
+    color: #737373;
     text-align: center;
+    letter-spacing: 0.5px;
 }
 
 .titleTrackingTable {
@@ -97,13 +98,11 @@
     text-align: center;
 }
 
-/* שורה של כותרת יום */
 .dayHeader {
     font-weight: bold;
     padding: 0.25rem 0;
 }
 
-/* טבלה של שבועות */
 .trackingGrid {
     display: flex;
     flex-direction: column;

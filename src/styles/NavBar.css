@@ -126,3 +126,24 @@
 .logo_nav-link {
     text-decoration: none;
 }
+
+.openLinksButton {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+
+@media (max-width: 768px) {
+    .openLinksButton {
+        display: block;
+    }
+
+    .search_in_navbar,
+    .search-icon,
+    .links_list {
+        display: none !important;
+    }
+}
