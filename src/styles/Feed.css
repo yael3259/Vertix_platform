@@ -112,7 +112,7 @@
   margin-bottom: 8px;
 }
 
-.left input{
+.left input {
   cursor: text !important;
   text-align: right;
 }
@@ -325,6 +325,7 @@ select option {
   height: 25px;
   border-radius: 50%;
   margin-left: 10px;
+  cursor: pointer;
 }
 
 .userUrlInCommentInput {
@@ -357,6 +358,7 @@ select option {
   font-size: 14px;
   line-height: 1.6;
   border-left: 3px solid transparent;
+  cursor: auto !important;
 }
 
 .comment p {
@@ -401,6 +403,7 @@ select option {
   height: 40px;
   border-radius: 50%;
   margin-left: 7px;
+  cursor: pointer;
 }
 
 .categoryIcon {
@@ -472,6 +475,7 @@ select option {
   border-radius: 50%;
   object-fit: cover;
   border: 1px solid #a6a6a6;
+  cursor: pointer;
 }
 
 .add-friend-btn {

@@ -4,6 +4,7 @@ import "../styles/NavBar.css";
 import home from "../files/icons/home.png";
 import profile from "../files/icons/profile.png";
 import notification from "../files/icons/notification.png";
+import contact from "../files/icons/contact.png";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import logo from '../files/logo.png';
 import { FaBars } from "react-icons/fa";
@@ -13,7 +14,6 @@ import { useUserContext } from "../contexts/UserContext";
 
 export const NavBar = () => {
     const { user } = useUserContext();
-
 
     return (
         <div className="navbar_page">
@@ -27,7 +27,7 @@ export const NavBar = () => {
                 <div className="links_list">
                     <NavLink to="/contact" className="nav-link">
                         <div className="nav-item">
-                            <img src={home} width={20} height={20} alt="צור קשר" />
+                            <img src={contact} width={20} height={20} alt="צור קשר" />
                             <span>צור קשר</span>
                         </div>
                     </NavLink>
@@ -37,7 +37,7 @@ export const NavBar = () => {
                             <span>התראות</span>
                         </div>
                     </NavLink>
-                    <NavLink to="/profile" className="nav-link">
+                    <NavLink to={`/profile/${user.userId}`} className="nav-link">
                         <div className="nav-item">
                             <img src={profile} width={20} height={20} alt="פרופיל" />
                             <span>פרופיל</span>

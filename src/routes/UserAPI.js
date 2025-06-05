@@ -43,3 +43,13 @@ export const updateUserDetails = (userId, data) => {
 export const getRandomUsers = () => {
     return axios.get(`${baseURL}/random`);
 }
+
+export const AddFriendToNetwork = (userId, idOfFriend) => {
+    console.log("loggedInUserId", userId, "idOfFriend", idOfFriend);
+    return axios.post(`${baseURL}/network/${userId}`, { friendId: idOfFriend });
+}
+
+export const getFollowing = (userId) => {
+    console.log("userId", userId);
+    return axios.get(`${baseURL}/following/${userId}`);
+}

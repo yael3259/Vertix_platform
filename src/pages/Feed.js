@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import "../styles/Feed.css";
 import { useNavigate } from "react-router-dom";
 import { getAllPosts, addComment } from "../routes/PostAPI";
-import { getRandomUsers } from "../routes/UserAPI";
+import { getOneUser } from "../routes/UserAPI";
+import { AddFriendToNetwork, getRandomUsers } from "../routes/UserAPI";
 import commentIcon from "../files/icons/commentIcon.png";
 import starIcon from "../files/icons/starIcon.png";
 import categoryIcon from "../files/icons/categoryIcon.png";
@@ -96,6 +97,17 @@ export const Feed = () => {
         }
     };
 
+    const fetchToProfile = async (userId) => {
+        try {
+            let res = await getOneUser(userId);
+            console.log("success", res.data);
+            navigate(`/profile/${userId}`);
+        }
+        catch (err) {
+            console.log("Error fetching user", err);
+        }
+    }
+
     const toggleComments = (postId) => {
         setArr(prevArr =>
             prevArr.map(post =>
@@ -141,6 +153,17 @@ export const Feed = () => {
             });
     };
 
+    const addFriend = async (idOfFriend) => {
+        const userId = user.userId;
+        try {
+            const res = await AddFriendToNetwork(userId, idOfFriend);
+            console.log("success", res);
+        }
+        catch (err) {
+            console.log("Cuold not add this user to network", err);
+        }
+    }
+
     const linkToAddPostForm = () => {
         navigate("/addPost");
     }
@@ -177,9 +200,9 @@ export const Feed = () => {
                                 </div>
                                 <div className="userName_txt">
                                     <p id="userName_txt">{item.userId?.userName}</p>
-                                    <img src={item.userId?.profilePicture ||
-                                        "https://cdn-icons-png.freepik.com/256/12522/12522481.png?ga=GA1.1.1754982332.1740749915&semt=ais_hybrid"
-                                    } className="profile_Picture" />
+                                    <img src={item.userId?.profilePicture || "https://cdn-icons-png.freepik.com/256/12522/12522481.png?ga=GA1.1.1754982332.1740749915&semt=ais_hybrid"}
+                                        className="profile_Picture"
+                                        onClick={() => fetchToProfile(item.userId?._id)} />
                                 </div>
                             </div>
                             <p className="postingDate_txt">לפני {timeAgo(item.postingDate)}</p>
@@ -233,7 +256,10 @@ export const Feed = () => {
                                             className="comment-input"
                                             onChange={(e) => setComment(e.target.value)}
                                         />
-                                        <img src={user.profilePictureUser} className="userUrlInCommentInput" />
+                                        <img
+                                            src={user.profilePictureUser} className="userUrlInCommentInput"
+                                            onClick={() => fetchToProfile(user._id)}
+                                        />
                                     </div>
 
                                     {item.comments.map((comment) => (
@@ -247,6 +273,7 @@ export const Feed = () => {
                                                         <img
                                                             // src={"https://cdn-icons-png.freepik.com/256/12522/12522481.png?ga=GA1.1.1754982332.1740749915&semt=ais_hybrid"}
                                                             src={comment.userId?.profilePicture} className="userUrlInComment"
+                                                            onClick={() => fetchToProfile(comment.userId?._id)}
                                                         />
                                                     </div>
                                                 </div>
@@ -270,12 +297,14 @@ export const Feed = () => {
                     <div className="random-users">
                         {randomUsers.length > 0 ? (
                             randomUsers.map((user, index) => (
-                                <div key={index} className="random-user">
-                                    <button className="add-friend-btn">+</button>
+                                // <div key={index} className="random-user">
+                                <div key={user.userId} className="random-user">
+                                    <button className="add-friend-btn" onClick={() => addFriend(user._id)}>+</button>
                                     <p className="name_to_connect">{user.userName}</p>
                                     <img
                                         src={user.profilePicture}
                                         className="profile_Picture"
+                                        onClick={() => fetchToProfile(user._id)}
                                         onError={(e) => {
                                             e.target.onerror = null;
                                             e.target.src = "https://cdn-icons-png.freepik.com/256/12522/12522481.png";

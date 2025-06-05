@@ -9,6 +9,7 @@ import { RegistrationPage } from "./pages/user/Sign-in";
 import { ProfilePage } from "./pages/user/ProfilePage";
 import { ResetPassword } from "./pages/user/ForgotPassword";
 import { TrackingTable } from "./pages/achievement/TrackingTable";
+import { NetworkList } from "./pages/user/NetworkList";
 import { Contact } from "./pages/Contact";
 import { AddAchievement } from "./pages/achievement/AddAchievement";
 
@@ -26,11 +27,14 @@ function App() {
           <Route path="/addPost" element={<AddPostForm />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signin" element={<RegistrationPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/profile/:userId" element={<ProfilePage />} />
           <Route path="/reset_pass" element={<ResetPassword />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/network/:userId" element={<NetworkList />} />
           <Route path="/table/:achievementId" element={<TrackingTable />} />
           <Route path="/addAchievement" element={<AddAchievement />} />
+          {/* <Route path="/notifications" element={<Notifications />} /> */}
+          {/* <Route path="/addAchievement" element={<AddAchievement />} /> */}
         </Routes>
 
       </UserProvider>

@@ -1,122 +1,122 @@
 .profilePage {
-    background: linear-gradient(135deg, #fce3f2, #fbf1b6, #afffef);
-    font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    padding: 1px;
+    background-color: #f3f6f8;
+    min-height: 100vh;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    direction: rtl;
+    padding: 30px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .profile-dashboard {
-    max-width: 900px;
-    margin: 50px auto;
     background: white;
-    border-radius: 24px;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-    direction: rtl;
-    color: #333;
+    max-width: 900px;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .profile-header {
+    background: linear-gradient(90deg, #26a69a 0%, #33c9ba 100%);
+    color: #f8fffd;
+    padding: 20px 40px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 30px;
+    gap: 25px;
+    position: relative;
 }
 
 .profile-picture {
-    width: 120px;
-    height: 120px;
+    width: 110px;
+    height: 110px;
     border-radius: 50%;
-    border: 4px solid #bababa;
     object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 0 8px rgb(0 0 0 / 0.15);
+    flex-shrink: 0;
 }
 
 .profile-info {
-    flex: 1;
-    margin-right: 20px;
+    flex-grow: 1;
 }
 
 .profile-info h1 {
-    font-size: 30px;
-    margin: 0;
+    margin: 0 0 6px 0;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.profile-body h3 {
+    color: #1d8079;
 }
 
 .nickname {
-    color: #777;
-    margin: 8px 0;
-    font-size: 16px;
+    font-size: 17.5px !important;
+    margin-bottom: 0px;
+    color: white;
 }
 
-.meta,
-.join-date {
+.profile-info>div {
     font-size: 14px;
-    color: #666;
+    opacity: 0.8;
 }
 
 .profile-buttons {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    flex-shrink: 0;
 }
 
-.btn {
-    background-color: #91e0ff;
+.routes_button {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: white;
+    min-width: 100px;
     border: none;
-    padding: 10px 20px;
-    border-radius: 18px;
-    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
+    transition: background-color 0.25s ease;
+    user-select: none;
+    white-space: nowrap;
 }
 
-.btn:hover {
-    background-color: #65c7ec;
+.routes_button:hover {
+    background-color: #ffffffdd;
+    color: #26a69a;
 }
 
-#details_section {
-    border-right: 2px solid transparent;
-    padding-right: 20px;
-    margin-bottom: 70px;
-}
-
-#details_section:hover {
-    border-right: 2px solid #f7e96d;
-    transition: all 0.3s ease;
-}
-
-#skills_section {
-    border-right: 2px solid transparent;
-    padding-right: 20px;
-}
-
-#skills_section:hover {
-    border-right: 2px solid #5eeeb5;
-    transition: all 0.3s ease;
-}
-
+#details_section,
+#skills_section,
 #posts_section {
     border-right: 2px solid transparent;
     padding-right: 20px;
     margin-bottom: 70px;
-}
-
-#posts_section:hover {
-    border-right: 2px solid #ee5ea6;
     transition: all 0.3s ease;
 }
 
+#details_section:hover,
+#skills_section:hover,
+#posts_section:hover {
+    border-right: 2px solid #26a69a;
+}
+
 .profile-body {
-    padding-top: 30px;
+    padding: 30px;
 }
 
 .detail-row {
     margin-bottom: 10px;
     font-size: 16px;
-}
-
-#skills_section {
-    margin-bottom: 70px;
+    color: #000000;
 }
 
 .tags {
@@ -126,43 +126,44 @@
 }
 
 .tag {
-    background-color: #e0fffc;
-    color: #00aa93;
-    padding: 10px 15px;
+    background-color: #d0f0ed;
+    color: #00695c;
+    padding: 12px 15px;
     border-radius: 20px;
+    letter-spacing: 0.5px;
     font-size: 14px;
-    align-self: center;
+    font-weight: 600;
 }
 
 .tags input[type="text"] {
     width: 50%;
     max-width: 158px;
     padding: 10px 10px;
-    border: 2px solid #ddd;
+    border: 2px solid #80cbc4;
     border-radius: 0 10px 10px 0;
     font-size: 16px;
     transition: all 0.3s ease;
 }
 
 .tags input[type="text"]:focus {
-    border-color: #3dbf89;
+    border-color: #26a69a;
     outline: none;
 }
 
 .tags button {
-    padding: 10px 10px;
+    padding: 10px;
     font-size: 16px;
-    background-color: #3dbf89;
+    background-color: #26a69a;
     color: white;
     margin-right: -10px;
     border: none;
-    border-radius: 10px 0 0 10px;
+    border-radius: 20px 0 0 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .tags button:hover {
-    background-color: #339d70;
+    background-color: #1e8e81;
 }
 
 .buttom_section {
@@ -173,8 +174,8 @@
     margin-top: 50px;
     padding: 60px 30px 40px;
     flex-wrap: wrap;
-    background: linear-gradient(145deg, #f9f9fb, #e3fffe);
-    border-top: 2px solid #e3fffe;
+    background-color: rgba(38, 166, 154, 0.2);
+    border-top: 2px solid #e0f2f1;
     border-radius: 0 0 28px 28px;
     box-shadow: inset 0 8px 20px rgba(0, 0, 0, 0.02);
 }
@@ -198,7 +199,7 @@
 
 .card-section .icon {
     font-size: 46px;
-    color: #55b0ac;
+    color: #26a69a;
     margin-bottom: 18px;
     animation: float 3s ease-in-out infinite;
 }
@@ -212,7 +213,7 @@
 }
 
 .card-section .save-btn {
-    background: linear-gradient(90deg, #55b0ac, #6fd6cb);
+    background: linear-gradient(90deg, #26a69a, #33c9ba);
     color: white;
     border: none;
     padding: 10px 20px;
@@ -226,7 +227,7 @@
 }
 
 .card-section .save-btn:hover {
-    background: linear-gradient(90deg, #45a099, #56c8bd);
+    background: linear-gradient(90deg, #1e8e81, #2db8a7);
 }
 
 #Achievement-section {
@@ -250,7 +251,7 @@
 }
 
 .small_title {
-    color: #848484;
+    color: #555;
     font-weight: 500;
     letter-spacing: 0.5px;
     font-size: 20px;
@@ -279,14 +280,14 @@
 }
 
 .leftSideAchievement::-webkit-scrollbar-thumb {
-    background-color: #27ae60;
+    background-color: #26a69a;
     border-radius: 8px;
 }
 
 .achievement-item {
     background-color: #d1f2eb;
     padding: 1rem;
-    border-left: 6px solid #00c39f;
+    border-left: 6px solid #26a69a;
     border-radius: 8px;
     font-weight: 500;
     transition: background-color 0.3s ease;
