@@ -11,9 +11,13 @@ export const getAllPosts = (page, limit, searchText = '') => {
     return axios.get(`${baseURL}?page=${page}&limit=${limit}&search=${encodeURIComponent(searchText)}`);
 };
 
-export const getPostById = (id) => {
-    return axios.get(`${baseURL}/${id}`);
-}
+export const getPostsById = (userId) => {
+    return axios.get(`${baseURL}/${userId}`);
+};
+
+export const getPostById = (postId) => {
+    return axios.get(`${baseURL}/singlePost/${postId}`);
+};
 
 export const addPost = (post, token) => {
     return axios.post(baseURL, post, { headers: { "x-access-token": token } });

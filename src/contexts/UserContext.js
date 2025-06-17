@@ -1,10 +1,8 @@
-// UserContext.js
 import { createContext, useContext, useState, useEffect } from 'react';
 
 
 const UserContext = createContext();
 export const useUserContext = () => useContext(UserContext);
-
 
 
 export const UserProvider = ({ children }) => {
@@ -30,7 +28,9 @@ export const UserProvider = ({ children }) => {
       skillsUser: getSkillsUser(),
       tagsUser: localStorage.getItem('tagsUser') || [],
       enterDateUser: localStorage.getItem('enterDateUser') || null,
-      emailUser: localStorage.getItem('emailUser') || ''
+      emailUser: localStorage.getItem('emailUser') || '',
+      notificationsUser: localStorage.getItem('notificationsUser') || [],
+      lengthNotificationsUser: localStorage.getItem('lengthNotificationsUser') || null
     };
     return storedUser.userId ? storedUser : null;
   });
@@ -48,7 +48,9 @@ export const UserProvider = ({ children }) => {
         skillsUser: getSkillsUser(),
         tagsUser: localStorage.getItem('tagsUser'),
         enterDateUser: localStorage.getItem('enterDateUser'),
-        emailUser: localStorage.getItem('emailUser')
+        emailUser: localStorage.getItem('emailUser'),
+        notificationsUser: localStorage.getItem('notificationsUser'),
+        lengthNotificationsUser: localStorage.getItem('lengthNotificationsUser')
       };
       setUser(updatedUser.userId ? updatedUser : null);
     };

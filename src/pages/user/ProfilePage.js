@@ -1,9 +1,17 @@
 import { useState, useEffect } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams, useNavigate } from 'react-router-dom';
 import "../../styles/user/ProfilePage.css";
 import { updateUserDetails, getOneUser, getFollowing } from '../../routes/UserAPI';
 import { getUserAchievements } from '../../routes/AchievementAPI';
 import { useUserContext } from '../../contexts/UserContext';
+import { getPostsById } from '../../routes/PostAPI';
+import post from "../../files/icons/post.png";
+import daily_update from "../../files/icons/daily_update.png";
+import achievement from "../../files/icons/achievement.png";
+import arrowLeft from "../../files/icons/arrowLeft.png";
+import arrowRight from "../../files/icons/arrowRight.png";
+import like_profile from "../../files/icons/like_profile.png";
+import comment_profile from "../../files/icons/comment_profile.png";
 
 
 
@@ -11,10 +19,13 @@ export const ProfilePage = () => {
     const [skill, setSkill] = useState('');
     const [arrSkills, setArrSkills] = useState([]);
     const [arrAchievements, setArrAchievements] = useState([]);
+    const [arrPosts, setArrPosts] = useState([]);
     const [followingQTY, setFollowingQTY] = useState(0);
     const { userId } = useParams();
     const [userProfile, setUserProfile] = useState(null);
     const { user: loggedInUser } = useUserContext();
+    let notifLength = loggedInUser.lengthNotificationsUser;
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -38,6 +49,14 @@ export const ProfilePage = () => {
             }
 
             try {
+                const postsRes = await getPostsById(userId);
+                setArrPosts(postsRes.data);
+
+            } catch (err) {
+                console.error("fail to fetch posts", err);
+            }
+
+            try {
                 const achievementsRes = await getUserAchievements(userId);
                 setArrAchievements(achievementsRes.data);
                 console.log("Achievements:", achievementsRes.data);
@@ -50,6 +69,18 @@ export const ProfilePage = () => {
             fetchUserData();
         }
     }, [userId]);
+
+    const scrollPosts = (direction) => {
+        const container = document.getElementById('postsContainer');
+        const scrollAmount = 300;
+
+        if (direction === 'left') {
+            container.scrollLeft += scrollAmount;
+        } else {
+            container.scrollLeft -= scrollAmount;
+        }
+    };
+
 
     const AddNewSkill = async (skill) => {
         if (!skill || !userProfile) return;
@@ -81,7 +112,14 @@ export const ProfilePage = () => {
                     </div>
                     <div className="profile-buttons">
                         <NavLink to={`/network/${userId}`}><button className="routes_button">הרשת שלי</button></NavLink>
-                        <NavLink to="/"><button className="routes_button">לטבלה</button></NavLink>
+
+                        <NavLink to="/notifications">
+                            <button className="routes_button notif_button_wrapper">
+                                התראות
+                                {userId === loggedInUser.userId && notifLength > 0 && (
+                                    <span className="notifLength">{notifLength}</span>)}
+                            </button></NavLink>
+
                         <NavLink to="/"><button className="routes_button">הודעות</button></NavLink>
                     </div>
                 </div>
@@ -117,26 +155,70 @@ export const ProfilePage = () => {
 
                     <div className="section" id='posts_section'>
                         <h3>הפוסטים שלי</h3>
+                        <div className="horizontal-posts-section">
+                            {arrPosts.length > 3 && <img src={arrowRight} className="scroll-button" id='scroll-button-Right' onClick={() => scrollPosts('left')} />}
+
+                            <div className="horizontal-posts-container" id="postsContainer">
+                                {arrPosts.map((post, i) => (
+                                    <div key={i} className="horizontal-post-card" onClick={() => navigate(`/single_post/${post._id}`)}>
+                                        <p className='postingDate'>{new Date(post.postingDate).toLocaleDateString('he-IL')}</p>
+                                        <p className="post-text">
+                                            {post.content.length > 100
+                                                ? post.content.slice(0, 56) + '...'
+                                                : post.content}
+                                        </p>
+                                        <div className="fileOfPost">
+                                            {post.imagePost && post.imagePost.trim() !== "" && (
+                                                post.imagePost.endsWith('.mp4') ? (
+                                                    <video
+                                                        className="post-image"
+                                                        src={post.imagePost}
+                                                        controls
+                                                    />
+                                                ) : (
+                                                    <img src={post.imagePost} alt="post" className="post-image_inProfile" />
+                                                )
+                                            )}
+                                        </div>
+                                        <div className='likesAndComments'>
+                                            <div className='iconWithNumber'>
+                                                <img src={comment_profile} alt="comments" />
+                                                <span>{post.comments.length}</span>
+                                            </div>
+                                            <div className='iconWithNumber'>
+                                                <img src={like_profile} alt="likes" />
+                                                <span>{post.likes}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )).reverse()}
+                            </div>
+                            {arrPosts.length > 3 && <img src={arrowLeft} className="scroll-button" onClick={() => scrollPosts('right')} />}
+                        </div>
+                    </div>
+
+                    <div className="section" id='posts_section'>
+                        <h3>פוסטים מועדפים</h3>
                     </div>
 
                     {userId === loggedInUser.userId &&
                         <div className="buttom_section">
                             <div className="card-section">
-                                <div className="icon">✏️</div>
+                                <img src={post} className="icon" />
                                 <h3>הוספת פוסט</h3>
                                 <NavLink to="/addPost" className="save-btn">להוספה</NavLink>
                             </div>
 
                             <div className="card-section">
-                                <div className="icon">📁</div>
+                                <img src={achievement} className="icon" />
                                 <h3 id='linkToAchievement'>הוספת הישג</h3>
                                 <NavLink to="/addAchievement" className="save-btn">להוספה</NavLink>
                             </div>
 
                             <div className="card-section" id="Achievement-section">
                                 <div className="rightSideAchievement">
-                                    <div className="icon">📊</div>
-                                    <h3>עדכון יומי</h3>
+                                    <img src={daily_update} className="icon" id='achievementIcon' />
+                                    <h3 id='achievement_h3'>עדכון יומי</h3>
                                     <p className='small_title'>הישגים וטבלאות מעקב</p>
                                 </div>
 

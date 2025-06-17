@@ -27,6 +27,7 @@ export const Feed = () => {
     const [selectedCategory, setSelectedCategory] = useState('הכל');
     const [userNameFilter, setUserNameFilter] = useState('');
 
+    
     const categories = ['הכל', ...new Set(arr.map(post => post.category))];
 
     const filteredPosts = arr.filter(post => {
@@ -34,7 +35,6 @@ export const Feed = () => {
         const matchUser = !userNameFilter || post.userId?.userName.toLowerCase().includes(userNameFilter.toLowerCase());
         return matchCategory && matchUser;
     });
-
 
     useEffect(() => {
         loadPosts(page, searchText);
@@ -258,7 +258,7 @@ export const Feed = () => {
                                         />
                                         <img
                                             src={user.profilePictureUser} className="userUrlInCommentInput"
-                                            onClick={() => fetchToProfile(user._id)}
+                                            onClick={() => fetchToProfile(user.userId)}
                                         />
                                     </div>
 

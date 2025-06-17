@@ -14,6 +14,7 @@ import { useUserContext } from "../contexts/UserContext";
 
 export const NavBar = () => {
     const { user } = useUserContext();
+    let notifLength = user.lengthNotificationsUser;
 
     return (
         <div className="navbar_page">
@@ -33,10 +34,14 @@ export const NavBar = () => {
                     </NavLink>
                     <NavLink to="/notifications" className="nav-link">
                         <div className="nav-item">
-                            <img src={notification} width={20} height={20} alt="התראות" />
+                            <div className="notif-icon-container">
+                                <img src={notification} width={20} height={20} alt="התראות" />
+                                {notifLength > 0 && <span className="notif-badge">{notifLength}</span>}
+                            </div>
                             <span>התראות</span>
                         </div>
                     </NavLink>
+
                     <NavLink to={`/profile/${user.userId}`} className="nav-link">
                         <div className="nav-item">
                             <img src={profile} width={20} height={20} alt="פרופיל" />
@@ -49,7 +54,7 @@ export const NavBar = () => {
                             <span>בית</span>
                         </div>
                     </NavLink>
-                    <NavLink to="/login" className="nav-link">
+                    {/* <NavLink to="/login" className="nav-link">
                         <div className="nav-item" >
                             <img src={user?.profilePictureUser || profile} width={20} height={20} alt="תמונת_משתמש" id="guest" />
                             <span
@@ -57,6 +62,15 @@ export const NavBar = () => {
                             >
                                 {user?.userName || 'אורח'}
                             </span>
+                        </div>
+                    </NavLink> */}
+                    <NavLink to="/login" className="nav-link">
+                        <div className="nav-item" id="guest">
+                            {user?.profilePictureUser ? (
+                                <img src={user.profilePictureUser} className="avatar-fallback" />) :
+                                (<div className="avatar-fallback">
+                                    {(user?.userName || 'אורח').charAt(0).toUpperCase()}
+                                </div>)}
                         </div>
                     </NavLink>
                 </div>

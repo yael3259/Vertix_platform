@@ -50,6 +50,10 @@ export const AddFriendToNetwork = (userId, idOfFriend) => {
 }
 
 export const getFollowing = (userId) => {
-    console.log("userId", userId);
     return axios.get(`${baseURL}/following/${userId}`);
+}
+
+export const getNotificationsByUser = (userId) => {
+    console.log("userId", userId);
+    return axios.get(`${baseURL}/notification/${userId}`);
 }

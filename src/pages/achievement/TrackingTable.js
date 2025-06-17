@@ -109,10 +109,10 @@ export const TrackingTable = () => {
                                                 <div
                                                     key={dayIndex}
                                                     className={`dayCell pastel${(dayIndex % 7) + 1}
-        ${isToday ? "todayCell" : ""}
-        ${isBeforeToday ? "pastDay" : ""}
-        ${day.isMarkedToday ? "marked" : ""}
-        ${day.isCompleted ? "completed" : ""}`}
+                                                        ${isToday ? "todayCell" : ""}
+                                                        ${isBeforeToday ? "pastDay" : ""}
+                                                        ${day.isMarkedToday ? "marked" : ""}
+                                                        ${day.isCompleted ? "completed" : ""}`}
                                                     title={new Date(day.day).toLocaleDateString()}
                                                     onClick={() => {
                                                         if (isToday) {
@@ -121,7 +121,6 @@ export const TrackingTable = () => {
                                                     }}
                                                 >
                                                     {new Date(day.day).getDate()}
-                                                    {/* אייקון לפי מצב */}
                                                     {day.isMarkedToday ? (
                                                         <img src={fire} alt="marked" className="icons_in_cell" />
                                                     ) : (

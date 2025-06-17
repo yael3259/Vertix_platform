@@ -33,14 +33,6 @@ export const LoginForm = () => {
 
     try {
       let res = await login({ email, password });
-      // setUser({
-      //   userId: res.data.userId,
-      //   userName: res.data.userName,
-      //   userRole: res.data.userRole,
-      //   gender: res.data.gender,
-      //   token: res.data.token,
-      //   profilePicture: res.data.profilePicture
-      // });
 
       localStorage.setItem("userId", res.data._id);
       localStorage.setItem("userRole", res.data.role);
@@ -53,6 +45,8 @@ export const LoginForm = () => {
       localStorage.setItem("tagsUser", res.data.tags);
       localStorage.setItem("enterDateUser", res.data.enterDate);
       localStorage.setItem("emailUser", res.data.email);
+      localStorage.setItem("notificationsUser", res.data.notifications);
+      localStorage.setItem("lengthNotificationsUser", res.data.count); // כמות ההתראות
 
       console.log("user loged-in successfully", res);
 
@@ -69,6 +63,7 @@ export const LoginForm = () => {
         enterDateUser: res.data.enterDate,
         emailUser: res.data.email
       });
+
       navigate("/Feed");
     } catch (err) {
       faildAlert(err.response?.data?.message || "שגיאה")

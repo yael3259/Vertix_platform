@@ -12,7 +12,8 @@ import { TrackingTable } from "./pages/achievement/TrackingTable";
 import { NetworkList } from "./pages/user/NetworkList";
 import { Contact } from "./pages/Contact";
 import { AddAchievement } from "./pages/achievement/AddAchievement";
-
+import { NotificationsList } from "./pages/user/notificationsList";
+import { SinglePost } from "./pages/post/SinglePost";
 
 
 function App() {
@@ -33,8 +34,8 @@ function App() {
           <Route path="/network/:userId" element={<NetworkList />} />
           <Route path="/table/:achievementId" element={<TrackingTable />} />
           <Route path="/addAchievement" element={<AddAchievement />} />
-          {/* <Route path="/notifications" element={<Notifications />} /> */}
-          {/* <Route path="/addAchievement" element={<AddAchievement />} /> */}
+          <Route path="/notifications" element={<NotificationsList />} />
+          <Route path="/single_post/:postId" element={<SinglePost />} />
         </Routes>
 
       </UserProvider>
