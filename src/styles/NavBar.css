@@ -135,14 +135,16 @@
     background-color: #e53935;
     color: white;
     border-radius: 50%;
+    box-shadow: 0 0 0 1.5px white;
+    border-radius: 50%;
     width: 18px;
     height: 18px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: bold;
     display: flex;
+    align-items: center;
     justify-content: center;
     z-index: 10;
-    box-shadow: 0 0 0 1.5px white;
 }
 
 .logo {

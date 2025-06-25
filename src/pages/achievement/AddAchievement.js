@@ -23,7 +23,8 @@ export const AddAchievement = () => {
         try {
             const res = await addAchievement(data, token);
             console.log('ההישג נוסף בהצלחה', res);
-            navigate("/profile");
+            // navigate("/profile");
+            navigate(`/profile/${user.userId}`);
         } catch (err) {
             console.error("הוספת הישג נכשלה", err);
         }

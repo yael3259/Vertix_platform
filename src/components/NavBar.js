@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { NavLink } from "react-router-dom";
 import "../styles/NavBar.css";
 import home from "../files/icons/home.png";
@@ -13,8 +13,15 @@ import { useUserContext } from "../contexts/UserContext";
 
 
 export const NavBar = () => {
-    const { user } = useUserContext();
-    let notifLength = user.lengthNotificationsUser;
+    // const { user } = useUserContext();
+    const { user, notificationsCount, fetchNotifications } = useUserContext();
+    // let notifLength = user.lengthNotificationsUser;
+    // const notifLength = user.notificationsUser.filter(n => !n.isRead).length;
+
+
+    useEffect(() => {
+        fetchNotifications();
+    }, []);
 
     return (
         <div className="navbar_page">
@@ -36,7 +43,8 @@ export const NavBar = () => {
                         <div className="nav-item">
                             <div className="notif-icon-container">
                                 <img src={notification} width={20} height={20} alt="התראות" />
-                                {notifLength > 0 && <span className="notif-badge">{notifLength}</span>}
+                                {/* {notifLength > 0 && <span className="notif-badge">{notifLength}</span>} */}
+                                {notificationsCount > 0 && <span className="notif-badge">{notificationsCount}</span>}
                             </div>
                             <span>התראות</span>
                         </div>
@@ -54,16 +62,6 @@ export const NavBar = () => {
                             <span>בית</span>
                         </div>
                     </NavLink>
-                    {/* <NavLink to="/login" className="nav-link">
-                        <div className="nav-item" >
-                            <img src={user?.profilePictureUser || profile} width={20} height={20} alt="תמונת_משתמש" id="guest" />
-                            <span
-                                id={user?.genderUser === 'נקבה' ? 'female-color' : user?.genderUser === 'זכר' ? 'male-color' : 'else-color'}
-                            >
-                                {user?.userName || 'אורח'}
-                            </span>
-                        </div>
-                    </NavLink> */}
                     <NavLink to="/login" className="nav-link">
                         <div className="nav-item" id="guest">
                             {user?.profilePictureUser ? (

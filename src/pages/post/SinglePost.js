@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from "react-router-dom";
-import { getPostById, addComment } from '../../routes/PostAPI';
+import { getPostById, addComment,addToFavoritePosts } from '../../routes/PostAPI';
 import { getOneUser } from '../../routes/UserAPI';
 import { useUserContext } from '../../contexts/UserContext';
 import commentIcon from "../../files/icons/commentIcon.png";
@@ -10,6 +10,7 @@ import empty_likeIcon from "../../files/icons/empty_likeIcon.png";
 import fill_likeIcon from "../../files/icons/fill_likeIcon.png";
 import { FaPaperPlane } from 'react-icons/fa';
 import "../../styles/Feed.css";
+import "../../styles/post/SinglePost.css";
 
 
 
@@ -75,6 +76,16 @@ export const SinglePost = () => {
         }
     };
 
+    const addPostToFavoritePosts = async (postId, userId) => {
+        try {
+            let res = await addToFavoritePosts(postId, userId);
+            console.log("success", res.data);
+        }
+        catch (err) {
+            console.log("faild to add post to favorites", err);
+        }
+    }
+
     const toggleLike = () => {
         setLikedPosts(prev => ({ ...prev, [post._id]: !prev[post._id] }));
     };
@@ -82,7 +93,7 @@ export const SinglePost = () => {
     if (!post) return <div>טוען פוסט...</div>;
 
     return (
-        <div className="grid-item" key={post._id}>
+        <div className="grid-item" id='single_post' key={post._id}>
             <div className="top_post">
                 <div className="userName_txt" id="categoryPart">
                     <img src={categoryIcon} className="categoryIcon" />
@@ -110,22 +121,22 @@ export const SinglePost = () => {
             )}
 
             <div className="item-likes-comments">
+                <p tabIndex="0" className="comments" onClick={() => toggleComments(post._id)}>
+                    <span>{post.comments.length} תגובות</span>
+                    <img src={commentIcon} alt="comment icon" className="comment-icon" />
+                </p>
+                <p className="favorite">
+                    <span>מועדף</span>
+                    <img src={starIcon} className="star-icon" onClick={() => addPostToFavoritePosts(post._id, user.userId)} />
+                </p>
                 <p className="likes">
+                    <span>{post.likes} לייקים</span>
                     <img
                         src={likedPosts[post._id] ? fill_likeIcon : empty_likeIcon}
                         alt="like icon"
                         className="like-icon"
-                        onClick={toggleLike}
+                        onClick={() => toggleLike(post._id)}
                     />
-                    <span>{post.likes} לייקים</span>
-                </p>
-                <p className="favorite">
-                    מועדף
-                    <img src={starIcon} alt="star icon" className="star-icon" />
-                </p>
-                <p tabIndex="0" className="comments" onClick={toggleComments}>
-                    <img src={commentIcon} alt="comment icon" className="comment-icon" />
-                    <span> {post.comments.length} תגובות</span>
                 </p>
             </div>
 

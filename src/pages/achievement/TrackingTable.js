@@ -65,10 +65,13 @@ export const TrackingTable = () => {
         return diffInDays >= 0 ? diffInDays : 0;
     };
 
+    if (!user) return <p>משתמש לא מחובר</p>;
+    if (!achievement) return <p>טבלה נטענת...</p>;
 
     return (
         <div className="trackingTablePage">
-            {achievement ? (
+            {/* {achievement ? ( */}
+            {/* {user && achievement ? ( */}
                 <div className="achievement-table">
                     <div className="achievementCard">
                         <p className="achievementText">
@@ -137,9 +140,10 @@ export const TrackingTable = () => {
                         </div>
                     </div>
                 </div>
-            ) : (
-                <p>טבלה נטענת..</p>
-            )}
+            {/* ) : (
+                // <p>טבלה נטענת..</p>
+                <p>משתמש לא מחובר</p>
+            )} */}
         </div>
     );
 };

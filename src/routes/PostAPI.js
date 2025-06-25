@@ -40,3 +40,11 @@ export const addComment = (postId, text, userId) => {
 export const getCommentOfPostById = (postId) => {
     return axios.get(`${baseURL}/comments/${postId}`);
 }
+
+export const addToFavoritePosts = (postId, userId) => {
+    return axios.post(`${baseURL}/favorites/${userId}`, {postId});
+}
+
+export const getFavoritePosts = (userId) => {
+    return axios.get(`${baseURL}/getFavorites/${userId}`,);
+}

@@ -25,7 +25,7 @@
 .profile-header {
     background: linear-gradient(90deg, #26a69a 0%, #33c9ba 100%);
     color: #f8fffd;
-    padding: 20px 40px;
+    padding: 20px 45px;
     display: flex;
     align-items: center;
     gap: 25px;
@@ -118,7 +118,8 @@
 
 #details_section,
 #skills_section,
-#posts_section {
+#posts_section,
+#favoritePosts_section {
     border-right: 2px solid transparent;
     padding-right: 20px;
     margin-bottom: 70px;
@@ -126,15 +127,42 @@
 }
 
 #details_section:hover,
-#skills_section:hover {
+#skills_section:hover,
+#posts_section:hover,
+#favoritePosts_section:hover {
     border-right: 2px solid #26a69a;
 }
 
-#posts_section {
-    border-right: 2px solid transparent;
-    padding-right: 20px;
-    margin-bottom: 70px;
-    transition: all 0.3s ease;
+.detailsAndChat {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start !important;
+    gap: 2rem;
+    justify-content: space-between;
+}
+
+.startChat {
+    color: white;
+    background-color: #f3c6d2;
+    color: #5a5a5a;
+    /* background-color: #b2dfdb;
+    color: #004d40; */
+    font-size: 15px;
+    letter-spacing: 0.3px;
+    margin-left: 20px;
+    padding: 10px 20px;
+    border-radius: 50px;
+    white-space: nowrap;
+    margin-top: 14px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    outline: none;
+    border: none !important;
+    cursor: pointer;
+}
+
+.startChat:hover {
+    opacity: 1;
 }
 
 .profile-body {
@@ -156,6 +184,7 @@
 .tag {
     background-color: #d0f0ed;
     color: #00695c;
+    margin-top: 15px;
     padding: 12px 15px;
     border-radius: 20px;
     letter-spacing: 0.5px;
@@ -163,7 +192,7 @@
     font-weight: 600;
 }
 
-.tags input[type="text"] {
+.tags_input input[type="text"] {
     width: 50%;
     max-width: 158px;
     padding: 10px 10px;
@@ -173,24 +202,23 @@
     transition: all 0.3s ease;
 }
 
-.tags input[type="text"]:focus {
+.tags_input input[type="text"]:focus {
     border-color: #26a69a;
     outline: none;
 }
 
-.tags button {
-    padding: 10px;
+.tags_btn {
+    padding: 11.9px;
     font-size: 16px;
     background-color: #26a69a;
     color: white;
-    margin-right: -10px;
     border: none;
     border-radius: 20px 0 0 20px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.tags button:hover {
+.tags_btn:hover {
     background-color: #1e8e81;
 }
 
@@ -248,12 +276,40 @@
     cursor: pointer;
 }
 
+.urlAndName_favorite {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+
+.topFavoritePost {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #5c5c5c;
+    gap: 20px;
+    margin-top: -7px;
+}
+
 .postingDate {
     font-size: 12px;
     color: #888;
     margin-bottom: 3px;
     margin-top: 0px;
     text-align: left;
+}
+
+.username_favorates {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.profilePicture_favorites {
+    height: 25px;
+    width: 25px;
+    border:  1px solid rgb(85, 85, 85);
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .post-text {
@@ -303,6 +359,10 @@
     line-height: 20px;
     display: flex;
     align-items: center;
+}
+
+.no-posts-message {
+    color: #515151;
 }
 
 .buttom_section {
@@ -381,7 +441,7 @@
     flex-wrap: wrap;
 }
 
-#achievementIcon{
+#achievementIcon {
     padding-bottom: 10px;
 }
 
@@ -400,11 +460,11 @@
     font-weight: 500;
     letter-spacing: 0.5px;
     font-size: 20px;
-    padding-right:20px;
+    padding-right: 20px;
 }
 
-#achievement_h3{
-        margin-bottom: -10px;
+#achievement_h3 {
+    margin-bottom: -10px;
 }
 
 .leftSideAchievement {
@@ -434,6 +494,18 @@
     border-radius: 8px;
 }
 
+.completed-achievementTable {
+    background: linear-gradient(135deg, #fffbe6 0%, #fce38a 20%, #f9c74f 45%,  #f9c74f 45%, #dd8f08af 100%) !important;
+    border-left: 6px solid #ae7512 !important;
+    border: 1px solid #c18801;
+}
+
+.status-icon {
+    height: 20px;
+    width: 20px;
+    flex-shrink: 0;
+}
+
 .achievement-item {
     background-color: #d1f2eb;
     padding: 1rem;
@@ -443,6 +515,10 @@
     transition: background-color 0.3s ease;
     text-decoration: none;
     color: #2c3e50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
 }
 
 .achievement-item:hover {

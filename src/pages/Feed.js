@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "../styles/Feed.css";
 import { useNavigate } from "react-router-dom";
-import { getAllPosts, addComment } from "../routes/PostAPI";
+import { getAllPosts, addComment, addToFavoritePosts } from "../routes/PostAPI";
 import { getOneUser } from "../routes/UserAPI";
 import { AddFriendToNetwork, getRandomUsers } from "../routes/UserAPI";
 import commentIcon from "../files/icons/commentIcon.png";
@@ -22,12 +22,12 @@ export const Feed = () => {
     const [searchText, setSearchText] = useState('');
     const [comment, setComment] = useState('');
     const navigate = useNavigate();
-    const { user } = useUserContext();
+    const { user, fetchNotifications } = useUserContext();
     const [likedPosts, setLikedPosts] = useState({});
     const [selectedCategory, setSelectedCategory] = useState('הכל');
     const [userNameFilter, setUserNameFilter] = useState('');
 
-    
+
     const categories = ['הכל', ...new Set(arr.map(post => post.category))];
 
     const filteredPosts = arr.filter(post => {
@@ -133,11 +133,22 @@ export const Feed = () => {
                 })
             );
             setComment('');
+            await fetchNotifications();
 
         } catch (err) {
             console.log('error adding comment', err);
         }
     };
+
+    const addPostToFavoritePosts = async (postId, userId) => {
+        try {
+            let res = await addToFavoritePosts(postId, userId);
+            console.log("success", res.data);
+        }
+        catch (err) {
+            console.log("faild to add post to favorites", err);
+        }
+    }
 
     const toggleLike = async (postId) => {
         setLikedPosts(prev => ({ ...prev, [postId]: !prev[postId] }));
@@ -223,24 +234,22 @@ export const Feed = () => {
                             )}
 
                             <div className="item-likes-comments">
+                                <p tabIndex="0" className="comments" onClick={() => toggleComments(item._id)}>
+                                    <span>{item.comments.length} תגובות</span>
+                                    <img src={commentIcon} alt="comment icon" className="comment-icon" />
+                                </p>
+                                <p className="favorite">
+                                    <span>מועדף</span>
+                                    <img src={starIcon} className="star-icon" onClick={() => addPostToFavoritePosts(item._id, user.userId)} />
+                                </p>
                                 <p className="likes">
-                                    {/* <img src={fill_likeIcon} alt="like icon" className="like-icon" onClick={() => Clicked_like} /> */}
+                                    <span>{item.likes} לייקים</span>
                                     <img
                                         src={likedPosts[item._id] ? fill_likeIcon : empty_likeIcon}
                                         alt="like icon"
                                         className="like-icon"
                                         onClick={() => toggleLike(item._id)}
                                     />
-                                    <span>{item.likes} לייקים</span>
-                                </p>
-                                <p className="favorite">
-                                    מועדף
-                                    <img src={starIcon} alt="star icon" className="star-icon" />
-                                </p>
-                                <p tabIndex="0" className="comments"
-                                    onClick={() => toggleComments(item._id)}>
-                                    <img src={commentIcon} alt="comment icon" className="comment-icon" />
-                                    <span> {item.comments.length} תגובות</span>
                                 </p>
                             </div>
 
@@ -280,7 +289,7 @@ export const Feed = () => {
                                             </div>
                                             <p className="comment-text">{comment.text}</p>
                                         </div>
-                                    ))}
+                                    )).reverse()}
                                 </>
                             )}
                         </div>

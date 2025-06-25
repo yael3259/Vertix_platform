@@ -1,21 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import "../../styles/user/notificationsList.css";
-import { getNotificationsByUser } from '../../routes/UserAPI';
+import { getNotificationsByUser, markNotificationsAsRead } from '../../routes/UserAPI';
 import { useUserContext } from '../../contexts/UserContext';
 import { formatDistanceToNow } from 'date-fns'
 import { he } from 'date-fns/locale'
+import no_alerts from "../../files/icons/no_alerts.png"
 
 
 
 export const NotificationsList = () => {
-    const { user } = useUserContext();
+    const { user, setNotificationsCount } = useUserContext();
     const [notifications, setNotifications] = useState([]);
+
+    useEffect(() => {
+        markNotifications();
+    }, []);
 
     useEffect(() => {
         if (user) {
             getNotifications();
         }
     }, [user]);
+
+    const markNotifications = async () => {
+        try {
+            const res = await markNotificationsAsRead(user.userId);
+            setNotificationsCount(0);
+            console.log("succsses", res);
+        } catch (err) {
+            console.error("fail to mark notifications as read", err);
+        }
+    };
 
     const getNotifications = async () => {
         try {
@@ -33,8 +48,19 @@ export const NotificationsList = () => {
 
     return (
         <div className="notification-container">
+            <h1 className="notifications-title">התראות</h1>
+            <p className="notifications-subtitle">
+                כאן יופיעו תגובות חדשות, מעקבים ועדכונים מהטבלאות האישיות שלך
+            </p>
             {notifications.length === 0 ? (
-                <p>אין התראות חדשות</p>
+                <div className="no-notifications">
+                    <img
+                        src={no_alerts}
+                        className="no-notifications-img"
+                    />
+                    <h2 className="no-notifications-title">אין התראות</h2>
+                    <p className="no-notifications-text">ברגע שתתקבל תגובה, מעקב או עדכון בטבלאות, תופיע כאן התראה</p>
+                </div>
             ) : (
                 notifications.map((notification) => (
                     <div key={notification._id} className="notification">

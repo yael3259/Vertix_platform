@@ -278,29 +278,35 @@ select option {
   }
 }
 
-.comment-icon,
-.like-icon,
-.star-icon {
-  width: 20px;
-  height: auto;
-  margin-left: 10px;
-  vertical-align: middle;
-  transition: transform 0.3s ease;
+.item-likes-comments {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  color: #5c5c5c;
+  margin-top: 20px;
+  padding: 0 30px 20px 30px;
+  gap: 20px;
+  direction: rtl;
 }
 
-.comment-icon:hover,
-.like-icon:hover,
-.star-icon:hover {
-  transform: scale(1.3);
-}
-
-.likes,
-.comments {
+.item-likes-comments p {
+  margin: 0;
+  cursor: pointer;
   display: flex;
   align-items: center;
-  direction: rtl;
-  gap: 1px;
-  font-size: 16px;
+  gap: 6px;
+  flex-direction: row-reverse;
+}
+
+.like-icon,
+.comment-icon,
+.star-icon {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  object-fit: contain;
+  margin-top: 4px;
 }
 
 .userDeatails_comment {

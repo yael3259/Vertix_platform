@@ -57,3 +57,7 @@ export const getNotificationsByUser = (userId) => {
     console.log("userId", userId);
     return axios.get(`${baseURL}/notification/${userId}`);
 }
+
+export const markNotificationsAsRead = (userId) => {
+    return axios.put(`${baseURL}/markNotifications/${userId}`);
+}

@@ -9,25 +9,34 @@
 .notification {
     display: flex;
     align-items: flex-start;
-    background: #a2f9ef41;
-    padding: 20px 16px;
-    border-radius: 8px;
-    margin-bottom: 12px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    gap: 12px;
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    gap: 16px;
     direction: rtl;
+    border-right: 6px solid #02dca9;
+    transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.notification:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
 
 .profile-pic {
-    width: 42px;
-    height: 42px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     object-fit: cover;
+    border: 2px solid #02dca9;
 }
 
-.spanUserName{
-    color: rgb(119, 119, 119);
+.spanUserName {
+    color: #777;
     font-weight: 600;
+    margin-inline-start: 5px;
 }
 
 .content {
@@ -40,22 +49,161 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 8px;
 }
 
 .user {
     font-weight: bold;
     color: #333;
-    padding-bottom: 10px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .dateNotification {
     font-size: 12px;
-    color: rgb(84, 84, 84);
-    margin-top: -25px !important;
+    color: #999;
 }
 
 .textNotification {
     margin-top: 4px;
     font-size: 14px;
-    color: #555;
+    color: #444;
+    background-color: #f9f9f9;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ececec;
+}
+.notification-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f6f6f6;
+  min-height: 100vh;
+}
+
+.notification {
+  display: flex;
+  align-items: flex-start;
+  background-color: #ffffff;
+  padding: 18px;
+  border-radius: 14px;
+  margin-bottom: 15px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.07);
+  gap: 14px;
+  direction: rtl;
+  width: 90%;
+  border: 1px solid #e0e0e0;
+  transition: box-shadow 0.3s ease;
+}
+
+.notification:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.notifications-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #595959;
+  margin: 20px 0 10px 0;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.notifications-subtitle {
+  font-size: 16px;
+  color: #555;
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 400;
+}
+
+.profile-pic {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #6c6c6c;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.user {
+  font-weight: 600;
+  color: #2e2e2e;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.spanUserName {
+  color: #545454;
+  font-weight: 500;
+}
+
+.dateNotification {
+  font-size: 12px;
+  color: #999;
+  padding-left: 8px;
+}
+
+.textNotification {
+  background-color: #fff4f9;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.no-notifications {
+  text-align: center;
+  margin-top: 50px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  width: 90%;
+  max-width: 450px;
+  transition: all 0.3s ease;
+}
+
+.no-notifications-img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 20px;
+  opacity: 0.85;
+}
+
+.no-notifications-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2e2e2e;
+  margin-bottom: 8px;
+}
+
+.no-notifications-text {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.5;
 }
