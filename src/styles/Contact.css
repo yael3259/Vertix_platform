@@ -1,0 +1,106 @@
+.contact-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(90deg, #ffedf8ac, #e0fff9ae);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.contact-form {
+    background-color: rgba(255, 255, 255, 0.536);
+    padding: 25px;
+    border: 2px solid white;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.125);
+    width: 28%;
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-title {
+    margin-top: 0;
+    font-size: 28px;
+    font-weight: 400;
+    color: #1abc9c;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.contact-subtext {
+    font-size: 14px;
+    color: #4f4f4f;
+    margin-top: -30px;
+    text-align: right;
+    line-height: 1.5;
+    padding: 12px 0;
+    direction: rtl;
+}
+
+.contact-input-group {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+}
+
+.contact-label {
+    margin-right: 5px;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #4f4f4f;
+    font-weight: 600;
+}
+
+.contact-input,
+.contact-textarea {
+    color: #4f4f4f;
+    padding: 10px;
+    border: 2px solid transparent;
+    border-radius: 12px;
+    background-color: #00cecb26;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    resize: none;
+    text-align: right;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    direction: rtl;
+}
+
+.contact-input:focus,
+.contact-textarea:focus {
+    border-bottom: 2px solid #00cec9;
+    outline: none;
+}
+
+.contact-submit-btn {
+    background-color: #00cec9;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    padding: 14px;
+    border: none;
+    border-radius: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.contact-submit-btn:hover {
+    filter: brightness(1.1);
+    transform: scale(1.02);
+}
+
+.contact-status {
+    margin-top: 20px;
+    color: #1abc9c;
+    font-weight: 600;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .contact-form {
+        width: 70% !important;
+    }
+}

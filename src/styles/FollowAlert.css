@@ -1,0 +1,99 @@
+.follow-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(70, 130, 180, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(2px);
+    z-index: 10001;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.follow-modal {
+    background: linear-gradient(135deg, #e0f2f1, #b2dfdb);
+    border-radius: 22px;
+    padding: 32px 28px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    position: relative;
+    max-width: 400px;
+    width: 90%;
+    animation: fadeInFollow 0.35s ease-out forwards;
+    border: 3px solid #0097a7;
+    overflow: hidden;
+    direction: rtl;
+    margin: 10px;
+}
+
+@keyframes fadeInFollow {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.follow-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #006064;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.follow-close:hover {
+    color: #004d40;
+    transform: scale(1.1) rotate(8deg);
+}
+
+.follow-description {
+    color: #004d40;
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.6;
+    margin: 0;
+    padding-top: 10px;
+}
+
+.follow-description strong {
+    color: #00796b;
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.3);
+}
+
+.friend_gem-icon {
+    height: 42px;
+    width: 42px;
+    vertical-align: middle;
+    margin: 6px 3px -3px;
+    animation: pulseFriend 1.6s infinite ease-in-out;
+}
+
+@keyframes pulseFriend {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1) rotate(6deg);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

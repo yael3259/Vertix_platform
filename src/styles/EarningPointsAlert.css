@@ -1,0 +1,129 @@
+.points-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(30, 60, 80, 0.3); /* רקע עם גוון קריר */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(2px);
+  z-index: 10001;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.points-modal {
+  background: linear-gradient(135deg, #e0f7fa, #b2ebf2); /* גוונים יהלומיים */
+  border-radius: 20px;
+  padding: 32px 28px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  position: relative;
+  max-width: 400px;
+  width: 90%;
+  animation: fadeInScaleUp 0.35s ease-out forwards;
+  border: 3px solid #4dd0e1; /* טורקיז כחול */
+  overflow: hidden;
+  direction: rtl;
+  margin: 10px;
+}
+
+@keyframes fadeInScaleUp {
+  0% { opacity: 0; transform: scale(0.8); }
+  70% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.points-modal::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  background:
+    radial-gradient(circle at 10% 20%, #ffffff 2px, transparent 2px),
+    radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.15) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 40% 50%, rgba(255, 255, 255, 0.25) 2.5px, transparent 2.5px),
+    radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.1) 1.8px, transparent 1.8px);
+  background-size: 100px 100px, 40px 40px, 60px 60px, 45px 45px;
+  animation: twinkleBG 10s infinite linear;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@keyframes twinkleBG {
+  0%   { background-position: 0% 0%, 0% 0%, 0% 0%, 0% 0%; }
+  25%  { background-position: 10% 5%, 5% 15%, 12% 8%, 7% 10%; }
+  50%  { background-position: 20% 10%, 10% 30%, 25% 15%, 15% 20%; }
+  75%  { background-position: 30% 15%, 15% 45%, 38% 22%, 22% 30%; }
+  100% { background-position: 40% 20%, 20% 60%, 50% 30%, 30% 40%; }
+}
+
+.points-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #006064;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.points-close:hover {
+  color: #004d40;
+  transform: scale(1.1) rotate(8deg);
+}
+
+.points-description {
+  color: #004d40;
+  font-size: 1.2rem;
+  font-weight: 500;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.points-description strong {
+  color: #00796b;
+  font-weight: 700;
+  font-size: 1.6rem;
+  text-shadow: 0 0 6px rgba(0, 255, 255, 0.3);
+}
+
+.clear_gem-icon {
+  height: 40px;
+  width: 40px;
+  vertical-align: middle;
+  margin-top: 6px !important;
+  animation: pulseGem 1.8s ease-in-out infinite;
+}
+
+@keyframes pulseGem {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 600px) {
+  .points-modal {
+    padding: 24px 20px;
+    border-radius: 16px;
+    max-width: 340px;
+  }
+
+  .points-description {
+    font-size: 1rem;
+  }
+
+  .points-description strong {
+    font-size: 1.2rem;
+  }
+
+  .points-close {
+    font-size: 1.8rem;
+    top: 10px;
+    right: 10px;
+  }
+
+  .clear_gem-icon {
+    height: 28px;
+    width: 28px;
+  }
+}

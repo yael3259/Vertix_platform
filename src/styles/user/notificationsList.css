@@ -1,0 +1,271 @@
+.notifBody{
+    background: linear-gradient(90deg, #ffedf8ac, #e0fff9ae);
+    box-sizing: border-box;
+    padding: 2rem;
+}
+
+.notification-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 10px;
+  border-radius: 10px;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fdfdfd;
+  min-height: 100vh;
+  border: 2px solid rgb(213, 213, 213);
+}
+
+.notifications-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #595959;
+  margin: 20px 0 10px 0;
+  text-align: center;
+}
+
+.notifications-subtitle {
+  font-size: 16px;
+  color: #555;
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 400;
+}
+
+.notification {
+  display: flex;
+  align-items: flex-start;
+  background-color: #ffffff;
+  padding: 18px;
+  border-radius: 14px;
+  margin-bottom: 15px;
+  /* box-shadow: 0 3px 6px rgba(0, 0, 0, 0.07); */
+  gap: 14px;
+  direction: rtl;
+  width: 90%;
+  border: 1px solid #c7c7c7;
+  transition: box-shadow 0.3s ease;
+  word-break: break-word;
+  box-sizing: border-box;
+}
+
+#networkNotif {
+  width: 55px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 8%;
+  border: 1px solid #c4c4c4;  margin-bottom: -30px !important;
+  margin-top: -1px !important;
+}
+
+.profile-pic,
+#avatar-fallback_inNotification {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #6c6c6c;
+  cursor: pointer;
+}
+
+.commentNotif, .followNotif{
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.followNotif,
+.notificationOfAchievement,
+.notificationOfBoost {
+  margin-bottom: -27px !important;
+}
+
+#achievedNotif {
+  border-radius: 8%;
+  border: 1px solid #c4c4c4;
+}
+
+.notificationOfAchievement,
+.notificationOfBoost {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  gap: 2px;
+  line-height: 1.4;
+}
+
+.completedSuccssesTitle {
+  margin: 0;
+  padding: 0;
+}
+
+.notification-title {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+}
+
+#boldAchievementName {
+  color: #1facac !important;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.user {
+  font-weight: 600;
+  color: #2e2e2e;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.spanUserName {
+  color: #545454;
+  font-weight: 500;
+}
+
+.dateNotification {
+  font-size: 12px;
+  color: #999;
+  padding-left: 8px;
+}
+
+.textNotification {
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #333;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  background-color: transparent;
+  border: none;
+  word-break: break-word;
+}
+
+.notification-comment .textNotification {
+  background-color: #f2f2f2;
+  border: 1px solid #f0f0f0;
+}
+
+.no-notifications {
+  text-align: center;
+  margin-top: 50px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  width: 90%;
+  max-width: 450px;
+  transition: all 0.3s ease;
+}
+
+.no-notifications-img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 20px;
+  opacity: 0.85;
+}
+
+.no-notifications-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #2e2e2e;
+  margin-bottom: 8px;
+}
+
+.no-notifications-text {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.5;
+}
+
+@media (max-width: 620px) {
+  .notification-container {
+    width: 95%;
+    padding: 8px;
+    margin: 5px !important;
+  }
+
+  .notification {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .top-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .user {
+    font-size: 14px;
+    gap: 6px;
+  }
+
+  .textNotification {
+    font-size: 14px;
+    padding: 10px 12px;
+    width: 93%;
+  }
+
+  .notificationOfAchievement,
+  .notificationOfBoost {
+    height: 47px;
+    justify-items: center;
+    margin-top: 0 !important;
+    display: block;
+    cursor: pointer;
+  }
+
+  .notification-title {
+    text-align: center;
+    font-size: 15px;
+  }
+
+  .followNotif {
+    padding: 0 0 20px 0;
+  }
+
+  .profile-pic,
+  #avatar-fallback_inNotification {
+    width: 40px;
+    height: 40px;
+  }
+
+  .no-notifications {
+    padding: 16px;
+  }
+
+  .notifications-title {
+    font-size: 24px;
+  }
+
+  .notifications-subtitle {
+    font-size: 14px;
+  }
+}

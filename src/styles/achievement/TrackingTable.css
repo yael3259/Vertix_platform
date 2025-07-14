@@ -1,0 +1,586 @@
+.trackingTablePage {
+    background: #ffe7e7;
+    height: 100dvh;
+    box-sizing: border-box;
+    padding: 2rem;
+    direction: rtl;
+    overflow-x: hidden;
+}
+
+.goldenCelebration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 5px solid #e39611aa;
+    width: 99.5%;
+    height: 98%;
+    background: radial-gradient(circle,
+            rgb(255, 255, 255) 0%,
+            rgb(255, 255, 255) 50%,
+            rgb(255, 255, 255) 100%);
+    animation: goldFlash 2.5s ease-in-out forwards;
+    border-radius: 12px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.tableCardWrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trophyGifFixed {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    z-index: 1001;
+    pointer-events: none;
+    opacity: 0;
+    animation: fadeInTrophy 0.8s ease-in forwards;
+    animation-delay: 2s;
+}
+
+@keyframes fadeInTrophy {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+
+@keyframes goldFlash {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    40% {
+        opacity: 0.8;
+        transform: scale(1.02);
+    }
+
+    100% {
+        opacity: 0.6;
+        transform: scale(1);
+    }
+}
+
+.failedOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 5px solid #777777aa;
+    width: 99.5%;
+    height: 98%;
+    background: rgba(175, 175, 175, 0.4);
+    border-radius: 12px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    animation: fadeInFailed 0.8s ease-in forwards;
+}
+
+.failedStampGif {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.6);
+    width: 150px;
+    z-index: 1001;
+    pointer-events: none;
+    opacity: 0;
+    animation: fadeInStamp 0.8s ease-in forwards;
+    animation-delay: 0.5s;
+}
+
+.failedText {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    z-index: 1001;
+    pointer-events: none;
+    opacity: 0;
+    animation: fadeInText 0.8s ease-in forwards;
+    animation-delay: 1s;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+@keyframes fadeInFailed {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeInStamp {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes fadeInText {
+    from { opacity: 0; transform: translate(-50%, -50px); }
+    to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+.disabledCell {
+    cursor: not-allowed !important;
+    opacity: 0.6; 
+    background-color: #e0e0e0 !important;
+}
+
+.disabledCell:hover {
+    background-color: #e0e0e0 !important;
+}
+
+.completionText {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    z-index: 1001;
+    pointer-events: none;
+    opacity: 0;
+    animation: fadeInText 0.8s ease-in forwards;
+    animation-delay: 1s;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.trophyGifFixed {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    z-index: 1001;
+    pointer-events: none;
+    opacity: 0;
+    animation: fadeInTrophy 0.8s ease-in forwards;
+    animation-delay: 2s;
+}
+
+.goldenCelebration {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 5px solid #e39611aa;
+    width: 99.5%;
+    height: 98%;
+    background: radial-gradient(circle,
+                rgb(255, 255, 255) 0%,
+                rgb(255, 255, 255) 50%,
+                rgb(255, 255, 255) 100%);
+    animation: goldFlash 2.5s ease-in-out forwards;
+    border-radius: 12px;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.achievement-table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    padding: 0;
+    gap: 2rem;
+}
+
+.achievementCard {
+    background-image: url('../../files/notebook.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    padding: 2rem 2rem 2rem 2rem;
+    color: #333;
+    min-width: 280px;
+    max-width: 350px;
+    max-height: 350px;
+    min-height: 350px;
+    margin: 10px !important;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.achievementText {
+    direction: rtl;
+}
+
+.achievementCard::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.284);
+    border-radius: 12px;
+    z-index: 0;
+}
+
+.achievementCard p {
+    font-family: 'Playpen Sans Hebrew', cursive;
+    position: relative;
+    z-index: 1;
+    font-size: 18px;
+    margin: 0;
+    line-height: 1.6;
+    white-space: pre-line;
+}
+
+.achievementCard p::first-line {
+    font-family: 'Segoe UI', sans-serif;
+    color: #d30000;
+}
+
+.tableCard {
+    position: relative;
+    background: #fff;
+    border-radius: 12px;
+    padding: 1rem;
+    margin: 10px !important;
+    width: 100%;
+    max-width: 800px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: url('../../files/cursor.png') 0 0, auto;
+}
+
+.tableCard h3 {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 3px dashed #f0afafa1;
+    font-size: 1.2rem;
+    color: #737373;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.titleTrackingTable {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    color: #4f4f4f;
+    font-weight: bold;
+    direction: rtl;
+}
+
+.scrollContainer {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.weekDaysHeader {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+    color: #666;
+    text-align: center;
+    min-width: 300px;
+}
+
+.dayHeader {
+    font-weight: bold;
+    padding: 0.2rem 0;
+}
+
+.trackingGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    min-width: 300px;
+}
+
+.weekRow {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.3rem;
+}
+
+.dayCell {
+    border-radius: 8px;
+    padding: 0.6rem 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: #333;
+    transition: 0.3s ease;
+    position: relative;
+    min-width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pastel1 {
+    background-color: #ffe4e1;
+}
+
+.dayCell.pastel1:hover {
+    background-color: #ffc7c1;
+}
+
+.pastel2 {
+    background-color: #e6e6fa;
+}
+
+.dayCell.pastel2:hover {
+    background-color: #c8c8ff;
+}
+
+.pastel3 {
+    background-color: #e0f7fa;
+}
+
+.dayCell.pastel3:hover {
+    background-color: #c2f8ff;
+}
+
+.pastel4 {
+    background-color: #f0fff0;
+}
+
+.dayCell.pastel4:hover {
+    background-color: #d0ffd0;
+}
+
+.pastel5 {
+    background-color: #fff0f5;
+}
+
+.dayCell.pastel5:hover {
+    background-color: #ffd4e2;
+}
+
+.pastel6 {
+    background-color: #f5f5dc;
+}
+
+.dayCell.pastel6:hover {
+    background-color: #f0f0b3;
+}
+
+.pastel7 {
+    background-color: #fefbd8;
+}
+
+.pastDay {
+    background-color: #dddddd;
+}
+
+.pastDay:hover {
+    background-color: #dddddd !important;
+}
+
+.dayCell.pastel7:hover {
+    background-color: #fff9b7;
+}
+
+.todayCell {
+    border: 2px solid #c10505;
+}
+
+.dayCell.marked {
+    background-color: #ffbb46;
+}
+
+.dayCell.marked:hover {
+    background-color: #ffbb46 !important;
+}
+
+.dayCell.completed {
+    box-shadow: inset 0 0 0 3px #e39611;
+    background-color: #e39611;
+}
+
+.dayCell.marked.completed {
+    outline: 2px solid #4fc3f7;
+    box-shadow: inset 0 0 0 3px #81c784;
+}
+
+.icons_in_cell {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 14px;
+    height: 14px;
+}
+
+@media (max-width: 1500px) {
+    .achievementCard p {
+        margin: 50px;
+        margin-top: 1rem;
+        line-height: 1.8;
+    }
+}
+
+@media (min-width: 1500px) {
+    .trackingTablePage {
+        padding: 7rem 2rem 0 2rem;
+    }
+
+    .achievement-table {
+        flex-direction: row;
+        justify-content: space-between;
+        margin-left: 5rem !important;
+        margin-right: 5rem !important;
+        align-items: flex-start;
+        gap: 0;
+    }
+
+    .achievementCard {
+        padding: 2rem;
+        min-width: 350px;
+        max-width: 350px;
+        min-height: 350px;
+        max-height: 350px;
+        width: auto;
+        margin: 0;
+    }
+
+    .achievementCard p {
+        font-size: 20px;
+        margin-right: 70px;
+        margin-top: 1.8rem;
+        line-height: 1.8;
+    }
+
+    .tableCard {
+        padding: 1.5rem;
+        width: 80%;
+    }
+
+    .tableCard h3 {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 5px dashed #f0afafa1;
+        font-size: 1.3rem;
+    }
+
+    .titleTrackingTable {
+        margin-top: 2rem;
+        font-size: 1.3rem;
+    }
+
+    .weekDaysHeader {
+        font-size: 0.85rem;
+        min-width: unset;
+    }
+
+    .dayHeader {
+        padding: 0.25rem 0;
+    }
+
+    .trackingGrid {
+        gap: 0.5rem;
+        min-width: unset;
+        margin: 0;
+    }
+
+    .weekRow {
+        gap: 0.5rem;
+    }
+
+    .dayCell {
+        padding: 0.8rem 0;
+        font-size: 0.9rem;
+        min-width: unset;
+        height: auto;
+    }
+
+    .icons_in_cell {
+        top: 6px;
+        right: 4px;
+        width: 18px;
+        height: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .goldenCelebration {
+        width: 97.2%;
+        height: 95.5%;
+    }
+
+    .trophyGif {
+        width: 130px;
+    }
+}
+
+@media (max-width: 370px) {
+    .trackingTablePage {
+        padding: 5rem 0.5rem 0 0.5rem;
+    }
+
+    .achievementCard {
+        padding: 1rem;
+        margin: 0 auto;
+        min-height: 220px;
+        width: calc(100% - 1rem);
+        max-width: 95%;
+    }
+
+    .achievementCard p {
+        font-size: 16px;
+        line-height: 1.5;
+    }
+
+    .tableCard {
+        padding: 0.8rem;
+        width: calc(100% - 1rem);
+        max-width: 95%;
+        margin: 0 auto;
+    }
+
+    .tableCard h3 {
+        margin-bottom: 1rem;
+        padding-bottom: 0.8rem;
+        font-size: 1.1rem;
+    }
+
+    .weekDaysHeader {
+        font-size: 0.7rem;
+        min-width: 280px;
+    }
+
+    .dayCell {
+        padding: 0.4rem 0;
+        font-size: 0.75rem;
+        min-width: 30px;
+        height: 30px;
+    }
+
+    .icons_in_cell {
+        width: 12px;
+        height: 12px;
+    }
+}

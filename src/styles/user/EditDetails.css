@@ -1,0 +1,105 @@
+.editUserPage {
+  background: linear-gradient(90deg, #ffceb5a8, #fbe9e0a8);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  direction: rtl;
+}
+
+.editUserFormContainer {
+  background-color: #ffffff;
+  border: 2px solid #dedede;
+  border-radius: 16px;
+  padding: 30px 40px;
+  width: 90%;
+  max-width: 400px;
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  margin: 5px;
+}
+
+.editUserTitle {
+  text-align: center;
+  color: #c25e3a;
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.editUserLabel {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #555;
+}
+
+.editUserInput,
+.editUserTextarea {
+  width: 95%;
+  padding: 10px;
+  border: 1px solid #ffa283;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  background-color: #fffdfc;
+  transition: border-color 0.3s;
+}
+
+.editUserInput:focus,
+.editUserTextarea:focus {
+  outline: none;
+  border-color: #ff683a;
+}
+
+.editUserSelectContainer {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.editUserSelect__control {
+  border-radius: 8px !important;
+  border: 1px solid #ffa283 !important;
+  background-color: #fffdfc;
+}
+
+.editUserSelect__control--is-focused {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.editUserSelect__option--is-selected {
+  background-color: #fead92 !important;
+}
+
+.editUserSelect__option:hover {
+  background-color: #fcd8cb !important;
+}
+
+.editUserSubmitButton {
+  width: 100%;
+  padding: 10px;
+  background-color: #ff7f50;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.editUserSubmitButton:hover {
+  background-color: #ff5722;
+}
+
+@media (max-width: 444px) {
+
+  .editUserInput,
+  .editUserTextarea {
+    width: 92%;
+  }
+}

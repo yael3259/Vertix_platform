@@ -1,0 +1,12 @@
+.singlePost_body {
+    background: linear-gradient(90deg, #ffedf8ac, #e0fff9ae);
+    box-sizing: border-box;
+    padding: 2rem;
+    min-height: 100vh;
+}
+
+#single_post {
+    width: 100%;
+    max-width: 550px;
+    margin: 40px auto;
+}
