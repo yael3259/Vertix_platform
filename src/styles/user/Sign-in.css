@@ -99,10 +99,3 @@
 .form-link:hover {
     text-decoration: underline;
 }
-
-.error_enterence {
-    color: rgb(255, 160, 160);
-    margin-top: -8px;
-    margin-bottom: 10px;
-    text-align: right !important;
-}

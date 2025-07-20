@@ -10,6 +10,24 @@
     align-items: flex-start;
 }
 
+#noUserLogged {
+    min-height: 100vh;
+    padding-top: 7%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: start;
+}
+
+.no-user-icon{
+    height: 150px;
+}
+
+#linkToLogin{
+    color: #05b19d;
+}
+
 .profile-dashboard {
     background: white;
     max-width: 900px;

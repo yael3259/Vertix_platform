@@ -9,12 +9,14 @@ import goldMedal from "../files/icons/gold-medal.png";
 import silverMedal from "../files/icons/silver-medal.png";
 import bronzeMedal from "../files/icons/bronze-medal.png";
 import gem from "../files/icons/gem.png";
+import { useUserContext } from "../contexts/UserContext";
 
 
 
 export const LeaderBoard = () => {
     const [arrUsers, setArrUsers] = useState([]);
     const [timeLeftText, setTimeLeftText] = useState('');
+    const { user: loggedInUser } = useUserContext();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -47,7 +49,7 @@ export const LeaderBoard = () => {
 
     const updateTimeUntilNextTag = () => {
         const now = new Date();
-        const day = now.getDay(); // 0 = Sunday
+        const day = now.getDay(); // 0 = יום ראשון
         const hour = now.getHours();
 
         let daysUntilSunday = (7 - day) % 7;
@@ -76,7 +78,7 @@ export const LeaderBoard = () => {
                 {timeLeftText && <p className="timeLeftToTags">{timeLeftText}</p>}
                 <div className="leaderboard-list">
                     {arrUsers.map((user, i) => (
-                        <div key={user._id} className={`leaderboard-item rank-${i}`} onClick={() => fetchToProfile(user._id)}>
+                        <div key={user._id} className={`leaderboard-item rank-${i}`} id={user._id === loggedInUser.userId ? 'currentUserInList' : ''} onClick={() => fetchToProfile(user._id)}>
                             <div className="userSection">
                                 {user.profilePicture ? (
                                     <img

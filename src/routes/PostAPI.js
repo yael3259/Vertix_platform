@@ -7,8 +7,8 @@ let baseURL = `${process.env.REACT_APP_BASE_URL}/post` || "http://localhost:5000
 
 
 
-export const getAllPosts = (page, limit, searchText = '') => {
-    return axios.get(`${baseURL}?page=${page}&limit=${limit}&search=${encodeURIComponent(searchText)}`);
+export const getAllPosts = (page, limit) => {
+    return axios.get(`${baseURL}?page=${page}&limit=${limit}`);
 };
 
 export const getPostsById = (userId) => {

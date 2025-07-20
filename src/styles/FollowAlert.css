@@ -76,11 +76,12 @@
     text-shadow: 0 0 6px rgba(0, 255, 255, 0.3);
 }
 
-.friend_gem-icon {
+#handshakeSize {
     height: 42px;
     width: 42px;
     vertical-align: middle;
-    margin: 6px 3px -3px;
+    margin: 0 6px 6px 0;
+    padding-top: 10px;
     animation: pulseFriend 1.6s infinite ease-in-out;
 }
 

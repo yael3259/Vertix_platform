@@ -1,0 +1,110 @@
+.favorite-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(150, 60, 60, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(3px);
+    z-index: 10001;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.favorite-modal {
+    background: linear-gradient(135deg, #f8e3e3, #d88a8a);
+    border-radius: 22px;
+    padding: 32px 28px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    position: relative;
+    max-width: 350px;
+    width: 90%;
+    animation: fadeInFavorite 0.35s ease-out forwards;
+    border: 3px solid #a74343;
+    direction: rtl;
+    overflow: hidden;
+    margin: 10px;
+}
+
+@keyframes fadeInFavorite {
+    0% {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.favorite-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #801c1c;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, color 0.2s;
+}
+
+.favorite-close:hover {
+    color: #5a0f0f;
+    transform: scale(1.1) rotate(8deg);
+}
+
+.favorite-description {
+    color: #4b2626;
+    font-size: 1.2rem;
+    font-weight: 500;
+    line-height: 1.6;
+    margin: 0;
+    padding-top: 12px;
+}
+
+.favorite-description strong {
+    color: #8c1c1c;
+    font-weight: 700;
+    font-size: 1.6rem;
+    text-shadow: 0 0 6px #c55c5cb5;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.favorite-subtext {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    color: #2e2e2e;
+    gap: 8px;
+}
+
+.favoritePostIcon {
+    height: 40px;
+    width: 40px;
+    vertical-align: middle;
+}
+
+@media (max-width: 384px) {
+    .favorite-description {
+        font-size: 1.1rem;
+    }
+
+    .favorite-subtext {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .favoritePostIcon {
+        height: 36px;
+        width: 36px;
+    }
+}

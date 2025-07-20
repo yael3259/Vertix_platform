@@ -19,6 +19,7 @@ import { SinglePost } from "./pages/post/SinglePost";
 import { EditForm } from "./pages/user/EditDetails";
 import { EarningPointsAlert } from "./components/EarningPointsAlert";
 import { FollowAlert } from "./components/FollowAlert";
+import { FavoritePostAlert } from "./components/FavoritePostAlert";
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
           <Route path="/profile/boost" element={<BoostInvite />} />
           <Route path="/profile/points_alert" element={<EarningPointsAlert />} />
           <Route path="/profile/follow_alert" element={<FollowAlert />} />
+          <Route path="/profile/favorite-post_alert" element={<FavoritePostAlert />} />
           <Route path="/profile/addAchievement/:boost" element={<AddAchievement />} />
           <Route path="/notifications" element={<NotificationsList />} />
           <Route path="/profile/single_post/:postId" element={<SinglePost />} />

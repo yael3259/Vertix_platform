@@ -22,6 +22,7 @@ import { BoostInvite } from '../../components/BoostInvite';
 import goldMedal from "../../files/icons/gold-medal.png";
 import silverMedal from "../../files/icons/silver-medal.png";
 import bronzeMedal from "../../files/icons/bronze-medal.png";
+import guestMode from "../../files/icons/guestMode.png"
 import { FollowAlert } from '../../components/FollowAlert';
 
 
@@ -42,6 +43,7 @@ export const ProfilePage = () => {
     const [showFollowAlert, setShowFollowAlert] = useState(false);
     const loggedInUserId = userId === loggedInUser.userId;
     const navigate = useNavigate();
+    let token = loggedInUser.tokenUser;
 
     useEffect(() => {
         const today = new Date().getDay();
@@ -156,7 +158,7 @@ export const ProfilePage = () => {
         const userId = loggedInUser.userId;
 
         try {
-            const res = await AddFriendToNetwork(userId, idOfFriend);
+            const res = await AddFriendToNetwork(userId, idOfFriend, token);
             console.log("success", res);
             setFollowedUserName(followedUserName);
             setShowFollowAlert(true);
@@ -184,7 +186,11 @@ export const ProfilePage = () => {
     }
 
     if (!userProfile) {
-        return <div className="profilePage"><p>משתמש לא מחובר</p></div>;
+        return <div className="profilePage" id='noUserLogged'>
+            <img src={guestMode} className="no-user-icon" />
+            <strong>משתמש לא מחובר</strong>
+            <p>התחבר או הרשם <NavLink to="/login" id='linkToLogin'>כאן</NavLink> כדי לצפות בפרופיל</p>
+        </div>
     }
 
     return (

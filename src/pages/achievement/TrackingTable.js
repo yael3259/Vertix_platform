@@ -27,7 +27,8 @@ export const TrackingTable = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const resAchievement = await getAchievementByUser(token, itemId);
+                // const resAchievement = await getAchievementByUser(token, itemId);
+                const resAchievement = await getAchievementByUser(itemId, user.userId);
                 setItem(resAchievement.data.achievement);
                 setType("achievement");
                 if (resAchievement.data.achievement.statusTable === "completed") {
@@ -37,7 +38,8 @@ export const TrackingTable = () => {
                 console.warn("Not an achievement. Trying boost");
 
                 try {
-                    const resBoost = await getBoostByUser(token, itemId);
+                    // const resBoost = await getBoostByUser(token, itemId);
+                    const resBoost = await getBoostByUser(token, user.userId);
                     setItem(resBoost.data.boost);
                     setType("boost");
 
@@ -130,7 +132,7 @@ export const TrackingTable = () => {
                     <p className="achievementText">
                         <Typewriter
                             words={[
-                                type === "boost" ? "⚡ בוסט ⚡\n כיף שהצטרפת! זה הזמן לבדוק כמה רחוק את/ה באמת מסוגל/ת להגיע." : "",
+                                type === "boost" ? "⚡ בוסט ⚡\n כיף שהצטרפת! זה הזמן לבדוק כמה רחוק את/ה באמת מסוגל/ת להגיע." : "הישג הוא ההוכחה שכשאת/ה מאמין/ה באמת, גם הדברים הכי גדולים מתחילים בצעד קטן",
                                 `🎯 המטרה שלי: \n ${item.description}`,
                                 `📅 נותרו ${getDaysLeft(item.trackingTable)} ימים לסיום`,
                                 `🍁 קטגוריה: \n ${item.category}`,

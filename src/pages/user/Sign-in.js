@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { faildAlert, successAlert } from "../../components/Alerts";
 import { addUser } from '../../routes/UserAPI';
 import "../../styles/user/Log-in.css";
 import { FaUser, FaLock, FaEnvelope, FaLink, FaStar } from 'react-icons/fa';
@@ -46,11 +44,10 @@ export const RegistrationPage = () => {
 
         try {
             let res = await addUser({ email, password, userName, nickname, gender, profilePicture });
-            console.log(res);
-            console.log("נרשמת בהצלחה!");
+            console.log("user sign in successfully", res);
             navigate("/login");
         } catch (err) {
-            faildAlert(err.response?.data?.message || "שגיאה");
+            console.error("faild to sign in user", err);
         } finally {
             setLoading(false);
         }
@@ -166,7 +163,6 @@ export const RegistrationPage = () => {
                     <NavLink to="/login" className="form-link">כבר רשום? התחבר</NavLink>
                 </div>
             </form>
-            <ToastContainer position="bottom-center" />
         </div>
     );
 };

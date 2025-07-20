@@ -17,12 +17,19 @@ export const ResetPassword = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setMessage("");
+        setError("");
+
+        if (!email || !password || !email && !password) {
+            setError("אימייל וסיסמה הם שדות חובה");
+            return;
+        }
+
         setLoading(true);
 
         try {
             const res = await resetPasswordUser({ email, password });
             setMessage("הסיסמה שונתה בהצלחה");
-            setError("");
         } catch (err) {
             setError("שגיאה באיפוס הסיסמה");
             setMessage("");
@@ -45,7 +52,6 @@ export const ResetPassword = () => {
                         className="input-field_login"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        required
                     />
                 </div>
 
@@ -58,16 +64,15 @@ export const ResetPassword = () => {
                         className="input-field_login"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required
                     />
                 </div>
+
+                {message && <p className="success_enterence">{message}</p>}
+                {error && <p className="error_enterence">{error}</p>}
 
                 <button type="submit" className="login-btn" disabled={loading}>
                     {loading ? <span className="user_spinner"></span> : "איפוס"}
                 </button>
-
-                {message && <p className="success-reset">{message}</p>}
-                {error && <p className="faild-reset">{error}</p>}
 
                 <NavLink to="/login" className="form-link">
                     <i className="fas fa-arrow-left" style={{ marginRight: '8px' }}></i>

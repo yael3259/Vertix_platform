@@ -21,6 +21,7 @@ export const AddPostForm = () => {
     const navigate = useNavigate();
     const { user } = useUserContext();
     const { descriptionForPost } = useParams();
+    let token = user.tokenUser;
 
     useEffect(() => {
         if (descriptionForPost) {
@@ -42,26 +43,16 @@ export const AddPostForm = () => {
         }
         const formData = new FormData();
 
-        // formData.append("category", data.category.value);
-        // formData.append("content", content);
-        // formData.append("imagePost", data.imagePost);
-        // formData.append("backgroundColor", data.backgroundColor);
-
-        // if (data.mediaFile && data.mediaFile[0]) {
-        //     formData.append("mediaFile", data.mediaFile[0]);
-        // }
         formData.append("category", data.category.value);
         formData.append("content", content);
         formData.append("imagePost", data.imagePost);
         formData.append("backgroundColor", data.backgroundColor);
 
-        formData.append("postingDate", new Date().toISOString()); // הוספה חשובה!
+        formData.append("postingDate", new Date().toISOString());
 
         if (data.mediaFile && data.mediaFile[0]) {
             formData.append("mediaFile", data.mediaFile[0]);
         }
-
-        let token = user.tokenUser;
 
         try {
             const res = await addPost(formData, token);

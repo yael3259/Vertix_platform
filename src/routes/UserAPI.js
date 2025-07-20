@@ -42,8 +42,8 @@ export const getRandomUsers = () => {
     return axios.get(`${baseURL}/random`);
 }
 
-export const AddFriendToNetwork = (userId, idOfFriend) => {
-    return axios.post(`${baseURL}/network/${userId}`, { friendId: idOfFriend });
+export const AddFriendToNetwork = (userId, idOfFriend, token) => {
+    return axios.post(`${baseURL}/network/${userId}`, { friendId: idOfFriend }, { headers: { "x-access-token": token } });
 }
 
 export const removeFriendFromNetwork = (userId, idOfFriend) => {

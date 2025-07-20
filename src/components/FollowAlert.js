@@ -1,4 +1,3 @@
-import React from 'react';
 import "../styles/FollowAlert.css";
 import handshake from "../files/icons/handshake.png"
 
@@ -28,7 +27,7 @@ export const FollowAlert = ({ onClose, followedUserName }) => {
                 <button className="follow-close" onClick={onClose}>×</button>
                 <p className="follow-description">
                     <strong>את/ה עוקב/ת עכשיו אחרי {followedUserName}!</strong><br />
-                    {getRandomMessage()} <img src={handshake} className="gemIconInProfile" id='gemSize' /><br />
+                    {getRandomMessage()} <img src={handshake} className="handshakeIcon" id='handshakeSize' /><br />
                 </p>
             </div>
         </div>

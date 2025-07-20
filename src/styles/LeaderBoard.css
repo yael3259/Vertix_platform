@@ -67,6 +67,10 @@
   transform: translateY(-2px);
 }
 
+#currentUserInList {
+  border: 3px solid #038c83;
+}
+
 .leaderboard-item.rank-1 {
   background: linear-gradient(to right, #edeff0, #d2d8de);
   border-color: #d2d8de;

@@ -10,6 +10,7 @@ import achieved from "../../files/icons/achieved.gif";
 import network from "../../files/icons/network.gif";
 import boost_complete from "../../files/icons/boost_complete.gif";
 import { getOneUser } from '../../routes/UserAPI';
+import guestMode from "../../files/icons/guestMode.png"
 
 
 
@@ -17,6 +18,7 @@ export const NotificationsList = () => {
     const { user, setNotificationsCount } = useUserContext();
     const [notifications, setNotifications] = useState([]);
     const navigate = useNavigate();
+    let token = user.tokenUser;
 
     useEffect(() => {
         markNotifications();
@@ -40,7 +42,7 @@ export const NotificationsList = () => {
 
     const getNotifications = async () => {
         try {
-            const res = await getNotificationsByUser(user.userId);
+            const res = await getNotificationsByUser(user.userId, token);
             setNotifications(res.data.notifications || []);
             const count = res.data.count;
             console.log(res.data);
@@ -64,7 +66,13 @@ export const NotificationsList = () => {
         }
     }
 
-    console.log("boostId:", notifications);
+    if (user.userId === "guest") {
+        return <div className="notifBody" id='noUserLogged'>
+            <img src={guestMode} className="no-user-icon" />
+            <strong>משתמש לא מחובר</strong>
+            <p>התחבר או הרשם <NavLink to="/login" id='linkToLogin'>כאן</NavLink> כדי לצפות בהתראות שלך</p>
+        </div>
+    }
 
     return (
         <div className='notifBody'>
@@ -75,10 +83,7 @@ export const NotificationsList = () => {
                 </p>
                 {notifications.length === 0 ? (
                     <div className="no-notifications">
-                        <img
-                            src={no_alerts}
-                            className="no-notifications-img"
-                        />
+                        <img src={no_alerts} className="no-notifications-img" />
                         <h2 className="no-notifications-title">אין התראות</h2>
                         <p className="no-notifications-text">ברגע שתתקבל תגובה, מעקב או עדכון בטבלאות, תופיע כאן התראה</p>
                     </div>
@@ -124,7 +129,7 @@ export const NotificationsList = () => {
 
                                         {notification.type === 'boost' && (
                                             <NavLink to={`/profile/table/${notification.boostId._id}`} className="notificationOfBoost" title="מעבר לטבלה">
-                                                <span className="notification-title">🔥 עשית את זה</span>
+                                                <span className="notification-title">עשית את זה!🔥</span>
                                                 <span className='completedSuccssesTitle'>
                                                     השלמת בהצלחה את הבוסט&nbsp;
                                                     <b id="boldAchievementName"># {notification.boostTitle}</b>

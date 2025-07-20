@@ -1,9 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { login, log_outUser } from '../../routes/UserAPI';
+import { login } from '../../routes/UserAPI';
 import { useState } from 'react';
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { faildAlert, successAlert } from "../../components/Alerts";
 import "../../styles/user/Log-in.css";
 import { useUserContext } from '../../contexts/UserContext';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
@@ -67,9 +65,11 @@ export const LoginForm = () => {
       });
 
       navigate("/Feed");
-    } catch (err) {
-      faildAlert(err.response?.data?.message || "שגיאה")
-    } finally {
+    }
+    catch (err) {
+      console.error("faild to log in user", err);
+    }
+    finally {
       setLoading(false);
     }
   };
@@ -89,13 +89,7 @@ export const LoginForm = () => {
     localStorage.removeItem("notificationsUser");
     localStorage.removeItem("lengthNotificationsUser");
     localStorage.removeItem("pointsUser");
-    // setUser({
-    //   userId: null,
-    //   userName: "אורח",
-    //   nickname: "",
-    //   tokenUser: null,
-    //   userRole: "guest"
-    // })
+
     setUser({
       userId: "guest",
       userName: "אורח",
@@ -127,7 +121,7 @@ export const LoginForm = () => {
             value={email}
             placeholder="אימייל"
             onChange={(e) => setEmail(e.target.value)}
-            required
+
             className="input-field_login"
           />
         </div>
@@ -139,7 +133,7 @@ export const LoginForm = () => {
             value={password}
             placeholder="סיסמה"
             onChange={(e) => setPassword(e.target.value)}
-            required
+
             className="input-field_login"
           />
         </div>
@@ -154,7 +148,6 @@ export const LoginForm = () => {
           <NavLink to="/signin" className="form-link">צור חשבון</NavLink>
         </div>
       </form>
-      <ToastContainer position="bottom-center" />
     </div>
   );
 };
