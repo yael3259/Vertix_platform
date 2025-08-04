@@ -1,11 +1,12 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { login } from '../../routes/UserAPI';
 import { useState } from 'react';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
+import { login } from '../../routes/UserAPI';
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/user/Log-in.css";
 import { useUserContext } from '../../contexts/UserContext';
-import { FaEnvelope, FaLock } from 'react-icons/fa';
 import log_out from "../../files/icons/log_out.png"
+
 
 
 export const LoginForm = () => {
@@ -151,5 +152,3 @@ export const LoginForm = () => {
     </div>
   );
 };
-
-export default LoginForm;

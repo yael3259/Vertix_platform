@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import "../../styles/achievement/TrackingTable.css";
 import { useUserContext } from "../../contexts/UserContext";
 import { getAchievementByUser, getBoostByUser, updateTrackingTableAchievement, updateTrackingTableBoost } from "../../routes/AchievementAPI";
-import { useParams } from "react-router-dom";
+import { useParams, NavLink } from "react-router-dom";
 import { Typewriter } from "react-simple-typewriter";
 import fire from "../../files/icons/fire.png";
 import ice_cube from "../../files/icons/ice_cube.png";
 import tableCompleted from "../../files/icons/tableCompleted.gif";
 import failedBoost from "../../files/icons/failedBoost.gif";
+import errorInDisplay from "../../files/icons/errorInDisplay.png";
 import { EarningPointsAlert } from "../../components/EarningPointsAlert";
 
 
@@ -27,8 +28,7 @@ export const TrackingTable = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // const resAchievement = await getAchievementByUser(token, itemId);
-                const resAchievement = await getAchievementByUser(itemId, user.userId);
+                const resAchievement = await getAchievementByUser(token, itemId);
                 setItem(resAchievement.data.achievement);
                 setType("achievement");
                 if (resAchievement.data.achievement.statusTable === "completed") {
@@ -38,8 +38,7 @@ export const TrackingTable = () => {
                 console.warn("Not an achievement. Trying boost");
 
                 try {
-                    // const resBoost = await getBoostByUser(token, itemId);
-                    const resBoost = await getBoostByUser(token, user.userId);
+                    const resBoost = await getBoostByUser(token, itemId);
                     setItem(resBoost.data.boost);
                     setType("boost");
 
@@ -117,14 +116,20 @@ export const TrackingTable = () => {
         setShowPointsAlert(false);
     };
 
-    if (!user) return <p>משתמש לא מחובר</p>;
-    if (!item || !type) return <p>טוען...</p>;
-
+    if (!item || !type) {
+        return <div className="trackingTablePage" id='noUserLogged'>
+            <img src={errorInDisplay} className="no-display-icon" />
+            <strong>שגיאה</strong>
+            <p>נסה/י להתחבר שוב <NavLink to="/login" id='linkToLogin'>כאן</NavLink> כדי לסמן ולצפות בהישגים</p>
+        </div>
+    }
+    
     return (
         <div className="trackingTablePage">
             {showPointsAlert && <div className="overlay-background" onClick={() => {
                 setShowPointsAlert(false);
             }}></div>}
+
             {showPointsAlert && <EarningPointsAlert onClose={handleClosePointsAlert} type={type} />}
 
             <div className="achievement-table">

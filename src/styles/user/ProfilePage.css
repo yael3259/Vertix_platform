@@ -11,6 +11,7 @@
 }
 
 #noUserLogged {
+    background-color: #ffffff;
     min-height: 100vh;
     padding-top: 7%;
     display: flex;
@@ -20,11 +21,12 @@
     justify-content: start;
 }
 
-.no-user-icon{
+.no-user-icon,
+.no-display-icon {
     height: 150px;
 }
 
-#linkToLogin{
+#linkToLogin {
     color: #05b19d;
 }
 
@@ -97,7 +99,7 @@
     margin-left: 8px;
 }
 
-.nickname {
+.nickname, .role_inProfile {
     font-size: 17.5px !important;
     margin-bottom: 0px;
     color: white;
@@ -351,7 +353,7 @@
 }
 
 .skills_btn {
-    padding: 11.4px;
+    padding: 11.5px;
     font-size: 16px;
     background-color: #26a69a;
     color: white;

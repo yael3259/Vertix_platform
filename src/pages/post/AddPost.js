@@ -1,5 +1,5 @@
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Select from "react-select";
 import { ToastContainer } from "react-toastify";
@@ -10,6 +10,7 @@ import { addPost } from "../../routes/PostAPI";
 import { useUserContext } from "../../contexts/UserContext";
 import EmojiPicker from 'emoji-picker-react';
 import { faildAlert } from "../../components/Alerts";
+import achievedBGForPost from "../../files/achievedBGForPost.JPG";
 
 
 
@@ -20,6 +21,8 @@ export const AddPostForm = () => {
     const [content, setContent] = useState("");
     const navigate = useNavigate();
     const { user } = useUserContext();
+    const location = useLocation();
+    const fromNotifPage = location.state?.fromNotifPage;
     const { descriptionForPost } = useParams();
     let token = user.tokenUser;
 
@@ -32,7 +35,7 @@ export const AddPostForm = () => {
 
     useEffect(() => {
         setValue("backgroundColor", opacityBackground(color, 0.2));
-    }, []);
+    }, [color]);
 
     const onSubmit = async (data) => {
         console.log(data);
@@ -45,10 +48,13 @@ export const AddPostForm = () => {
 
         formData.append("category", data.category.value);
         formData.append("content", content);
-        formData.append("imagePost", data.imagePost);
         formData.append("backgroundColor", data.backgroundColor);
-
         formData.append("postingDate", new Date().toISOString());
+        if (fromNotifPage) {
+            formData.append("imagePost", achievedBGForPost);
+        } else {
+            formData.append("imagePost", data.imagePost);
+        }
 
         if (data.mediaFile && data.mediaFile[0]) {
             formData.append("mediaFile", data.mediaFile[0]);
@@ -131,7 +137,7 @@ export const AddPostForm = () => {
                             minLength: { value: 15, message: "לפחות 15 תווים" },
                             maxLength: { value: 1000, message: "מקסימום 1000 תווים" },
                         })}
-                        placeholder="מה תרצה לשתף?"
+                        placeholder="מה תרצה/י לשתף?"
                         value={content}
                         onChange={(e) => setContent(e.target.value)}
                     ></textarea>
@@ -152,23 +158,30 @@ export const AddPostForm = () => {
                 {errors.content && <span className="error">{errors.content.message}</span>}
 
                 <div className="filesPart">
-                    <p style={{ fontWeight: 'Bold' }}>הוספת וידאו / תמונה</p>
-                    <p className="choose_file_label">בחר באפשרות אחת והעלה קובץ תקין עם סיומת jpeg /.png /.mp4.</p>
-                    <div className="apload_files">
-                        <div className="aploadfile">
-                            <label><Link2 size={18} />
-                                קישור לוידאו / תמונה
-                            </label>
-                            <input type="text" {...register("imagePost")} placeholder="כתובת URL" />
+                    {fromNotifPage ? (
+                        <div className="preview-achievement-img">
+                            <p style={{ fontWeight: 'bold', textAlign: "right" }}>תמונת רקע (נוספת אוטומטית)</p>
+                            <img src={achievedBGForPost} alt="achievement preview" className="achievementCompletedBG" />
                         </div>
+                    ) : (<>
+                        <p style={{ fontWeight: 'Bold' }}>הוספת וידאו / תמונה</p>
+                        <p className="choose_file_label">בחר/י באפשרות אחת והעלה/י קובץ תקין עם סיומת jpeg /.png /.mp4.</p>
+                        <div className="apload_files">
+                            <div className="aploadfile">
+                                <label><Link2 size={18} />
+                                    קישור לוידאו / תמונה
+                                </label>
+                                <input type="text" {...register("imagePost")} placeholder="כתובת URL" />
+                            </div>
 
-                        <div className="aploadfile">
-                            <label><Upload size={15} />
-                                העלאת תמונה מהמחשב
-                            </label>
-                            <input type="file" accept="image/*,video/*" {...register("mediaFile")} />
+                            <div className="aploadfile">
+                                <label><Upload size={15} />
+                                    העלאת תמונה מהמחשב
+                                </label>
+                                <input type="file" accept="image/*,video/*" {...register("mediaFile")} />
+                            </div>
                         </div>
-                    </div>
+                    </>)}
                 </div>
 
                 <label>צבע רקע הפוסט</label>

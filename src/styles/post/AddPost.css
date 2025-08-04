@@ -127,6 +127,18 @@
     width: 100%;
 }
 
+.preview-achievement-img {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.achievementCompletedBG {
+  max-width: 100%;
+  max-height: 350px;
+  border-radius: 10px;
+  margin-top: 5px;
+}
+
 .bg_color_change {
     width: 40px !important;
     height: 40px;

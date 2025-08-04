@@ -18,6 +18,7 @@ export const NotificationsList = () => {
     const { user, setNotificationsCount } = useUserContext();
     const [notifications, setNotifications] = useState([]);
     const navigate = useNavigate();
+    const achievementCompletedBG = "achievementCompletedBG";
     let token = user.tokenUser;
 
     useEffect(() => {
@@ -105,46 +106,61 @@ export const NotificationsList = () => {
                             {notification.type === 'table' && <img className="profile-pic" id='achievedNotif' src={achieved} />}
                             {notification.type === 'boost' && <img className="profile-pic" id='achievedNotif' src={boost_complete} />}
 
-                            <div className="content">
+                            <div className={`content ${['table', 'boost', 'follow'].includes(notification.type) ? 'content_table-boost-follow' : ''}`}>
                                 <div className="top-row">
                                     <div className="user">
-                                        {notification.type === 'follow' && (
-                                            <NavLink
-                                                to={`/profile/${notification.fromUserId?._id}`}
-                                                className="followNotif"
-                                                title={`מעבר לפרופיל של ${notification.fromUserId?.userName}`} >
-                                                <p className='spanUserName'>{notification.fromUserId?.userName || "user"} התחיל/ה לעקוב אחריך</p>
-                                            </NavLink>
-                                        )}
+                                        <div className='pic-description'>
+                                            {notification.type === 'follow' && (
+                                                <NavLink
+                                                    to={`/profile/${notification.fromUserId?._id}`}
+                                                    className="followNotif"
+                                                    title={`מעבר לפרופיל של ${notification.fromUserId?.userName}`} >
+                                                    <p className='spanUserName'>{notification.fromUserId?.userName || "user"} התחיל/ה לעקוב אחריך</p>
+                                                </NavLink>
+                                            )}
 
-                                        {notification.type === 'table' && (
-                                            <NavLink to={`/profile/table/${notification.achievementId._id}`} className="notificationOfAchievement" title="מעבר לטבלה">
-                                                <span className="notification-title">כל הכבוד! 🎉</span>
-                                                <span className='completedSuccssesTitle'>
-                                                    השלמת בהצלחה את ההישג&nbsp;
-                                                    <b id="boldAchievementName"># {notification.achievementTitle}</b>
-                                                </span>
-                                            </NavLink>
-                                        )}
+                                            {notification.type === 'table' && (
+                                                <div className='linksWrapper'>
+                                                    <NavLink to={`/profile/table/${notification.achievementId._id}`} className="notificationOfAchievement" title="מעבר לטבלה">
+                                                        <span className="notification-title">כל הכבוד! 🎉</span>
+                                                        <span className='completedSuccssesTitle'>
+                                                            השלמת בהצלחה את ההישג&nbsp;
+                                                            <b id="boldAchievementName"># {notification.achievementTitle} </b>
+                                                            והרווחת {notification.addedPoints} נקודות!
+                                                        </span>
+                                                    </NavLink>
+                                                </div>
+                                            )}
 
-                                        {notification.type === 'boost' && (
-                                            <NavLink to={`/profile/table/${notification.boostId._id}`} className="notificationOfBoost" title="מעבר לטבלה">
-                                                <span className="notification-title">עשית את זה!🔥</span>
-                                                <span className='completedSuccssesTitle'>
-                                                    השלמת בהצלחה את הבוסט&nbsp;
-                                                    <b id="boldAchievementName"># {notification.boostTitle}</b>
-                                                </span>
-                                            </NavLink>
-                                        )}
+                                            {notification.type === 'boost' && (
+                                                <div className='linksWrapper'>
+                                                    <NavLink to={`/profile/table/${notification.boostId._id}`} className="notificationOfBoost" title="מעבר לטבלה">
+                                                        <span className="notification-title">עשית את זה!🔥</span>
+                                                        <span className='completedSuccssesTitle'>
+                                                            השלמת בהצלחה את הבוסט&nbsp;
+                                                            <b id="boldAchievementName"># {notification.boostTitle} </b>
+                                                            והרווחת {notification.addedPoints} נקודות!
+                                                        </span>
+                                                    </NavLink>
+                                                </div>
+                                            )}
 
-                                        {notification.type === 'comment' && (
-                                            <>
-                                                <span>{notification.fromUserId?.userName || "user"}</span>
-                                                <span className='spanUserName'> הגיב/ה לך על פוסט</span>
-                                            </>
-                                        )}
+
+                                            {notification.type === 'comment' && (
+                                                <>
+                                                    <span>{notification.fromUserId?.userName || "user"}</span>
+                                                    <span className='spanUserName'> הגיב/ה לך על פוסט</span>
+                                                </>
+                                            )}
+                                        </div>
+
+                                        <div className='date-link'>
+                                            <div className="dateNotification">{timeAgo(notification.creatingDate)}</div>
+                                            {(notification.type === 'boost' || notification.type === 'table') &&
+                                                <button className='addPostOfCompleted' onClick={() => navigate("/addPost", { state: { fromNotifPage: true } })}>יצירת פוסט</button>
+                                            }
+                                        </div>
                                     </div>
-                                    <div className="dateNotification">{timeAgo(notification.creatingDate)}</div>
                                 </div>
 
                                 <div className="textNotification">

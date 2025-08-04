@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from "react-router-dom";
 import { getPostById, addComment, addToFavoritePosts, toggleLikePost } from '../../routes/PostAPI';
 import { getOneUser } from '../../routes/UserAPI';
 import { useUserContext } from '../../contexts/UserContext';
+import { FavoritePostAlert } from '../../components/FavoritePostAlert';
 import commentIcon from "../../files/icons/commentIcon.png";
 import starIcon from "../../files/icons/starIcon.png";
 import categoryIcon from "../../files/icons/categoryIcon.png";
@@ -17,10 +18,11 @@ import "../../styles/post/SinglePost.css";
 export const SinglePost = () => {
     const { postId } = useParams();
     const navigate = useNavigate();
-    const { user } = useUserContext();
+    const { user: loggedInUser } = useUserContext();
     const [post, setPost] = useState(null);
     const [comment, setComment] = useState('');
     const [likedPosts, setLikedPosts] = useState({});
+    const [showFavoritePostAlert, setShowFavoritePostAlert] = useState(false);
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -64,7 +66,7 @@ export const SinglePost = () => {
     const addCommentToPost = async () => {
         if (!comment.trim()) return;
         try {
-            const res = await addComment(post._id, comment, user.userId);
+            const res = await addComment(post._id, comment, loggedInUser.userId);
             const newComment = res.data;
             setPost(prev => ({
                 ...prev,
@@ -80,14 +82,19 @@ export const SinglePost = () => {
         try {
             let res = await addToFavoritePosts(postId, userId);
             console.log("success", res.data);
+            setShowFavoritePostAlert(true);
         }
         catch (err) {
             console.log("faild to add post to favorites", err);
         }
     }
 
+    const handleCloseFavoritePostAlert = () => {
+        setShowFavoritePostAlert(false);
+    };
+
     const toggleLike = async (postId) => {
-        let userId = user.userId;
+        let userId = loggedInUser.userId;
 
         try {
             const res = await toggleLikePost(userId, postId);
@@ -105,6 +112,13 @@ export const SinglePost = () => {
 
     return (
         <div className='singlePost_body'>
+            {showFavoritePostAlert && (
+                <div className="favorite-alert-wrapper" onClick={handleCloseFavoritePostAlert}>
+                    <div className="overlay-background"></div>
+                    <FavoritePostAlert onClose={handleCloseFavoritePostAlert} />
+                </div>
+            )}
+
             <div className="grid-item" id='single_post' key={post._id}>
                 <div className="top_post">
                     <div className="userName_txt" id="categoryPart">
@@ -144,7 +158,7 @@ export const SinglePost = () => {
                     </p>
                     <p className="favorite">
                         <span>מועדף</span>
-                        <img src={starIcon} className="star-icon" onClick={() => addPostToFavoritePosts(post._id, user.userId)} />
+                        <img src={starIcon} className="star-icon" onClick={() => addPostToFavoritePosts(post._id, loggedInUser.userId)} />
                     </p>
                     <p className="likes">
                         <span>{post.likes?.length || 0} לייקים</span>
@@ -169,20 +183,15 @@ export const SinglePost = () => {
                                 className="comment-input"
                                 onChange={(e) => setComment(e.target.value)}
                             />
-                            {/* <img
-                                src={user.profilePictureUser}
-                                className=""
-                                onClick={() => fetchToProfile(user.userId)}
-                            /> */}
-                            <div onClick={() => fetchToProfile(user.userId)}>
-                                    {user.profilePictureUser ? (
-                                        <img src={user.profilePictureUser} className="userUrlInCommentInput" />
-                                    ) : (
-                                        <div className="avatar-fallback" id="avatar-fallback_inSinglePost">
-                                            {(user.userName || 'אורח').charAt(0).toUpperCase()}
-                                        </div>
-                                    )}
-                                </div>
+                            <div onClick={() => fetchToProfile(loggedInUser.userId)}>
+                                {loggedInUser.profilePictureUser ? (
+                                    <img src={loggedInUser.profilePictureUser} className="userUrlInCommentInput" />
+                                ) : (
+                                    <div className="avatar-fallback" id="avatar-fallback_inSinglePost">
+                                        {(loggedInUser.userName || 'אורח').charAt(0).toUpperCase()}
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
                         {post.comments.map((comment) => (
@@ -193,11 +202,15 @@ export const SinglePost = () => {
                                         <span className="comment-date">לפני {timeAgo(comment.commentDate)}</span>
                                         <div className="userDeatails_comment">
                                             <span className="comment-author">{comment.userId?.userName}</span>
-                                            <img
-                                                src={comment.userId?.profilePicture}
-                                                className="userUrlInComment"
-                                                onClick={() => fetchToProfile(comment.userId._id)}
-                                            />
+                                            <div onClick={() => fetchToProfile(comment.userId?._id)}>
+                                                {comment.userId?.profilePicture ? (
+                                                    <img src={comment.userId.profilePicture} className="userUrlInComment" />
+                                                ) : (
+                                                    <div className="avatar-fallback" id="avatar-fallback_inAddComment">
+                                                        {(comment.userId?.userName || '').charAt(0).toUpperCase()}
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -14,10 +14,7 @@
     border: 5px solid #e39611aa;
     width: 99.5%;
     height: 98%;
-    background: radial-gradient(circle,
-            rgb(255, 255, 255) 0%,
-            rgb(255, 255, 255) 50%,
-            rgb(255, 255, 255) 100%);
+    background: radial-gradient(circle, rgb(255, 255, 255) 0%, rgb(255, 255, 255) 50%, rgb(255, 255, 255) 100%);
     animation: goldFlash 2.5s ease-in-out forwards;
     border-radius: 12px;
     z-index: 999;
@@ -49,17 +46,16 @@
 }
 
 @keyframes fadeInTrophy {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(0.6);
-  }
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.6);
+    }
 
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
-
 
 @keyframes goldFlash {
     0% {
@@ -129,23 +125,44 @@
 }
 
 @keyframes fadeInFailed {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 @keyframes fadeInStamp {
-    from { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
-    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.6);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
 }
 
 @keyframes fadeInText {
-    from { opacity: 0; transform: translate(-50%, -50px); }
-    to { opacity: 1; transform: translate(-50%, 0); }
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
 }
 
 .disabledCell {
     cursor: not-allowed !important;
-    opacity: 0.6; 
+    opacity: 0.6;
     background-color: #e0e0e0 !important;
 }
 
@@ -193,9 +210,9 @@
     width: 99.5%;
     height: 98%;
     background: radial-gradient(circle,
-                rgb(255, 255, 255) 0%,
-                rgb(255, 255, 255) 50%,
-                rgb(255, 255, 255) 100%);
+            rgb(255, 255, 255) 0%,
+            rgb(255, 255, 255) 50%,
+            rgb(255, 255, 255) 100%);
     animation: goldFlash 2.5s ease-in-out forwards;
     border-radius: 12px;
     z-index: 999;

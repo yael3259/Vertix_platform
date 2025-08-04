@@ -17,6 +17,7 @@ import statusFailed from "../../files/icons/failed.png";
 import statusInProgress from "../../files/icons/inprogress.png";
 import no_achievements from "../../files/icons/no_achievements.png";
 import gem from "../../files/icons/gem.png";
+import avatar_profile from "../../files/icons/avatar-profile.png"
 import { FaIdBadge, FaTag, FaRegFileAlt, FaStar } from "react-icons/fa";
 import { BoostInvite } from '../../components/BoostInvite';
 import goldMedal from "../../files/icons/gold-medal.png";
@@ -24,6 +25,7 @@ import silverMedal from "../../files/icons/silver-medal.png";
 import bronzeMedal from "../../files/icons/bronze-medal.png";
 import guestMode from "../../files/icons/guestMode.png"
 import { FollowAlert } from '../../components/FollowAlert';
+
 
 
 export const ProfilePage = () => {
@@ -45,7 +47,9 @@ export const ProfilePage = () => {
     const navigate = useNavigate();
     let token = loggedInUser.tokenUser;
 
+
     useEffect(() => {
+        // הצגת הזמנה להצטרפות לבוסט בכל יום ראשון
         const today = new Date().getDay();
         if (today === 0) {
             setShowBoostAlert(true);
@@ -117,10 +121,15 @@ export const ProfilePage = () => {
         setShowBoostAlert(false);
     };
 
+    // const allAchievements = [
+    //     ...arrAchievements.map((a) => ({ ...a, type: "achievement" })),
+    //     ...arrBoosts.map((b) => ({ ...b, type: "boost" }))
+    // ];
     const allAchievements = [
         ...arrAchievements.map((a) => ({ ...a, type: "achievement" })),
         ...arrBoosts.map((b) => ({ ...b, type: "boost" }))
-    ];
+    ].sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
+
 
     const scrollPosts = (containerId, direction) => {
         const container = document.getElementById(containerId);
@@ -207,14 +216,14 @@ export const ProfilePage = () => {
             <div className="profile-dashboard">
                 <div className="profile-header">
                     {userProfile.profilePicture ? (
-                        <img src={userProfile.profilePicture} className="profile-picture" />) :
+                        <img src={userProfile.profilePicture || avatar_profile} className="profile-picture" />) :
                         (<div className="avatar-fallback_InProfile">
                             {(userProfile.userName || 'אורח').charAt(0).toUpperCase()}
                         </div>)}
                     <div className="profile-info">
                         <h1>{userProfile.userName}</h1>
                         <div className="nickname">{userProfile.nickname}</div>
-                        <div className="nickname">{userProfile.role === 'USER' ? 'משתמש.ת רגיל.ה' : userProfile.role === 'ADMIN' ? 'מנהל.ת' : null}</div>
+                        <div className="role_inProfile">{userProfile.role === 'USER' ? 'משתמש.ת רגיל.ה' : userProfile.role === 'ADMIN' ? 'מנהל.ת' : null}</div>
                     </div>
                     <div className="profile-buttons">
                         <NavLink to={`/profile/network/${userId}`}><button className="routes_button">{loggedInUserId ? "הרשת שלי" : "חברים"}</button></NavLink>
@@ -486,7 +495,7 @@ export const ProfilePage = () => {
 
                                 <div className="leftSideAchievement">
                                     {allAchievements.length > 0 ? (
-                                        allAchievements.slice().reverse().map((item, i) => (
+                                        allAchievements.map((item, i) => (
                                             <NavLink
                                                 to={`/profile/table/${item._id}`}
                                                 key={i}
@@ -514,4 +523,4 @@ export const ProfilePage = () => {
             </div>
         </div>
     );
-};  
+};

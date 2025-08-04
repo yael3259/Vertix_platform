@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Feed } from "./pages/Feed";
 import "./App.css"
 import { NavBar } from "./components/NavBar";
-import LoginForm from './pages/user/Log-in';
+import { LoginForm } from "./pages/user/Log-in";
 import { UserProvider } from "./contexts/UserContext";
 import { AddPostForm } from "./pages/post/AddPost";
 import { RegistrationPage } from "./pages/user/Sign-in";
@@ -34,10 +34,10 @@ function App() {
           <Route path="/addPost/:descriptionForPost" element={<AddPostForm />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signin" element={<RegistrationPage />} />
-          <Route path="/profile/:userId" element={<ProfilePage />} />
           <Route path="/reset_pass" element={<ResetPassword />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/board" element={<LeaderBoard />} />
+          <Route path="/profile/:userId" element={<ProfilePage />} />
           <Route path="/profile/network/:userId" element={<NetworkList />} />
           <Route path="/profile/table/:itemId" element={<TrackingTable />} />
           <Route path="/profile/addAchievement" element={<AddAchievement />} />
