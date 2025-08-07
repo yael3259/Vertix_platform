@@ -21,7 +21,6 @@ export const NavBar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef();
     const location = useLocation();
-
     const isFeedPage = location.pathname.startsWith("/feed");
     const isProfilePage = location.pathname.startsWith("/profile");
     const isNotificationsPage = location.pathname.startsWith("/notifications");

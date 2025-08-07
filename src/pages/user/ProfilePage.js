@@ -25,6 +25,7 @@ import silverMedal from "../../files/icons/silver-medal.png";
 import bronzeMedal from "../../files/icons/bronze-medal.png";
 import guestMode from "../../files/icons/guestMode.png"
 import { FollowAlert } from '../../components/FollowAlert';
+import { DynamicErrorAlert } from '../../components/DynamicErrorAlert';
 
 
 
@@ -37,6 +38,7 @@ export const ProfilePage = () => {
     const [arrPosts, setArrPosts] = useState([]);
     const [arrFavorites, setArrFavorites] = useState([]);
     const [followingQTY, setFollowingQTY] = useState(0);
+    const [errorAlert, setErrorAlert] = useState(null);
     const { userId } = useParams();
     const [userProfile, setUserProfile] = useState(null);
     const { user: loggedInUser, notificationsCount } = useUserContext();
@@ -65,7 +67,6 @@ export const ProfilePage = () => {
                 setUserProfile(res.data);
                 setArrSkills(res.data.skills || []);
                 setArrTags(res.data.tags || []);
-                console.log("User loaded:", res.data);
             } catch (err) {
                 console.error("Error loading user", err);
                 return;
@@ -74,9 +75,8 @@ export const ProfilePage = () => {
             try {
                 const followingRes = await getFollowing(userId);
                 setFollowingQTY(followingRes.data.count);
-                console.log("Following count:", followingRes.data.count);
             } catch (err) {
-                console.error("Error loading followings", err);
+                console.error("error loading followings", err);
             }
 
             try {
@@ -89,7 +89,6 @@ export const ProfilePage = () => {
 
             try {
                 const favoratesRes = await getFavoritePosts(userId);
-                console.log("favoratesRes: ", favoratesRes.data);
                 setArrFavorites(favoratesRes.data);
             } catch (err) {
                 console.error("fail to fetch posts", err);
@@ -98,7 +97,6 @@ export const ProfilePage = () => {
             try {
                 const achievementsRes = await getUserAchievements(userId);
                 setArrAchievements(achievementsRes.data);
-                console.log("Achievements:", achievementsRes.data);
             } catch (err) {
                 console.error("Error loading achievements", err);
             }
@@ -106,7 +104,6 @@ export const ProfilePage = () => {
             try {
                 const boostsRes = await getUserBoosts(userId);
                 setArrBoosts(boostsRes.data);
-                console.log("Boosts:", boostsRes.data);
             } catch (err) {
                 console.error("Error loading boosts", err);
             }
@@ -117,19 +114,14 @@ export const ProfilePage = () => {
         }
     }, [userId]);
 
-    const handleCloseBoostInvite = () => {
-        setShowBoostAlert(false);
-    };
-
-    // const allAchievements = [
-    //     ...arrAchievements.map((a) => ({ ...a, type: "achievement" })),
-    //     ...arrBoosts.map((b) => ({ ...b, type: "boost" }))
-    // ];
     const allAchievements = [
         ...arrAchievements.map((a) => ({ ...a, type: "achievement" })),
         ...arrBoosts.map((b) => ({ ...b, type: "boost" }))
     ].sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
 
+    const handleCloseBoostInvite = () => {
+        setShowBoostAlert(false);
+    };
 
     const scrollPosts = (containerId, direction) => {
         const container = document.getElementById(containerId);
@@ -150,16 +142,16 @@ export const ProfilePage = () => {
     };
 
     const AddNewSkill = async (skill) => {
-        console.log("skill: ", skill);
         const newSkill = skill.trim();
         if (!newSkill || arrSkills.includes(newSkill)) return;
 
         try {
-            const res = await updateUserSkills(loggedInUser.userId, { skills: [newSkill] });
+            await updateUserSkills(loggedInUser.userId, { skills: [newSkill] });
             setArrSkills(prev => [...prev, newSkill]);
             setSkill('');
         } catch (err) {
-            console.log('Failed to add skill:', err);
+            console.error('Failed to add skill:', err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     };
 
@@ -168,12 +160,12 @@ export const ProfilePage = () => {
 
         try {
             const res = await AddFriendToNetwork(userId, idOfFriend, token);
-            console.log("success", res);
             setFollowedUserName(followedUserName);
             setShowFollowAlert(true);
         }
         catch (err) {
-            console.log("Cuold not add this user to network", err);
+            console.error("failed to add user to network", err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     }
 
@@ -210,8 +202,8 @@ export const ProfilePage = () => {
                 }}></div>
             )}
             {loggedInUserId && showBoostAlert && <BoostInvite onClose={handleCloseBoostInvite} />}
-
             {showFollowAlert && <FollowAlert onClose={handleCloseFollowAlert} followedUserName={userProfile?.userName} />}
+            {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
 
             <div className="profile-dashboard">
                 <div className="profile-header">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -6,6 +6,7 @@ import { resetPasswordUser } from "../../routes/UserAPI";
 import { FaLock, FaEnvelope } from "react-icons/fa";
 import "../../styles/user/Log-in.css";
 import "../../styles/user/ForgotPassword.css";
+
 
 
 export const ResetPassword = () => {
@@ -28,7 +29,7 @@ export const ResetPassword = () => {
         setLoading(true);
 
         try {
-            const res = await resetPasswordUser({ email, password });
+            await resetPasswordUser({ email, password });
             setMessage("הסיסמה שונתה בהצלחה");
         } catch (err) {
             setError("שגיאה באיפוס הסיסמה");

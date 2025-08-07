@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "../../styles/user/Log-in.css";
 import { useUserContext } from '../../contexts/UserContext';
 import log_out from "../../files/icons/log_out.png"
+import { DynamicErrorAlert } from '../../components/DynamicErrorAlert';
 
 
 
@@ -16,7 +17,7 @@ export const LoginForm = () => {
   const { user, setUser } = useUserContext();
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-
+  const [errorAlert, setErrorAlert] = useState(null);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -48,8 +49,6 @@ export const LoginForm = () => {
       localStorage.setItem("lengthNotificationsUser", res.data.count); // כמות ההתראות
       localStorage.setItem("pointsUser", res.data.points);
 
-      console.log("user loged-in successfully", res);
-
       setUser({
         userId: res.data._id,
         userRole: res.data.role,
@@ -69,6 +68,7 @@ export const LoginForm = () => {
     }
     catch (err) {
       console.error("faild to log in user", err);
+      setErrorAlert(err.response.data.message || "שגיאה");
     }
     finally {
       setLoading(false);
@@ -106,11 +106,12 @@ export const LoginForm = () => {
       notificationsUser: [],
       pointsUser: null
     });
-    console.log("user logged out successfully");
   }
 
   return (
     <div className="login-container">
+      {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
+
       <form className="login-form" onSubmit={handleSubmit}>
         {user?.userId && <p onClick={logOut} className='logout'><img src={log_out} className='log_outIcon' />התנתק</p>}
         <h2 className="login-title">התחברות</h2>

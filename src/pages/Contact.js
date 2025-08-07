@@ -1,6 +1,5 @@
 import { useState } from "react";
 import '../styles/Contact.css';
-import contact_background from "../files/contact_background.jpg";
 
 
 

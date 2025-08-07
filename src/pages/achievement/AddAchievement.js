@@ -1,16 +1,18 @@
-import React from 'react';
+import { useState } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import Select from 'react-select';
 import { useNavigate, useParams } from 'react-router-dom';
 import "../../styles/achievement/AddAchievement.css";
 import { addAchievement, addBoost } from '../../routes/AchievementAPI';
 import { useUserContext } from '../../contexts/UserContext';
+import { DynamicErrorAlert } from '../../components/DynamicErrorAlert';
 
 
 
 export const AddAchievement = () => {
     const { register, handleSubmit, formState: { errors }, control } = useForm();
     const navigate = useNavigate();
+    const [errorAlert, setErrorAlert] = useState(null);
     const { user } = useUserContext();
     let token = user.tokenUser;
     const { boost } = useParams();
@@ -18,7 +20,6 @@ export const AddAchievement = () => {
 
 
     const onSubmit = async (data) => {
-        console.log(data);
         let shouldCreatePost = false;
         let descriptionForPost = data.description;
 
@@ -27,12 +28,10 @@ export const AddAchievement = () => {
         try {
             if (isBoostMode) {
                 const resBoost = await addBoost(data, token);
-                console.log('הבוסט נוסף בהצלחה', resBoost);
                 shouldCreatePost = resBoost.data.shouldCreatePost;
             }
             else {
                 const resAchievement = await addAchievement(data, token);
-                console.log('ההישג נוסף בהצלחה', resAchievement);
                 shouldCreatePost = resAchievement.data.shouldCreatePost;
             }
 
@@ -41,14 +40,10 @@ export const AddAchievement = () => {
             }
             else
                 navigate(`/profile/${user.userId}`);
-
         } catch (err) {
-            console.error("הוספת הישג נכשלה", err);
+            console.error("failed adding achievement/boost", err);
+            setErrorAlert(err.response.data.message || "שגיאה בהוספת הישג");
         }
-    };
-
-    const onError = (formErrors) => {
-        console.log("Validation failed:", formErrors);
     };
 
     const categoryOptions = [
@@ -67,8 +62,9 @@ export const AddAchievement = () => {
 
     return (
         <div className="achievementPage">
-            <form onSubmit={handleSubmit(onSubmit, onError)} className="achievementFormContainer" >
+            {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
 
+            <form onSubmit={handleSubmit(onSubmit)} className="achievementFormContainer" >
                 <h2>הוספת הישג חדש</h2>
 
                 <label htmlFor="title">כותרת ההישג<span id="require_Input"> *</span></label>

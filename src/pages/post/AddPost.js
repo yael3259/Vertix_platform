@@ -1,16 +1,15 @@
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams, useLocation, NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Select from "react-select";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Link2, Upload } from "lucide-react";
 import "../../styles/post/AddPost.css";
 import { addPost } from "../../routes/PostAPI";
 import { useUserContext } from "../../contexts/UserContext";
 import EmojiPicker from 'emoji-picker-react';
-import { faildAlert } from "../../components/Alerts";
 import achievedBGForPost from "../../files/achievedBGForPost.JPG";
+import guestMode from "../../files/icons/guestMode.png";
+import { DynamicErrorAlert } from '../../components/DynamicErrorAlert';
 
 
 
@@ -19,6 +18,7 @@ export const AddPostForm = () => {
     const [color, setColor] = useState("#ffffff");
     const [showPicker, setShowPicker] = useState(false);
     const [content, setContent] = useState("");
+    const [errorAlert, setErrorAlert] = useState(null);
     const navigate = useNavigate();
     const { user } = useUserContext();
     const location = useLocation();
@@ -38,42 +38,31 @@ export const AddPostForm = () => {
     }, [color]);
 
     const onSubmit = async (data) => {
-        console.log(data);
-
-        if (!user) {
-            faildAlert('משתמש לא מחובר');
-            return;
-        }
         const formData = new FormData();
 
         formData.append("category", data.category.value);
         formData.append("content", content);
         formData.append("backgroundColor", data.backgroundColor);
         formData.append("postingDate", new Date().toISOString());
+        
         if (fromNotifPage) {
             formData.append("imagePost", achievedBGForPost);
         } else {
             formData.append("imagePost", data.imagePost);
         }
-
         if (data.mediaFile && data.mediaFile[0]) {
             formData.append("mediaFile", data.mediaFile[0]);
         }
 
         try {
-            const res = await addPost(formData, token);
-            console.log("Response from server:", res);
+            await addPost(formData, token);
             alert("הפוסט נוסף בהצלחה");
             navigate("/feed");
 
         } catch (err) {
             console.error("שגיאה בשליחת הפוסט:", err);
-            faildAlert("אירעה שגיאה בשליחת הפוסט");
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
-    };
-
-    const onError = (formErrors) => {
-        console.log("Validation failed:", formErrors);
     };
 
     const handleEmojiClick = (emojiData) => {
@@ -106,9 +95,19 @@ export const AddPostForm = () => {
         { value: 'טכנולוגיה וחדשנות', label: 'טכנולוגיה וחדשנות' }
     ];
 
+    if (user.userId === "guest") {
+        return <div className="profilePage" id='noUserLogged'>
+            <img src={guestMode} className="no-user-icon" />
+            <strong>משתמש לא מחובר</strong>
+            <p>התחבר או הרשם <NavLink to="/login" id='linkToLogin'>כאן</NavLink> כדי לפרסם פוסט</p>
+        </div>
+    }
+
     return (
         <div className="addPostPage">
-            <form onSubmit={handleSubmit(onSubmit, onError)} className="AddPostForm" encType="multipart/form-data">
+            {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
+
+            <form onSubmit={handleSubmit(onSubmit)} className="AddPostForm" encType="multipart/form-data">
                 <h2>הוספת פוסט חדש</h2>
 
                 <label>קטגוריה<span id="requireInput"> *</span></label>
@@ -201,7 +200,6 @@ export const AddPostForm = () => {
 
                 <button type="submit" className="addPostSubmit">פרסם פוסט</button>
             </form>
-            <ToastContainer position="bottom-center" />
         </div>
     );
 };

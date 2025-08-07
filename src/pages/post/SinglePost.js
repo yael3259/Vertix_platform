@@ -4,7 +4,9 @@ import { getPostById, addComment, addToFavoritePosts, toggleLikePost } from '../
 import { getOneUser } from '../../routes/UserAPI';
 import { useUserContext } from '../../contexts/UserContext';
 import { FavoritePostAlert } from '../../components/FavoritePostAlert';
+import { DynamicErrorAlert } from '../../components/DynamicErrorAlert';
 import commentIcon from "../../files/icons/commentIcon.png";
+import display_loading from "../../files/icons/display_loading.png";
 import starIcon from "../../files/icons/starIcon.png";
 import categoryIcon from "../../files/icons/categoryIcon.png";
 import empty_likeIcon from "../../files/icons/empty_likeIcon.png";
@@ -19,6 +21,7 @@ export const SinglePost = () => {
     const { postId } = useParams();
     const navigate = useNavigate();
     const { user: loggedInUser } = useUserContext();
+    const [errorAlert, setErrorAlert] = useState(null);
     const [post, setPost] = useState(null);
     const [comment, setComment] = useState('');
     const [likedPosts, setLikedPosts] = useState({});
@@ -55,7 +58,7 @@ export const SinglePost = () => {
             await getOneUser(userId);
             navigate(`/profile/${userId}`);
         } catch (err) {
-            console.log("Error fetching user", err);
+            console.error("Error fetching user", err);
         }
     };
 
@@ -65,7 +68,12 @@ export const SinglePost = () => {
 
     const addCommentToPost = async () => {
         if (!comment.trim()) return;
+
         try {
+            if (loggedInUser.userId === "guest") {
+                setErrorAlert("משתמש לא מחובר");
+                return;
+            }
             const res = await addComment(post._id, comment, loggedInUser.userId);
             const newComment = res.data;
             setPost(prev => ({
@@ -74,18 +82,18 @@ export const SinglePost = () => {
             }));
             setComment('');
         } catch (err) {
-            console.log('error adding comment', err);
+            console.error('error adding comment', err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     };
 
     const addPostToFavoritePosts = async (postId, userId) => {
         try {
-            let res = await addToFavoritePosts(postId, userId);
-            console.log("success", res.data);
+            await addToFavoritePosts(postId, userId);
             setShowFavoritePostAlert(true);
-        }
-        catch (err) {
-            console.log("faild to add post to favorites", err);
+        } catch (err) {
+            console.error("faild to add post to favorites", err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     }
 
@@ -95,20 +103,27 @@ export const SinglePost = () => {
 
     const toggleLike = async (postId) => {
         let userId = loggedInUser.userId;
-
         try {
+            if (userId === "guest") {
+                setErrorAlert("משתמש לא מחובר");
+                return;
+            }
             const res = await toggleLikePost(userId, postId);
-            console.log("success", res.data);
-
             setPost(prev => ({ ...prev, likes: res.data.likes }));
 
             setLikedPosts(prev => ({ ...prev, [postId]: res.data.liked }));
         } catch (err) {
             console.error("failed to like post", err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     };
 
-    if (!post) return <div>טוען פוסט...</div>;
+    if (!post) {
+        return <div className="profilePage" id='noUserLogged'>
+            <img src={display_loading} className="no-display" />
+            <strong>תצוגה נטענת...</strong>
+        </div>
+    }
 
     return (
         <div className='singlePost_body'>
@@ -118,6 +133,8 @@ export const SinglePost = () => {
                     <FavoritePostAlert onClose={handleCloseFavoritePostAlert} />
                 </div>
             )}
+
+            {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
 
             <div className="grid-item" id='single_post' key={post._id}>
                 <div className="top_post">

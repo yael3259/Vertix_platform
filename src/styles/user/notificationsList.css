@@ -14,7 +14,8 @@
   justify-content: start;
 }
 
-.no-user-icon {
+.no-user-icon,
+.no-display {
   height: 150px;
 }
 

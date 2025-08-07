@@ -10,12 +10,14 @@ import tableCompleted from "../../files/icons/tableCompleted.gif";
 import failedBoost from "../../files/icons/failedBoost.gif";
 import errorInDisplay from "../../files/icons/errorInDisplay.png";
 import { EarningPointsAlert } from "../../components/EarningPointsAlert";
+import { DynamicErrorAlert } from '../../components/DynamicErrorAlert';
 
 
 
 export const TrackingTable = () => {
     const [item, setItem] = useState(null);
     const [type, setType] = useState(null);
+    const [errorAlert, setErrorAlert] = useState(null);
     const [isCompleted, setIsCompleted] = useState(false);
     const [isFailed, setIsFailed] = useState(false);
     const { user } = useUserContext();
@@ -66,7 +68,6 @@ export const TrackingTable = () => {
 
     const updateTodayInAchievementTable = async (isMarkedToday) => {
         if (isCompleted || isFailed) {
-            console.log("Cannot update a completed or failed boost/achievement.");
             return;
         }
 
@@ -81,16 +82,14 @@ export const TrackingTable = () => {
 
             else if (type === "boost") {
                 const res = await updateTrackingTableBoost(itemId, isMarkedToday);
-                console.log(res.data)
                 setItem(res.data);
                 if (isMarkedToday === true) {
                     setShowPointsAlert(true);
                 }
             }
-            console.log("הטבלה עודכנה בהצלחה");
-
         } catch (err) {
             console.error("failed to update table", err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     };
 
@@ -123,7 +122,7 @@ export const TrackingTable = () => {
             <p>נסה/י להתחבר שוב <NavLink to="/login" id='linkToLogin'>כאן</NavLink> כדי לסמן ולצפות בהישגים</p>
         </div>
     }
-    
+
     return (
         <div className="trackingTablePage">
             {showPointsAlert && <div className="overlay-background" onClick={() => {
@@ -131,13 +130,14 @@ export const TrackingTable = () => {
             }}></div>}
 
             {showPointsAlert && <EarningPointsAlert onClose={handleClosePointsAlert} type={type} />}
+            {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
 
             <div className="achievement-table">
                 <div className="achievementCard">
                     <p className="achievementText">
                         <Typewriter
                             words={[
-                                type === "boost" ? "⚡ בוסט ⚡\n כיף שהצטרפת! זה הזמן לבדוק כמה רחוק את/ה באמת מסוגל/ת להגיע." : "הישג הוא ההוכחה שכשאת/ה מאמין/ה באמת, גם הדברים הכי גדולים מתחילים בצעד קטן",
+                                type === "boost" ? "⚡ בוסט ⚡\n כיף שהצטרפת! זה הזמן לבדוק כמה רחוק את/ה באמת מסוגל/ת להגיע." : "\nהישג הוא ההוכחה שכשאת/ה מאמין/ה באמת, גם הדברים הכי גדולים מתחילים בצעד קטן",
                                 `🎯 המטרה שלי: \n ${item.description}`,
                                 `📅 נותרו ${getDaysLeft(item.trackingTable)} ימים לסיום`,
                                 `🍁 קטגוריה: \n ${item.category}`,

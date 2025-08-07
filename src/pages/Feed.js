@@ -17,6 +17,7 @@ import { FaBell, FaUserFriends, FaEdit } from "react-icons/fa";
 import { getMedal } from "./LeaderBoard";
 import { FollowAlert } from "../components/FollowAlert";
 import { FavoritePostAlert } from "../components/FavoritePostAlert";
+import { DynamicErrorAlert } from "../components/DynamicErrorAlert";
 
 
 
@@ -25,6 +26,7 @@ export const Feed = () => {
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [errorAlert, setErrorAlert] = useState(null);
     const [randomUsers, setRandomUsers] = useState([]);
     const [arrSkills, setArrSkills] = useState([]);
     const [arrTopUsers, setArrTopUsers] = useState([]);
@@ -43,7 +45,6 @@ export const Feed = () => {
 
     const categories = ['הכל', ...new Set(arr.map(post => post.category))];
 
-
     const filteredPosts = arr.filter(post => {
         const matchCategory = selectedCategory === 'הכל' || post.category === selectedCategory;
         const matchUser = !userNameFilter || post.userId?.userName.toLowerCase().includes(userNameFilter.toLowerCase());
@@ -57,13 +58,19 @@ export const Feed = () => {
         loadRandomUsers();
     }, [page]);
 
+    useEffect(() => {
+        // מאפס את הודעת השגיאה כדי שתופיע שוב בלחיצה חוזרת גם אם לא השתנתה
+        if (errorAlert) {
+            const timer = setTimeout(() => setErrorAlert(null), 5500);
+            return () => clearTimeout(timer);
+        }
+    }, [errorAlert]);
 
     const loadPosts = (currentPage = '') => {
         setLoading(true);
 
         getAllPosts(currentPage, 15)
             .then((res) => {
-                console.log(res.data);
                 const postsWithFlag = res.data.map(post => ({
                     ...post,
                     showComments: false,
@@ -83,7 +90,7 @@ export const Feed = () => {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                console.error("failed to fetch posts", err);
             })
             .finally(() => {
                 setTimeout(() => {
@@ -117,12 +124,12 @@ export const Feed = () => {
 
     const fetchToProfile = async (userId) => {
         try {
-            let res = await getOneUser(userId);
-            console.log("success", res.data);
+            await getOneUser(userId);
             navigate(`/profile/${userId}`);
         }
         catch (err) {
-            console.log("Error fetching user", err);
+            console.error("Error fetching user", err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     }
 
@@ -139,6 +146,10 @@ export const Feed = () => {
             return;
 
         try {
+            if (user.userId === "guest") {
+                setErrorAlert("משתמש לא מחובר");
+                return;
+            }
             let res = await addComment(postId, commentText, user.userId);
             const newComment = res.data;
 
@@ -154,18 +165,19 @@ export const Feed = () => {
             await fetchNotifications();
 
         } catch (err) {
-            console.log('error adding comment', err);
+            console.error('error adding comment', err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     };
 
     const addPostToFavoritePosts = async (postId, userId) => {
         try {
-            let res = await addToFavoritePosts(postId, userId);
-            console.log("success", res.data);
+            await addToFavoritePosts(postId, userId);
             setShowFavoritePostAlert(true);
         }
         catch (err) {
-            console.log("faild to add post to favorites", err);
+            console.error("faild to add post to favorites", err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     }
 
@@ -173,9 +185,11 @@ export const Feed = () => {
         let userId = user.userId;
 
         try {
+            if (userId === "guest") {
+                setErrorAlert("משתמש לא מחובר");
+                return;
+            }
             const res = await toggleLikePost(userId, postId);
-            console.log("succsses", res.data);
-
             setArr(prevArr =>
                 prevArr.map(post =>
                     post._id === postId ? { ...post, likes: res.data.likes } : post
@@ -185,6 +199,7 @@ export const Feed = () => {
             setLikedPosts(prev => ({ ...prev, [postId]: res.data.liked }));
         } catch (err) {
             console.error("failed to like post", err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     };
 
@@ -193,7 +208,6 @@ export const Feed = () => {
         try {
             const res = await getOneUser(userId);
             setArrSkills(res.data.skills || []);
-            console.log("User's skills loaded:", res.data);
         } catch (err) {
             console.error("Error loading skills", err);
         }
@@ -204,7 +218,6 @@ export const Feed = () => {
             const res = await getAllUsers();
             const sortedByPoints = res.data.sort((a, b) => b.points - a.points).slice(0, 3);
             setArrTopUsers(sortedByPoints || []);
-            console.log("top tree users:", sortedByPoints);
             isLoading(false);
         }
         catch (err) {
@@ -218,20 +231,23 @@ export const Feed = () => {
                 setRandomUsers(res.data);
             })
             .catch((err) => {
-                console.log("Error loading random users:", err);
+                console.error("Error loading random users:", err);
             });
     };
 
     const addFriend = async (idOfFriend, followedUserName) => {
         const userId = user.userId;
         try {
-            const res = await AddFriendToNetwork(userId, idOfFriend, token);
-            console.log("success", res);
+            if (userId === "guest") {
+                setErrorAlert("משתמש לא מחובר");
+            }
+            await AddFriendToNetwork(userId, idOfFriend, token);
             setFollowedUserName(followedUserName);
             setShowFollowAlert(true);
         }
         catch (err) {
-            console.log("Cuold not add this user to network", err);
+            console.error("Cuold not add this user to network", err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     }
 
@@ -259,6 +275,7 @@ export const Feed = () => {
 
                 {showFollowAlert && <FollowAlert onClose={handleCloseFollowAlert} followedUserName={followedUserName} />}
                 {showFavoritePostAlert && <FavoritePostAlert onClose={handleCloseFavoritePostAlert} />}
+                {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
 
                 <div className="left_side">
                     <div className={`left ${showMobileFilter ? 'show-mobile-filter' : ''}`} onClick={(e) => e.stopPropagation()}>
@@ -353,7 +370,7 @@ export const Feed = () => {
                         <div key={i} className="skeleton-post"></div>
                     ))
                         : filteredPosts.map((item) => (
-                            <div className="grid-item" key={item._id} >
+                            <div className="grid-item" key={item._id}>
                                 <div className="top_post">
                                     <div className="userName_txt" id="categoryPart">
                                         <img src={categoryIcon} className="categoryIcon" />
@@ -373,16 +390,19 @@ export const Feed = () => {
                                     </div>
                                 </div>
                                 <p className="postingDate_txt">לפני {timeAgo(item.postingDate)}</p>
-                                <p className={`item-content ${!item.imagePost && item.content.length <= 100 ? "noImageInPost" : ""}`}
-                                    style={{ backgroundColor: item.backgroundColor }}>
-                                    {item.content}</p>
-                                {item.imagePost && item.imagePost.trim() !== "" && (
-                                    item.imagePost.endsWith('.mp4') ? (
-                                        <video className="post-image" src={item.imagePost} autoPlay loop playsInline controls />
-                                    ) : (
-                                        <img src={item.imagePost} className="post-image" />
-                                    )
-                                )}
+
+                                <div onClick={() => navigate(`/profile/single_post/${item._id}`)}>
+                                    <p className={`item-content ${!item.imagePost && item.content.length <= 100 ? "noImageInPost" : ""}`}
+                                        style={{ backgroundColor: item.backgroundColor }}>
+                                        {item.content}</p>
+                                    {item.imagePost && item.imagePost.trim() !== "" && (
+                                        item.imagePost.endsWith('.mp4') ? (
+                                            <video className="post-image" src={item.imagePost} autoPlay loop playsInline controls />
+                                        ) : (
+                                            <img src={item.imagePost} className="post-image" />
+                                        )
+                                    )}
+                                </div>
 
                                 <div className="item-likes-comments">
                                     <p tabIndex="0" className="comments" onClick={() => toggleComments(item._id)}>

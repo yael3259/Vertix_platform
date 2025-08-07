@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { addUser } from '../../routes/UserAPI';
 import "../../styles/user/Log-in.css";
 import { FaUser, FaLock, FaEnvelope, FaLink, FaStar } from 'react-icons/fa';
+import { DynamicErrorAlert } from '../../components/DynamicErrorAlert';
 
 
 
@@ -14,6 +15,7 @@ export const RegistrationPage = () => {
     const [email, setEmail] = useState('');
     const [gender, setGender] = useState('');
     const [profilePicture, setProfilePicture] = useState('');
+    const [errorAlert, setErrorAlert] = useState(null);
     const [loading, setLoading] = useState(false);
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
@@ -22,12 +24,12 @@ export const RegistrationPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const validationErrors = {};
-        if (!userName || userName.length < 3)
-            validationErrors.userName = "שם משתמש חייב להכיל לפחות 3 תווים";
-        if (nickname.length === 1 || nickname.length > 20)
-            validationErrors.nickname = "כינוי חייב להכיל בין 2-20 תווים";
-        if (!password || password.length < 5)
-            validationErrors.password = "סיסמה חייבת להכיל לפחות 5 תווים";
+        if (!userName || userName.length < 3 || userName.length > 12)
+            validationErrors.userName = "שם משתמש חייב להכיל בין 3-12 תווים";
+        if (nickname.length === 1 || nickname.length > 12)
+            validationErrors.nickname = "כינוי חייב להכיל בין 2-12 תווים";
+        if (!password || password.length < 5 || password.length > 9)
+            validationErrors.password = "סיסמה חייבת להכיל בין 5-9 תווים";
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
         if (!email || !emailPattern.test(email))
             validationErrors.email = "כתובת אימייל לא תקינה";
@@ -43,11 +45,11 @@ export const RegistrationPage = () => {
         setLoading(true);
 
         try {
-            let res = await addUser({ email, password, userName, nickname, gender, profilePicture });
-            console.log("user sign in successfully", res);
+            await addUser({ email, password, userName, nickname, gender, profilePicture });
             navigate("/login");
         } catch (err) {
             console.error("faild to sign in user", err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         } finally {
             setLoading(false);
         }
@@ -55,6 +57,8 @@ export const RegistrationPage = () => {
 
     return (
         <div className="login-container" id='reg_container'>
+            {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
+
             <form className="login-form" onSubmit={handleSubmit}>
                 <h2 className="login-title">הרשמה</h2>
 
@@ -74,7 +78,7 @@ export const RegistrationPage = () => {
                     <FaStar className="input-icon" />
                     <input
                         type="text"
-                        placeholder="כינוי"
+                        placeholder="(אופציונלי) כינוי"
                         value={nickname}
                         onChange={(e) => setNickname(e.target.value)}
                         className="input-field_login"

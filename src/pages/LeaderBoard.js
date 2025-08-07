@@ -32,18 +32,17 @@ export const LeaderBoard = () => {
             setArrUsers(sorted);
 
         } catch (err) {
-            console.error("could not fetch users", err);
+            console.error("failed to fetch users", err);
         }
     }
 
     const fetchToProfile = async (userId) => {
         try {
             let res = await getOneUser(userId);
-            console.log("success", res.data);
             navigate(`/profile/${userId}`);
         }
         catch (err) {
-            console.log("Error fetching user", err);
+            console.error("Error fetching user", err);
         }
     }
 

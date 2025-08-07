@@ -3,11 +3,13 @@ import "../../styles/user/NetworkList.css";
 import { useUserContext } from "../../contexts/UserContext";
 import { getFollowing, getOneUser, removeFriendFromNetwork } from "../../routes/UserAPI";
 import { useParams, useNavigate } from "react-router-dom";
+import { DynamicErrorAlert } from '../../components/DynamicErrorAlert';
 
 
 
 export const NetworkList = () => {
     const [followingList, setFollowingList] = useState([]);
+    const [errorAlert, setErrorAlert] = useState(null);
     const { user: loggedInUser } = useUserContext();
     const { userId } = useParams();
     const navigate = useNavigate();
@@ -30,28 +32,29 @@ export const NetworkList = () => {
     const fetchToProfile = async (userId) => {
         try {
             let res = await getOneUser(userId);
-            console.log("success", res.data);
             navigate(`/profile/${userId}`);
         }
         catch (err) {
-            console.log("Error fetching user", err);
+            console.error("Error fetching user", err);
         }
     }
 
     const removeFollow = async (idOfFriend) => {
         const userId = loggedInUser.userId;
+
         try {
-            const res = await removeFriendFromNetwork(userId, idOfFriend);
-            console.log("success", res);
+            await removeFriendFromNetwork(userId, idOfFriend);
             setFollowingList((prev) => prev.filter(friend => friend._id !== idOfFriend));
-        }
-        catch (err) {
-            console.log("Cuold not remove this user from network", err);
+        } catch (err) {
+            console.error("failed removing this user from network", err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     }
 
     return (
         <div className="following-page">
+            { errorAlert && <DynamicErrorAlert errorText={errorAlert} /> }
+
             <div className="following-container">
                 <h2 className="following-title">החברים שאני עוקב/ת אחריהם</h2>
                 {followingList.length === 0 ? (

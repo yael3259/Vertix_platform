@@ -515,6 +515,7 @@ select option {
   width: 100%;
   height: auto;
   display: block;
+  cursor: pointer;
 }
 
 .item-content {
@@ -526,6 +527,7 @@ select option {
   margin-top: -3px;
   direction: rtl;
   white-space: pre-wrap;
+  cursor: pointer;
 }
 
 .noImageInPost {
@@ -727,10 +729,14 @@ select option {
   border-radius: 50%;
   cursor: pointer;
   margin-right: -3px;
-  margin-bottom: -5px;
   height: 32px;
   width: 32px;
   object-fit: cover;
+}
+
+#avatar-fallback_inSinglePost,
+.userUrlInCommentInput {
+  margin-bottom: -4px;
 }
 
 .comment-date {
@@ -941,6 +947,7 @@ select option {
 
   .item-content {
     font-size: 14px;
+    cursor: pointer;
   }
 
   .item-likes-comments {

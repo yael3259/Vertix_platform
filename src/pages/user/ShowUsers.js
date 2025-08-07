@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import { getAllUsers, deleteUser } from "./userAPI";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { faildAlert, successAlert, warningAlert } from "../../alerts/All_Alerts";
 import "../../styles/user/ShowUsers.css";
+import { DynamicErrorAlert } from '../../components/DynamicErrorAlert';
 
 
 
@@ -12,25 +11,24 @@ export const ShowAllUsers = () => {
     const [error, setError] = useState(null);
     const [removedUser, setRemovedUser] = useState(null);
     const [showRemoveModal, setShowRemoveModal] = useState(false);
-
+    const [errorAlert, setErrorAlert] = useState(null);
 
     const fetchAllUsers = async () => {
         try {
-            const response = await getAllUsers();
-            setArr(response.data);
+            const res = await getAllUsers();
+            setArr(res.data);
         } catch (err) {
             setError("Failed to fetch users");
         }
     };
 
-    const handleDelete = async (userID) => {
+    const handleDelete = async (userId) => {
         try {
-            await deleteUser(userID);
-            successAlert("User deleted successfully");
+            await deleteUser(userId);
             fetchAllUsers();
         } catch (err) {
-            faildAlert("Failed to delete user")
-            console.error("Failed to delete user:", err.response?.data || err.message);
+            console.error("Failed to delete user:", err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     };
 
@@ -46,6 +44,8 @@ export const ShowAllUsers = () => {
 
     return (
         <div className="users-container">
+            { errorAlert && <DynamicErrorAlert errorText={errorAlert} /> }
+
             <p className="userTytle">All Users</p>
             {error && <p style={{ color: "red" }}>{error}</p>}
             <div className="users-grid">
@@ -75,7 +75,6 @@ export const ShowAllUsers = () => {
                     </div>
                 </div>
             )}
-            <ToastContainer position="bottom-center" />
         </div>
     );
 };

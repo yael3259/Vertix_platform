@@ -11,14 +11,15 @@ import network from "../../files/icons/network.gif";
 import boost_complete from "../../files/icons/boost_complete.gif";
 import { getOneUser } from '../../routes/UserAPI';
 import guestMode from "../../files/icons/guestMode.png"
+import { DynamicErrorAlert } from '../../components/DynamicErrorAlert';
 
 
 
 export const NotificationsList = () => {
     const { user, setNotificationsCount } = useUserContext();
     const [notifications, setNotifications] = useState([]);
+    const [errorAlert, setErrorAlert] = useState(null);
     const navigate = useNavigate();
-    const achievementCompletedBG = "achievementCompletedBG";
     let token = user.tokenUser;
 
     useEffect(() => {
@@ -33,9 +34,8 @@ export const NotificationsList = () => {
 
     const markNotifications = async () => {
         try {
-            const res = await markNotificationsAsRead(user.userId);
+            await markNotificationsAsRead(user.userId);
             setNotificationsCount(0);
-            console.log("succsses", res);
         } catch (err) {
             console.error("fail to mark notifications as read", err);
         }
@@ -46,7 +46,6 @@ export const NotificationsList = () => {
             const res = await getNotificationsByUser(user.userId, token);
             setNotifications(res.data.notifications || []);
             const count = res.data.count;
-            console.log(res.data);
         } catch (err) {
             console.error("Failed to get notifications", err);
         }
@@ -58,12 +57,11 @@ export const NotificationsList = () => {
 
     const fetchToProfile = async (userId) => {
         try {
-            let res = await getOneUser(userId);
-            console.log("success", res.data);
+            await getOneUser(userId);
             navigate(`/profile/${userId}`);
-        }
-        catch (err) {
-            console.log("Error fetching user", err);
+        } catch (err) {
+            console.error("Error fetching user", err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     }
 
@@ -77,6 +75,8 @@ export const NotificationsList = () => {
 
     return (
         <div className='notifBody'>
+            {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
+
             <div className="notification-container">
                 <h1 className="notifications-title">התראות</h1>
                 <p className="notifications-subtitle">

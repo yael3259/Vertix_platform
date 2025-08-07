@@ -1,14 +1,16 @@
 import "../../styles/user/EditDetails.css";
+import { useState } from "react";
 import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import { useUserContext } from "../../contexts/UserContext";
 import { editUserDetails } from "../../routes/UserAPI";
 import { useNavigate } from "react-router-dom";
-
+import { DynamicErrorAlert } from '../../components/DynamicErrorAlert';
 
 
 export const EditForm = () => {
     const { register, handleSubmit, control, formState: { errors } } = useForm();
+    const [errorAlert, setErrorAlert] = useState(null);
     const { user, setUser } = useUserContext();
     const userId = user.userId;
     const navigate = useNavigate();
@@ -20,18 +22,14 @@ export const EditForm = () => {
     ];
 
     const onSubmit = async (data) => {
-        console.log("front: ", data);
-
-        const fixedData = {
+        const editedData = {
             ...data,
             gender: data.gender?.value || user.genderUser
         };
 
         try {
-            const res = await editUserDetails(userId, fixedData);
+            const res = await editUserDetails(userId, editedData);
             const updatedUser = res.data;
-
-            console.log('Updated user details:', updatedUser);
 
             localStorage.setItem('userName', updatedUser.userName || '');
             localStorage.setItem('nickNameUser', updatedUser.nickname || '');
@@ -57,11 +55,14 @@ export const EditForm = () => {
             navigate(`/profile/${userId}`);
         } catch (err) {
             console.error("failed to edit user details", err);
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     };
 
     return (
         <div className="editUserPage">
+            { errorAlert && <DynamicErrorAlert errorText={errorAlert} /> }
+
             <form className="editUserFormContainer" onSubmit={handleSubmit(onSubmit)}>
                 <p className="editUserTitle">עריכת פרטים אישיים</p>
 
