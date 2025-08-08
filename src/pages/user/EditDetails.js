@@ -61,7 +61,7 @@ export const EditForm = () => {
 
     return (
         <div className="editUserPage">
-            { errorAlert && <DynamicErrorAlert errorText={errorAlert} /> }
+            {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
 
             <form className="editUserFormContainer" onSubmit={handleSubmit(onSubmit)}>
                 <p className="editUserTitle">עריכת פרטים אישיים</p>
@@ -80,7 +80,7 @@ export const EditForm = () => {
                 <input
                     className="editUserInput"
                     {...register('nickname')}
-                    placeholder={user.nickNameUser}
+                    placeholder={user.nickNameUser || "לא הוגדר כינוי"}
                 />
                 {errors.nickname && <span className="editUserError">{errors.nickname.message}</span>}
 
@@ -117,7 +117,7 @@ export const EditForm = () => {
                             message: 'יש להזין כתובת URL תקינה לתמונה',
                         }
                     })}
-                    placeholder={user.profilePictureUser}
+                    placeholder={user.profilePictureUser || "לא הוגדרה תמונה"}
                 />
                 {errors.profilePicture && <span className="editUserError">{errors.profilePicture.message}</span>}
 

@@ -66,6 +66,13 @@ export const TrackingTable = () => {
         fetchData();
     }, [token, itemId]);
 
+    useEffect(() => {
+        if (errorAlert) {
+            const timer = setTimeout(() => setErrorAlert(null), 5500);
+            return () => clearTimeout(timer);
+        }
+    }, [errorAlert]);
+
     const updateTodayInAchievementTable = async (isMarkedToday) => {
         if (isCompleted || isFailed) {
             return;
