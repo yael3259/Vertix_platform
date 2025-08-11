@@ -24,7 +24,6 @@ export const LeaderBoard = () => {
         updateTimeUntilNextTag();
     }, []);
 
-
     const fetchAllUsers = async () => {
         try {
             const res = await getAllUsers();

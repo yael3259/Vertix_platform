@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Controller, useForm } from "react-hook-form";
 import Select from 'react-select';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -18,6 +18,12 @@ export const AddAchievement = () => {
     const { boost } = useParams();
     const isBoostMode = boost === 'boost';
 
+    useEffect(() => {
+        if (errorAlert) {
+            const timer = setTimeout(() => setErrorAlert(null), 5500);
+            return () => clearTimeout(timer);
+        }
+    }, [errorAlert]);
 
     const onSubmit = async (data) => {
         let shouldCreatePost = false;

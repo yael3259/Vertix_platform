@@ -13,6 +13,17 @@ export const ShowAllUsers = () => {
     const [showRemoveModal, setShowRemoveModal] = useState(false);
     const [errorAlert, setErrorAlert] = useState(null);
 
+    useEffect(() => {
+        fetchAllUsers();
+    }, []);
+
+    useEffect(() => {
+        if (errorAlert) {
+            const timer = setTimeout(() => setErrorAlert(null), 5500);
+            return () => clearTimeout(timer);
+        }
+    }, [errorAlert]);
+    
     const fetchAllUsers = async () => {
         try {
             const res = await getAllUsers();
@@ -37,14 +48,12 @@ export const ShowAllUsers = () => {
         setShowRemoveModal(false);
     };
 
-    useEffect(() => {
-        fetchAllUsers();
-    }, []);
+
 
 
     return (
         <div className="users-container">
-            { errorAlert && <DynamicErrorAlert errorText={errorAlert} /> }
+            {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
 
             <p className="userTytle">All Users</p>
             {error && <p style={{ color: "red" }}>{error}</p>}

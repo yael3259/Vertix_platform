@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { resetPasswordUser } from "../../routes/UserAPI";
 import { FaLock, FaEnvelope } from "react-icons/fa";
 import "../../styles/user/Log-in.css";
@@ -80,7 +78,6 @@ export const ResetPassword = () => {
                     חזור להתחברות
                 </NavLink>
             </form>
-            <ToastContainer position="bottom-center" />
         </div>
     );
 };

@@ -114,6 +114,13 @@ export const ProfilePage = () => {
         }
     }, [userId]);
 
+    useEffect(() => {
+        if (errorAlert) {
+            const timer = setTimeout(() => setErrorAlert(null), 5500);
+            return () => clearTimeout(timer);
+        }
+    }, [errorAlert]);
+
     const allAchievements = [
         ...arrAchievements.map((a) => ({ ...a, type: "achievement" })),
         ...arrBoosts.map((b) => ({ ...b, type: "boost" }))

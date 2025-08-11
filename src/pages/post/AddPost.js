@@ -27,6 +27,13 @@ export const AddPostForm = () => {
     let token = user.tokenUser;
 
     useEffect(() => {
+        if (errorAlert) {
+            const timer = setTimeout(() => setErrorAlert(null), 5500);
+            return () => clearTimeout(timer);
+        }
+    }, [errorAlert]);
+
+    useEffect(() => {
         if (descriptionForPost) {
             setContent(descriptionForPost);
             setValue("content", descriptionForPost);
@@ -44,7 +51,7 @@ export const AddPostForm = () => {
         formData.append("content", content);
         formData.append("backgroundColor", data.backgroundColor);
         formData.append("postingDate", new Date().toISOString());
-        
+
         if (fromNotifPage) {
             formData.append("imagePost", achievedBGForPost);
         } else {

@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { login } from '../../routes/UserAPI';
 import "react-toastify/dist/ReactToastify.css";
@@ -18,6 +18,13 @@ export const LoginForm = () => {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const [errorAlert, setErrorAlert] = useState(null);
+
+  useEffect(() => {
+    if (errorAlert) {
+      const timer = setTimeout(() => setErrorAlert(null), 5500);
+      return () => clearTimeout(timer);
+    }
+  }, [errorAlert]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

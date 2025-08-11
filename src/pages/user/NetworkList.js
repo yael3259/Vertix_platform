@@ -20,6 +20,13 @@ export const NetworkList = () => {
         }
     }, [userId]);
 
+    useEffect(() => {
+        if (errorAlert) {
+            const timer = setTimeout(() => setErrorAlert(null), 5500);
+            return () => clearTimeout(timer);
+        }
+    }, [errorAlert]);
+
     const getFollowingList = async (id) => {
         try {
             const res = await getFollowing(id);
@@ -53,7 +60,7 @@ export const NetworkList = () => {
 
     return (
         <div className="following-page">
-            { errorAlert && <DynamicErrorAlert errorText={errorAlert} /> }
+            {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
 
             <div className="following-container">
                 <h2 className="following-title">החברים שאני עוקב/ת אחריהם</h2>

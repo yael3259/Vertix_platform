@@ -39,6 +39,13 @@ export const SinglePost = () => {
         fetchPost();
     }, [postId]);
 
+    useEffect(() => {
+        if (errorAlert) {
+            const timer = setTimeout(() => setErrorAlert(null), 5500);
+            return () => clearTimeout(timer);
+        }
+    }, [errorAlert]);
+
     const timeAgo = (timestamp) => {
         const now = new Date();
         const postDate = new Date(timestamp);

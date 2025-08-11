@@ -1,5 +1,5 @@
 import "../../styles/user/EditDetails.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import { useUserContext } from "../../contexts/UserContext";
@@ -14,6 +14,13 @@ export const EditForm = () => {
     const { user, setUser } = useUserContext();
     const userId = user.userId;
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (errorAlert) {
+            const timer = setTimeout(() => setErrorAlert(null), 5500);
+            return () => clearTimeout(timer);
+        }
+    }, [errorAlert]);
 
     const genderOptions = [
         { value: 'זכר', label: 'זכר' },

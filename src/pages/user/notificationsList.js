@@ -32,6 +32,13 @@ export const NotificationsList = () => {
         }
     }, [user]);
 
+    useEffect(() => {
+        if (errorAlert) {
+            const timer = setTimeout(() => setErrorAlert(null), 5500);
+            return () => clearTimeout(timer);
+        }
+    }, [errorAlert]);
+
     const markNotifications = async () => {
         try {
             await markNotificationsAsRead(user.userId);

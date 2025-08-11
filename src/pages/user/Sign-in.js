@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import "react-toastify/dist/ReactToastify.css";
 import { addUser } from '../../routes/UserAPI';
@@ -20,6 +20,12 @@ export const RegistrationPage = () => {
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (errorAlert) {
+            const timer = setTimeout(() => setErrorAlert(null), 5500);
+            return () => clearTimeout(timer);
+        }
+    }, [errorAlert]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
