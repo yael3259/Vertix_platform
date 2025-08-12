@@ -120,7 +120,7 @@ export const LoginForm = () => {
       {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
 
       <form className="login-form" onSubmit={handleSubmit}>
-        {user?.userId && <p onClick={logOut} className='logout'><img src={log_out} className='log_outIcon' />התנתק</p>}
+        {user?.userId && <p onClick={logOut} className='logout'><img src={log_out} className='log_outIcon' alt="התנתקות"/>התנתק</p>}
         <h2 className="login-title">התחברות</h2>
 
         <div className="input-wrapper">

@@ -82,7 +82,7 @@ export const LeaderBoard = () => {
                                     <img
                                         className="userPicInBoard"
                                         src={user.profilePicture}
-                                        alt={`${user.userName} profile`}
+                                        alt="תמונת פרופיל"
                                         loading="lazy" />
                                 ) : (
                                     <div className="avatar-fallback" id="avatar-fallback_inBoard">
@@ -92,7 +92,7 @@ export const LeaderBoard = () => {
                                 <div className="nameAndPoints">
                                     <p className="username_inBoard">{user.userName}</p>
                                     <div className="points_con">
-                                        <img src={gem} className="gemIcon" />
+                                        <img src={gem} className="gemIcon" alt="יהלום" />
                                         <p className="points_inBoard">{user.points ? user.points : 0} נקודות</p>
                                     </div>
                                 </div>
@@ -110,11 +110,11 @@ export const LeaderBoard = () => {
 export const getMedal = (index) => {
     switch (index) {
         case 0:
-            return <img src={goldMedal} className="top3" />;
+            return <img src={goldMedal} className="top3" alt="מדליית זהב" />;
         case 1:
-            return <img src={silverMedal} className="top3" />;
+            return <img src={silverMedal} className="top3" alt="מדליית כסף" />;
         case 2:
-            return <img src={bronzeMedal} className="top3" />;
+            return <img src={bronzeMedal} className="top3" alt="מדליית ארד" />;
         default:
             return `${index + 1}`;
     }

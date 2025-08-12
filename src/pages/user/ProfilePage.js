@@ -38,6 +38,7 @@ export const ProfilePage = () => {
     const [arrPosts, setArrPosts] = useState([]);
     const [arrFavorites, setArrFavorites] = useState([]);
     const [followingQTY, setFollowingQTY] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
     const [errorAlert, setErrorAlert] = useState(null);
     const { userId } = useParams();
     const [userProfile, setUserProfile] = useState(null);
@@ -63,52 +64,38 @@ export const ProfilePage = () => {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const res = await getOneUser(userId);
-                setUserProfile(res.data);
-                setArrSkills(res.data.skills || []);
-                setArrTags(res.data.tags || []);
-            } catch (err) {
-                console.error("Error loading user", err);
-                return;
-            }
+                const [
+                    userRes,
+                    followingRes,
+                    postsRes,
+                    favoritesRes,
+                    achievementsRes,
+                    boostsRes
+                ] = await Promise.all([
+                    getOneUser(userId),
+                    getFollowing(userId),
+                    getPostsById(userId),
+                    getFavoritePosts(userId),
+                    getUserAchievements(userId),
+                    getUserBoosts(userId),
+                ]);
 
-            try {
-                const followingRes = await getFollowing(userId);
+                setUserProfile(userRes.data);
+                setArrSkills(userRes.data.skills || []);
+                setArrTags(userRes.data.tags || []);
                 setFollowingQTY(followingRes.data.count);
-            } catch (err) {
-                console.error("error loading followings", err);
-            }
-
-            try {
-                const postsRes = await getPostsById(userId);
                 setArrPosts(postsRes.data);
-
-            } catch (err) {
-                console.error("fail to fetch posts", err);
-            }
-
-            try {
-                const favoratesRes = await getFavoritePosts(userId);
-                setArrFavorites(favoratesRes.data);
-            } catch (err) {
-                console.error("fail to fetch posts", err);
-            }
-
-            try {
-                const achievementsRes = await getUserAchievements(userId);
+                setArrFavorites(favoritesRes.data);
                 setArrAchievements(achievementsRes.data);
-            } catch (err) {
-                console.error("Error loading achievements", err);
-            }
-
-            try {
-                const boostsRes = await getUserBoosts(userId);
                 setArrBoosts(boostsRes.data);
-            } catch (err) {
-                console.error("Error loading boosts", err);
-            }
-        };
 
+            } catch (err) {
+                console.error("error fetching user data", err);
+                setErrorAlert(err.response?.data?.message || "שגיאה בטעינת הנתונים");
+            } finally {
+                setIsLoading(false);
+            }
+        }
         if (userId) {
             fetchUserData();
         }
@@ -193,9 +180,13 @@ export const ProfilePage = () => {
         }
     }
 
+    if (isLoading) {
+        return <div className='loading-spinner' />
+    }
+
     if (!userProfile) {
         return <div className="profilePage" id='noUserLogged'>
-            <img src={guestMode} className="no-user-icon" />
+            <img src={guestMode} className="no-user-icon" alt="אורח" />
             <strong>משתמש לא מחובר</strong>
             <p>התחבר או הרשם <NavLink to="/login" id='linkToLogin'>כאן</NavLink> כדי לצפות בפרופיל</p>
         </div>
@@ -215,7 +206,7 @@ export const ProfilePage = () => {
             <div className="profile-dashboard">
                 <div className="profile-header">
                     {userProfile.profilePicture ? (
-                        <img src={userProfile.profilePicture || avatar_profile} className="profile-picture" />) :
+                        <img src={userProfile.profilePicture || avatar_profile} className="profile-picture" alt="תמונת פרופיל" />) :
                         (<div className="avatar-fallback_InProfile">
                             {(userProfile.userName || 'אורח').charAt(0).toUpperCase()}
                         </div>)}
@@ -249,7 +240,7 @@ export const ProfilePage = () => {
                                 <li><strong>אימייל</strong> {userProfile.email}</li>
                                 <li><strong>הצטרפות</strong> {new Date(userProfile.enterDate).toLocaleDateString('he-IL')}</li>
                                 <li><strong>עוקבים</strong> {followingQTY}</li>
-                                <li><div className="points_gem"><img src={gem} className="gemIconInProfile" /><strong>נקודות</strong></div><strong>{userProfile.points}</strong></li>
+                                <li><div className="points_gem"><img src={gem} className="gemIconInProfile" alt="יהלום" /><strong>נקודות</strong></div><strong>{userProfile.points}</strong></li>
                             </ul>
                         </div>
 
@@ -276,13 +267,13 @@ export const ProfilePage = () => {
                         <h3 className='titleTags'><FaTag className='iconForTitleInProfile' />שיאים</h3>
                         <div className='tagsContainer'>
                             <div className='goldTag' id='userTag'>
-                                <p>{getTagValue("gold")} פעמים <br />במקום הראשון</p><img src={goldMedal} id='medalInProfile' />
+                                <p>{getTagValue("gold")} פעמים <br />במקום הראשון</p><img src={goldMedal} id='medalInProfile' alt="מדליית זהב" />
                             </div>
                             <div className='silverTag' id='userTag'>
-                                <p>{getTagValue("silver")} פעמים <br />במקום השני</p><img src={silverMedal} id='medalInProfile' />
+                                <p>{getTagValue("silver")} פעמים <br />במקום השני</p><img src={silverMedal} id='medalInProfile' alt="מדליית כסף" />
                             </div>
                             <div className='bronzeTag' id='userTag'>
-                                <p>{getTagValue("bronze")} פעמים <br />במקום השלישי</p><img src={bronzeMedal} id='medalInProfile' />
+                                <p>{getTagValue("bronze")} פעמים <br />במקום השלישי</p><img src={bronzeMedal} id='medalInProfile' alt="מדליית ארד" />
                             </div>
                         </div>
                     </div>
@@ -322,6 +313,7 @@ export const ProfilePage = () => {
                                 {arrPosts.length > 3 && (
                                     <img
                                         src={arrowRight}
+                                        alt="חץ ימין"
                                         className="scroll-button"
                                         onClick={() => scrollPosts('postsContainer', 'left')}
                                     />
@@ -345,11 +337,11 @@ export const ProfilePage = () => {
                                             <div className="fileOfPost">
                                                 {post.imagePost && post.imagePost.trim() !== "" && (
                                                     post.imagePost.endsWith('.mp4') ? (
-                                                        <video className="post-image" src={post.imagePost} controls />
+                                                        <video className="post-image" alt="וידאו-פוסט" src={post.imagePost} controls />
                                                     ) : (
                                                         <img
                                                             src={post.imagePost}
-                                                            alt="post"
+                                                            alt="תמונת פוסט"
                                                             className="post-image_inProfile"
                                                         />
                                                     )
@@ -357,11 +349,11 @@ export const ProfilePage = () => {
                                             </div>
                                             <div className="likesAndComments">
                                                 <div className="iconWithNumber">
-                                                    <img src={comment_profile} alt="comments" />
+                                                    <img src={comment_profile} alt="תגובות" />
                                                     <span>{post.comments.length}</span>
                                                 </div>
                                                 <div className="iconWithNumber">
-                                                    <img src={like_profile} alt="likes" />
+                                                    <img src={like_profile} alt="לייקים" />
                                                     <span>{post.likes?.length || 0}</span>
                                                 </div>
                                             </div>
@@ -372,6 +364,7 @@ export const ProfilePage = () => {
                                 {arrPosts.length > 3 && (
                                     <img
                                         src={arrowLeft}
+                                        alt="חץ שמאל"
                                         className="scroll-button"
                                         onClick={() => scrollPosts('postsContainer', 'right')}
                                     />
@@ -393,6 +386,7 @@ export const ProfilePage = () => {
                                 {arrFavorites.length > 3 && (
                                     <img
                                         src={arrowRight}
+                                        alt="חץ ימין"
                                         className="scroll-button"
                                         onClick={() => scrollPosts('favoritePostsContainer', 'left')}
                                     />
@@ -408,7 +402,7 @@ export const ProfilePage = () => {
                                             <div className='topFavoritePost'>
                                                 <div className='urlAndName_favorite'>
                                                     {post.userId?.profilePicture ? (
-                                                        <img src={post.userId?.profilePicture} className="profilePicture_favorites" />
+                                                        <img src={post.userId?.profilePicture} className="profilePicture_favorites" alt="תמונת פרופיל" />
                                                     ) : (
                                                         <div className="avatar-fallback" id="avatar-fallback_postInFeed">
                                                             {(post.userId?.userName || 'אורח').charAt(0).toUpperCase()}
@@ -430,11 +424,11 @@ export const ProfilePage = () => {
                                             <div className="fileOfPost">
                                                 {post.imagePost && post.imagePost.trim() !== "" && (
                                                     post.imagePost.endsWith('.mp4') ? (
-                                                        <video className="post-image" src={post.imagePost} controls />
+                                                        <video className="post-image" alt="וידאו-פוסט" src={post.imagePost} controls />
                                                     ) : (
                                                         <img
                                                             src={post.imagePost}
-                                                            alt="post"
+                                                            alt="תמונת פוסט"
                                                             className="post-image_inProfile"
                                                         />
                                                     )
@@ -442,11 +436,11 @@ export const ProfilePage = () => {
                                             </div>
                                             <div className="likesAndComments">
                                                 <div className="iconWithNumber">
-                                                    <img src={comment_profile} alt="comments" />
+                                                    <img src={comment_profile} alt="תגובות" />
                                                     <span>{post.comments.length}</span>
                                                 </div>
                                                 <div className="iconWithNumber">
-                                                    <img src={like_profile} alt="likes" />
+                                                    <img src={like_profile} alt="לייקים" />
                                                     <span>{post.likes?.length || 0}</span>
                                                 </div>
                                             </div>
@@ -457,6 +451,7 @@ export const ProfilePage = () => {
                                 {arrFavorites.length > 3 && (
                                     <img
                                         src={arrowLeft}
+                                        alt="חץ שמאל"
                                         className="scroll-button"
                                         onClick={() => scrollPosts('favoritePostsContainer', 'right')}
                                     />
@@ -474,20 +469,20 @@ export const ProfilePage = () => {
                     {loggedInUserId &&
                         <div className="buttom_section">
                             <div className="card-section">
-                                <img src={post} className="icon" />
+                                <img src={post} className="icon" alt="אייקון פוסט"/>
                                 <h3>הוספת פוסט</h3>
                                 <NavLink to="/addPost" className="save-btn">להוספה</NavLink>
                             </div>
 
                             <div className="card-section">
-                                <img src={achievement} className="icon" />
+                                <img src={achievement} className="icon" alt="אייקון הישג"/>
                                 <h3 id='linkToAchievement'>הוספת הישג</h3>
                                 <NavLink to="/profile/addAchievement" className="save-btn">להוספה</NavLink>
                             </div>
 
                             <div className="card-section" id="Achievement-section">
                                 <div className="rightSideAchievement">
-                                    <img src={daily_update} className="icon" id='achievementIcon' />
+                                    <img src={daily_update} className="icon" id='achievementIcon' alt="עדכון יומי בטבלה" />
                                     <h3 id='achievement_h3'>עדכון יומי</h3>
                                     <p className='small_title'>הישגים וטבלאות מעקב</p>
                                 </div>
@@ -504,14 +499,14 @@ export const ProfilePage = () => {
                                                 {item.type === "boost" && <div className="boost-badge">בוסט</div>}
                                                 # {item.title}
                                                 {getStatusIcon(item.statusTable) && (
-                                                    <img src={getStatusIcon(item.statusTable)} className="status-icon" />
+                                                    <img src={getStatusIcon(item.statusTable)} className="status-icon" alt="סטטוס טבלה"/>
                                                 )}
                                             </NavLink>
                                         ))
                                     ) : (
                                         <div className='achievements_con'>
                                             <p className="no-achievements_txt">אין לך עדיין הישגים</p>
-                                            <img src={no_achievements} className='no_achievements_icon' />
+                                            <img src={no_achievements} className='no_achievements_icon' alt="אין הישגים"/>
                                         </div>
                                     )}
                                 </div>

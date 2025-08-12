@@ -63,7 +63,7 @@ export const NavBar = () => {
         <div className="navbar_page">
             <div className="navbar_left">
                 <NavLink to="/feed" className="logo_nav-link">
-                    <img src={logo} alt="logo" className="logo" />
+                    <img src={logo} alt="לוגו" className="logo" />
                 </NavLink>
             </div>
 
@@ -99,14 +99,14 @@ export const NavBar = () => {
                     </NavLink>
                     <NavLink to="/feed" className={`nav-link ${isFeedPage ? "active" : ""}`}>
                         <div className="nav-item">
-                            <img src={home} width={20} height={20} alt="בית" />
+                            <img src={home} width={20} height={20} alt="עמוד הבית" />
                             <span>בית</span>
                         </div>
                     </NavLink>
                     <NavLink to="/login" className="nav-link">
                         <div className="nav-item" id="guest">
                             {user?.profilePictureUser ? (
-                                <img src={user.profilePictureUser} className="avatar-fallback" />) :
+                                <img src={user.profilePictureUser} className="avatar-fallback" alt="תמונת פרופיל"/>) :
                                 (<div className="avatar-fallback">
                                     {(user?.userName || 'אורח').charAt(0).toUpperCase()}
                                 </div>)}
@@ -121,7 +121,7 @@ export const NavBar = () => {
                 <NavLink to="/login" className="nav-link" onClick={() => setMenuOpen(false)}>
                     <div className="nav-item" id="guest">
                         {user?.profilePictureUser ? (
-                            <img src={user.profilePictureUser} className="avatar-fallback" />
+                            <img src={user.profilePictureUser} className="avatar-fallback" alt="תמונת פרופיל"/>
                         ) : (
                             <div className="avatar-fallback">
                                 {(user?.userName || 'אורח').charAt(0).toUpperCase()}
@@ -131,7 +131,7 @@ export const NavBar = () => {
                 </NavLink>
                 <NavLink to="/feed" className="nav-link" onClick={() => setMenuOpen(false)}>
                     <div className="nav-item">
-                        <img src={home} width={20} height={20} alt="בית" />
+                        <img src={home} width={20} height={20} alt="עמוד הבית" />
                         <span>בית</span>
                     </div>
                 </NavLink>
@@ -191,7 +191,7 @@ export const NavBar = () => {
                                             }}
                                         >
                                             {user.profilePicture ? (
-                                                <img src={user.profilePicture} className="userUrlInSearchField" />
+                                                <img src={user.profilePicture} className="userUrlInSearchField" alt="תמונת פרופיל"/>
                                             ) : (
                                                 <div className="avatar-fallback" id="avatar-fallback_navbar">
                                                     {(user.userName || 'אורח').charAt(0).toUpperCase()}
@@ -234,7 +234,7 @@ export const NavBar = () => {
                                     }}
                                 >
                                     {user.profilePicture ? (
-                                        <img src={user.profilePicture} className="userUrlInSearchField" />
+                                        <img src={user.profilePicture} className="userUrlInSearchField" alt="תמונת פרופיל" />
                                     ) : (
                                         <div className="avatar-fallback" id="avatar-fallback_navbar">
                                             {(user.userName || 'אורח').charAt(0).toUpperCase()}

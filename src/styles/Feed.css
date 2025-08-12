@@ -1,6 +1,6 @@
 .feed_page {
-  /* background: linear-gradient(90deg, #ebdae4ac, #cae7e1ae); */
-  background-color: rgb(234, 224, 224);
+  background: linear-gradient(90deg, #ebdae4ac, #cae7e1ae);
+  /* background-color: rgb(234, 224, 224); */
 }
 
 .feed_part {
@@ -359,7 +359,6 @@
   width: 100%;
   border-radius: 12px;
   outline: none;
-  /* border: 1px solid #e0e0e0; */
   border: none;
   font-size: 14px;
   background-color: #eeeeee;
@@ -434,10 +433,8 @@ select option {
   margin-top: 20px;
   top: 92px;
   border: none;
-  /* animation: pulse 1.5s infinite ease-in-out; */
   align-items: center;
   justify-content: space-between;
-
 }
 
 .noRandomUser {

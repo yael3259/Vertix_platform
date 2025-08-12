@@ -19,6 +19,7 @@ export const NotificationsList = () => {
     const { user, setNotificationsCount } = useUserContext();
     const [notifications, setNotifications] = useState([]);
     const [errorAlert, setErrorAlert] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
     let token = user.tokenUser;
 
@@ -52,9 +53,10 @@ export const NotificationsList = () => {
         try {
             const res = await getNotificationsByUser(user.userId, token);
             setNotifications(res.data.notifications || []);
-            const count = res.data.count;
         } catch (err) {
             console.error("Failed to get notifications", err);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -72,9 +74,13 @@ export const NotificationsList = () => {
         }
     }
 
+    if (isLoading) {
+        return <div className='loading-spinner' />
+    }
+
     if (user.userId === "guest") {
         return <div className="notifBody" id='noUserLogged'>
-            <img src={guestMode} className="no-user-icon" />
+            <img src={guestMode} className="no-user-icon" alt="אורח" />
             <strong>משתמש לא מחובר</strong>
             <p>התחבר או הרשם <NavLink to="/login" id='linkToLogin'>כאן</NavLink> כדי לצפות בהתראות שלך</p>
         </div>
@@ -91,7 +97,7 @@ export const NotificationsList = () => {
                 </p>
                 {notifications.length === 0 ? (
                     <div className="no-notifications">
-                        <img src={no_alerts} className="no-notifications-img" />
+                        <img src={no_alerts} className="no-notifications-img" alt="אין הודעות" />
                         <h2 className="no-notifications-title">אין התראות</h2>
                         <p className="no-notifications-text">ברגע שתתקבל תגובה, מעקב או עדכון בטבלאות, תופיע כאן התראה</p>
                     </div>
@@ -101,7 +107,7 @@ export const NotificationsList = () => {
                             {notification.type === 'comment' &&
                                 <div onClick={() => fetchToProfile(notification.fromUserId?._id)}>
                                     {notification.fromUserId?.profilePicture ? (
-                                        <img src={notification.fromUserId?.profilePicture} className="profile-pic" />
+                                        <img src={notification.fromUserId?.profilePicture} className="profile-pic" alt="תמונת פרופיל" />
                                     ) : (
                                         <div className="avatar-fallback" id="avatar-fallback_inNotification">
                                             {(notification.fromUserId?.userName || 'אורח').charAt(0).toUpperCase()}
@@ -109,9 +115,9 @@ export const NotificationsList = () => {
                                     )}
                                 </div>
                             }
-                            {notification.type === 'follow' && <img className="profile-pic" id='networkNotif' src={network} />}
-                            {notification.type === 'table' && <img className="profile-pic" id='achievedNotif' src={achieved} />}
-                            {notification.type === 'boost' && <img className="profile-pic" id='achievedNotif' src={boost_complete} />}
+                            {notification.type === 'follow' && <img className="profile-pic" id='networkNotif' src={network} alt="התראת חיבור" />}
+                            {notification.type === 'table' && <img className="profile-pic" id='achievedNotif' src={achieved} alt="התראת הישג" />}
+                            {notification.type === 'boost' && <img className="profile-pic" id='achievedNotif' src={boost_complete} alt="התראת בוסט" />}
 
                             <div className={`content ${['table', 'boost', 'follow'].includes(notification.type) ? 'content_table-boost-follow' : ''}`}>
                                 <div className="top-row">

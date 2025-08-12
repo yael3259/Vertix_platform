@@ -14,7 +14,7 @@ export const EarningPointsAlert = ({ onClose, type }) => {
         <button className="points-close" onClick={onClose}>×</button>
         <p className="points-description">
           <strong>צברת {points} נקודות!</strong><br />
-          <img src={clear_diamond} className="clear_gem-icon" /><br />
+          <img src={clear_diamond} className="clear_gem-icon" alt="יהלום"/><br />
           אם תצליח/י לעמוד באתגר ולסמן בטבלה מבלי לפספס אף יום, סכום הנקודות יוכפל
         </p>
       </div>

@@ -60,7 +60,7 @@ export const ShowAllUsers = () => {
             <div className="users-grid">
                 {arr.map((user) => (
                     <div className={`user-card ${user.role === "ADMIN" ? "admin-user" : ""}`} key={user._id}>
-                        <img src={user.url || "https://cdn-icons-png.freepik.com/256/12259/12259393.png?ga=GA1.1.394280285.1712833522&"} width={25} height={25} id="urlPic" />
+                        <img src={user.url || "https://cdn-icons-png.freepik.com/256/12259/12259393.png?ga=GA1.1.394280285.1712833522&"} width={25} height={25} />
                         <p><strong>User Name: </strong>{user.userName}</p>
                         <p><strong>ID: </strong>{user._id}</p>
                         <p><strong>Email: </strong>{user.email}</p>

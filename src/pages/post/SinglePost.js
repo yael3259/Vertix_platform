@@ -127,7 +127,7 @@ export const SinglePost = () => {
 
     if (!post) {
         return <div className="profilePage" id='noUserLogged'>
-            <img src={display_loading} className="no-display" />
+            <img src={display_loading} className="תצוגה לא זמינה" />
             <strong>תצוגה נטענת...</strong>
         </div>
     }
@@ -146,14 +146,14 @@ export const SinglePost = () => {
             <div className="grid-item" id='single_post' key={post._id}>
                 <div className="top_post">
                     <div className="userName_txt" id="categoryPart">
-                        <img src={categoryIcon} className="categoryIcon" />
+                        <img src={categoryIcon} className="categoryIcon" alt="קטגורייה" />
                         <p className="category_txt">{post.category}</p>
                     </div>
                     <div className="userName_txt">
                         <p id="userName_txt">{post.userId?.userName}</p>
                         <div onClick={() => fetchToProfile(post.userId?._id)}>
                             {post.userId?.profilePicture ? (
-                                <img src={post.userId.profilePicture} className="profile_Picture" />
+                                <img src={post.userId.profilePicture} className="profile_Picture" alt="תמונת פרופיל" />
                             ) : (
                                 <div className="avatar-fallback" id="avatar-fallback_feed">
                                     {(post.userId?.userName || 'אורח').charAt(0).toUpperCase()}
@@ -171,24 +171,29 @@ export const SinglePost = () => {
                     post.imagePost.endsWith('.mp4') ? (
                         <video className="post-image" src={post.imagePost} autoPlay loop playsInline controls />
                     ) : (
-                        <img src={post.imagePost} className="post-image" />
+                        <img src={post.imagePost} className="post-image" alt="תמונת פוסט" />
                     )
                 )}
 
                 <div className="item-likes-comments">
                     <p tabIndex="0" className="comments" onClick={() => toggleComments(post._id)}>
                         <span>{post.comments.length} תגובות</span>
-                        <img src={commentIcon} alt="comment icon" className="comment-icon" />
+                        <img src={commentIcon}
+                            alt="תגובות"
+                            className="comment-icon" />
                     </p>
                     <p className="favorite">
                         <span>מועדף</span>
-                        <img src={starIcon} className="star-icon" onClick={() => addPostToFavoritePosts(post._id, loggedInUser.userId)} />
+                        <img src={starIcon}
+                            alt="מועדפים"
+                            className="star-icon"
+                            onClick={() => addPostToFavoritePosts(post._id, loggedInUser.userId)} />
                     </p>
                     <p className="likes">
                         <span>{post.likes?.length || 0} לייקים</span>
                         <img
                             src={likedPosts[post._id] ? fill_likeIcon : empty_likeIcon}
-                            alt="like icon"
+                            alt="לייקים"
                             className="like-icon"
                             onClick={() => toggleLike(post._id)}
                         />
@@ -209,7 +214,7 @@ export const SinglePost = () => {
                             />
                             <div onClick={() => fetchToProfile(loggedInUser.userId)}>
                                 {loggedInUser.profilePictureUser ? (
-                                    <img src={loggedInUser.profilePictureUser} className="userUrlInCommentInput" />
+                                    <img src={loggedInUser.profilePictureUser} className="userUrlInCommentInput" alt="תמונת פרופיל"/>
                                 ) : (
                                     <div className="avatar-fallback" id="avatar-fallback_inSinglePost">
                                         {(loggedInUser.userName || 'אורח').charAt(0).toUpperCase()}
@@ -228,7 +233,7 @@ export const SinglePost = () => {
                                             <span className="comment-author">{comment.userId?.userName}</span>
                                             <div onClick={() => fetchToProfile(comment.userId?._id)}>
                                                 {comment.userId?.profilePicture ? (
-                                                    <img src={comment.userId.profilePicture} className="userUrlInComment" />
+                                                    <img src={comment.userId.profilePicture} className="userUrlInComment" alt="תמונת פרופיל" />
                                                 ) : (
                                                     <div className="avatar-fallback" id="avatar-fallback_inAddComment">
                                                         {(comment.userId?.userName || '').charAt(0).toUpperCase()}

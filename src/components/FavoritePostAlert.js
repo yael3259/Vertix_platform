@@ -11,7 +11,7 @@ export const FavoritePostAlert = ({ onClose }) => {
                     <strong>הפוסט נוסף למועדפים</strong>
                     <span className="favorite-subtext">
                         תוכל/י לצפות בו בפרופיל שלך
-                        <img src={favoritPost} className="favoritePostIcon" alt="favorite icon" />
+                        <img src={favoritPost} className="favoritePostIcon" alt="פוסט מועדף" />
                     </span>
                 </div>
             </div>

@@ -218,7 +218,7 @@ export const Feed = () => {
             const res = await getAllUsers();
             const sortedByPoints = res.data.sort((a, b) => b.points - a.points).slice(0, 3);
             setArrTopUsers(sortedByPoints || []);
-            isLoading(false);
+            setIsLoading(false);
         }
         catch (err) {
             console.error("Error loading top users", err);
@@ -240,6 +240,7 @@ export const Feed = () => {
         try {
             if (userId === "guest") {
                 setErrorAlert("משתמש לא מחובר");
+                return;
             }
             await AddFriendToNetwork(userId, idOfFriend, token);
             setFollowedUserName(followedUserName);
@@ -281,7 +282,7 @@ export const Feed = () => {
                     <div className={`left ${showMobileFilter ? 'show-mobile-filter' : ''}`} onClick={(e) => e.stopPropagation()}>
                         <div className="filterIconInLable">
                             <p className="filterLabal">סינון פוסטים</p>
-                            <img src={filterIcon} className="filterIconVisible" />
+                            <img src={filterIcon} className="filterIconVisible" alt="אייקון סינון" />
                         </div>
                         <div className="filters">
                             <p>לפי קטגוריות</p>
@@ -302,14 +303,14 @@ export const Feed = () => {
                         <div>
                             <div className="miniProfile_top">
                                 {user?.profilePictureUser ?
-                                    (<img src={user.profilePictureUser} className="avatar-fallback" id="miniProfile_avatar" />) :
+                                    (<img src={user.profilePictureUser} className="avatar-fallback" id="miniProfile_avatar" alt="תמונת פרופיל" />) :
                                     (<div className="avatar-fallback" id="mini_profile-avatar_fallback">{(user?.userName || 'אורח').charAt(0).toUpperCase()}</div>)}
 
                                 <div className="miniProfile_user-Info">
                                     <div className="miniProfile_userName">{user.userName || "אורח"}</div>
                                     <div className="miniProfile_nickname">{user.nickname}</div>
                                     <div className="miniProfile_title">
-                                        {!user.userId === "guest" ? 'משתמש.ת לא מחובר.ת' : "משתמש.ת מחובר.ת"}
+                                        {user.userId === "guest" ? 'משתמש.ת לא מחובר.ת' : "משתמש.ת מחובר.ת"}
                                     </div>
                                 </div>
                             </div>
@@ -350,7 +351,7 @@ export const Feed = () => {
                                 : arrTopUsers?.length > 0 && (
                                     <div className="miniProfile_usersRow">
                                         {arrTopUsers.map((user, i) => (
-                                            <span key={i} className="topUser"><span>{getMedal(i)}</span>{user.userName.length > 7 ? user.userName.slice(0, 7) + "..." : user.userName}</span>
+                                            <span key={user._id} className="topUser"><span>{getMedal(i)}</span>{user.userName.length > 7 ? user.userName.slice(0, 7) + "..." : user.userName}</span>
                                         ))}
                                     </div>
                                 )}
@@ -362,8 +363,8 @@ export const Feed = () => {
                     <div className="addpost_feed" onClick={() => { linkToAddPostForm() }}>יצירת פוסט חדש</div>
 
                     <div className="mobile-network-filter">
-                        <img src={networkIcon} className="networkIcon" onClick={() => setShowMobileAddFriend(!showMobileAddFriend)} title="הוספת חברים" />
-                        <img src={filterIcon} className="filterIcon" onClick={() => setShowMobileFilter(!showMobileFilter)} title="סינון פוסטים" />
+                        <img src={networkIcon} className="networkIcon" onClick={() => setShowMobileAddFriend(!showMobileAddFriend)} title="הוספת חברים" alt="אייקון הוספת חברים" />
+                        <img src={filterIcon} className="filterIcon" onClick={() => setShowMobileFilter(!showMobileFilter)} title="סינון פוסטים" alt="אייקון סינון פוסטים" />
                     </div>
 
                     {isLoading ? Array.from({ length: 6 }).map((_, i) => (
@@ -373,14 +374,14 @@ export const Feed = () => {
                             <div className="grid-item" key={item._id}>
                                 <div className="top_post">
                                     <div className="userName_txt" id="categoryPart">
-                                        <img src={categoryIcon} className="categoryIcon" />
+                                        <img src={categoryIcon} className="categoryIcon" alt="אייקון חלוקה לקטגוריות" />
                                         <p className="category_txt">{item.category}</p>
                                     </div>
                                     <div className="userName_txt">
                                         <p id="userName_txt">{item.userId?.userName}</p>
                                         <div onClick={() => fetchToProfile(item.userId?._id)}>
                                             {item.userId?.profilePicture ? (
-                                                <img src={item.userId.profilePicture} className="profile_Picture" />
+                                                <img src={item.userId.profilePicture} className="profile_Picture" alt="תמונת פרופיל" />
                                             ) : (
                                                 <div className="avatar-fallback" id="avatar-fallback_feed">
                                                     {(item.userId?.userName || 'אורח').charAt(0).toUpperCase()}
@@ -397,9 +398,9 @@ export const Feed = () => {
                                         {item.content}</p>
                                     {item.imagePost && item.imagePost.trim() !== "" && (
                                         item.imagePost.endsWith('.mp4') ? (
-                                            <video className="post-image" src={item.imagePost} autoPlay loop playsInline controls />
+                                            <video className="post-image" alt="וידאו-פוסט" src={item.imagePost} autoPlay loop playsInline controls />
                                         ) : (
-                                            <img src={item.imagePost} className="post-image" />
+                                            <img src={item.imagePost} className="post-image" alt="תמונת פוסט" loading="lazy" />
                                         )
                                     )}
                                 </div>
@@ -407,17 +408,17 @@ export const Feed = () => {
                                 <div className="item-likes-comments">
                                     <p tabIndex="0" className="comments" onClick={() => toggleComments(item._id)}>
                                         <span>{item.comments.length} תגובות</span>
-                                        <img src={commentIcon} alt="comment icon" className="comment-icon" />
+                                        <img src={commentIcon} alt="אייקון תגובות" className="comment-icon" />
                                     </p>
                                     <p className="favorite">
                                         <span>מועדף</span>
-                                        <img src={starIcon} className="star-icon" onClick={() => addPostToFavoritePosts(item._id, user.userId)} />
+                                        <img src={starIcon} alt="אייקון מועדף" className="star-icon" onClick={() => addPostToFavoritePosts(item._id, user.userId)} />
                                     </p>
                                     <p className="likes">
                                         <span>{item.likes?.length || 0} לייקים</span>
                                         <img
                                             src={likedPosts[item._id] ? fill_likeIcon : empty_likeIcon}
-                                            alt="like icon"
+                                            alt="אייקון לייק"
                                             className="like-icon"
                                             onClick={() => toggleLike(item._id)}
                                         />
@@ -438,7 +439,7 @@ export const Feed = () => {
                                             />
                                             <div onClick={() => fetchToProfile(user.userId)}>
                                                 {user.profilePictureUser ? (
-                                                    <img src={user.profilePictureUser} className="userUrlInCommentInput" />
+                                                    <img src={user.profilePictureUser} className="userUrlInCommentInput" alt="תמונת פרופיל" />
                                                 ) : (
                                                     <div className="avatar-fallback" id="avatar-fallback_inAddCommentInput">
                                                         {(user.userName || 'אורח').charAt(0).toUpperCase()}
@@ -457,7 +458,7 @@ export const Feed = () => {
                                                             <span className="comment-author">{comment.userId?.userName}</span>
                                                             <div onClick={() => fetchToProfile(comment.userId?._id)}>
                                                                 {comment.userId?.profilePicture ? (
-                                                                    <img src={comment.userId.profilePicture} className="userUrlInComment" />
+                                                                    <img src={comment.userId.profilePicture} className="userUrlInComment" alt="תמונת פרופיל" />
                                                                 ) : (
                                                                     <div className="avatar-fallback" id="avatar-fallback_inAddComment">
                                                                         {(comment.userId?.userName || '').charAt(0).toUpperCase()}
@@ -485,18 +486,14 @@ export const Feed = () => {
                     <p className="right-title">הוספת חברים חדשים</p>
                     <div className="random-users">
                         {randomUsers.length > 0 ? (
-                            randomUsers.map((user, index) => (
-                                <div key={user.userId} className="random-user">
+                            randomUsers.map((user, _) => (
+                                <div key={user._id} className="random-user">
                                     <button className="add-friend-btn" onClick={() => addFriend(user._id, user.userName)}>+</button>
                                     <p className="name_to_connect">{user.userName}</p>
 
-                                    <div onClick={() => fetchToProfile(user._id)}
-                                        onError={(e) => {
-                                            e.target.onerror = null;
-                                            e.target.src = "https://cdn-icons-png.freepik.com/256/12522/12522481.png";
-                                        }}>
+                                    <div onClick={() => fetchToProfile(user._id)}>
                                         {user.profilePicture ? (
-                                            <img src={user.profilePicture} className="profile_Picture" />
+                                            <img src={user.profilePicture} className="profile_Picture" alt="תמונת פרופיל" />
                                         ) : (
                                             <div className="avatar-fallback" id="avatar-fallback_feed">
                                                 {(user.userName || 'אורח').charAt(0).toUpperCase()}

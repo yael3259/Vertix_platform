@@ -124,7 +124,7 @@ export const TrackingTable = () => {
 
     if (!item || !type) {
         return <div className="trackingTablePage" id='noUserLogged'>
-            <img src={errorInDisplay} className="no-display-icon" />
+            <img src={errorInDisplay} className="no-display-icon" alt="תצוגה לא זמינה" />
             <strong>שגיאה</strong>
             <p>נסה/י להתחבר שוב <NavLink to="/login" id='linkToLogin'>כאן</NavLink> כדי לסמן ולצפות בהישגים</p>
         </div>
@@ -164,7 +164,7 @@ export const TrackingTable = () => {
                     {isCompleted && (
                         <>
                             <div className="goldenCelebration" />
-                            <img src={tableCompleted} alt="trophy" className="trophyGifFixed" />
+                            <img src={tableCompleted} alt="גביע זהב" className="trophyGifFixed" />
                             <p className="completionText">כל הכבוד! ההישג הושלם בהצלחה!</p>
                         </>
                     )}
@@ -172,7 +172,7 @@ export const TrackingTable = () => {
                     {isFailed && !isCompleted && (
                         <>
                             <div className="failedOverlay" />
-                            <img src={failedBoost} alt="failed" className="failedStampGif" />
+                            <img src={failedBoost} alt="שעון חול" className="failedStampGif" />
                             <p className="failedText">פספסת יום. נסה/י שוב בשבוע הבא</p>
                         </>
                     )}
@@ -211,10 +211,10 @@ export const TrackingTable = () => {
                                             >
                                                 {new Date(day.day).getDate()}
                                                 {day.isMarkedToday ? (
-                                                    <img src={fire} alt="marked" className="icons_in_cell" />
+                                                    <img src={fire} alt="אש" className="icons_in_cell" />
                                                 ) : (
                                                     isBeforeToday && (
-                                                        <img src={ice_cube} alt="not-marked" className="icons_in_cell" />
+                                                        <img src={ice_cube} alt="קרח" className="icons_in_cell" />
                                                     )
                                                 )}
                                             </div>

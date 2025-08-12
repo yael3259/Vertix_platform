@@ -104,7 +104,7 @@ export const AddPostForm = () => {
 
     if (user.userId === "guest") {
         return <div className="profilePage" id='noUserLogged'>
-            <img src={guestMode} className="no-user-icon" />
+            <img src={guestMode} className="no-user-icon" alt="אורח" />
             <strong>משתמש לא מחובר</strong>
             <p>התחבר או הרשם <NavLink to="/login" id='linkToLogin'>כאן</NavLink> כדי לפרסם פוסט</p>
         </div>
@@ -167,7 +167,7 @@ export const AddPostForm = () => {
                     {fromNotifPage ? (
                         <div className="preview-achievement-img">
                             <p style={{ fontWeight: 'bold', textAlign: "right" }}>תמונת רקע (נוספת אוטומטית)</p>
-                            <img src={achievedBGForPost} alt="achievement preview" className="achievementCompletedBG" />
+                            <img src={achievedBGForPost} alt="רקע להישג שהושלם" className="achievementCompletedBG" />
                         </div>
                     ) : (<>
                         <p style={{ fontWeight: 'Bold' }}>הוספת וידאו / תמונה</p>

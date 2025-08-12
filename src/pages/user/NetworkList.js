@@ -72,7 +72,7 @@ export const NetworkList = () => {
                             <div key={friend._id} className="following-card">
                                 <div onClick={() => fetchToProfile(friend?._id)}>
                                     {friend.profilePicture ? (
-                                        <img src={friend.profilePicture} className="following-avatar" />
+                                        <img src={friend.profilePicture} className="following-avatar" alt="תמונת פרופיל" />
                                     ) : (
                                         <div className="avatar-fallback" id="avatar-fallback_network">
                                             {(friend.userName || 'אורח').charAt(0).toUpperCase()}

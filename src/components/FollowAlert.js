@@ -27,7 +27,7 @@ export const FollowAlert = ({ onClose, followedUserName }) => {
                 <button className="follow-close" onClick={onClose}>×</button>
                 <p className="follow-description">
                     <strong>את/ה עוקב/ת עכשיו אחרי {followedUserName}!</strong><br />
-                    {getRandomMessage()} <img src={handshake} className="handshakeIcon" id='handshakeSize' /><br />
+                    {getRandomMessage()} <img src={handshake} className="handshakeIcon" id='handshakeSize' alt="לחיצת יד"/><br />
                 </p>
             </div>
         </div>
