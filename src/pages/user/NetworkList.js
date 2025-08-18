@@ -4,6 +4,7 @@ import { useUserContext } from "../../contexts/UserContext";
 import { getFollowing, getOneUser, removeFriendFromNetwork } from "../../routes/UserAPI";
 import { useParams, useNavigate } from "react-router-dom";
 import { DynamicErrorAlert } from '../../components/DynamicErrorAlert';
+import noFriends from "../../files/icons/noFriends.png";
 
 
 
@@ -13,6 +14,7 @@ export const NetworkList = () => {
     const { user: loggedInUser } = useUserContext();
     const { userId } = useParams();
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if (userId) {
@@ -31,6 +33,7 @@ export const NetworkList = () => {
         try {
             const res = await getFollowing(id);
             setFollowingList(res.data.following || []);
+            setIsLoading(false);
         } catch (err) {
             console.error("Error fetching following list", err);
         }
@@ -38,7 +41,7 @@ export const NetworkList = () => {
 
     const fetchToProfile = async (userId) => {
         try {
-            let res = await getOneUser(userId);
+            await getOneUser(userId);
             navigate(`/profile/${userId}`);
         }
         catch (err) {
@@ -58,14 +61,21 @@ export const NetworkList = () => {
         }
     }
 
+    if (isLoading) {
+        return <div className='loading-spinner' />
+    }
+
     return (
         <div className="following-page">
             {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
 
             <div className="following-container">
-                <h2 className="following-title">החברים שאני עוקב/ת אחריהם</h2>
+                <h2 className="following-title">רשימת החברים</h2>
                 {followingList.length === 0 ? (
-                    <p className="following-empty">אין לך עדיין חברים</p>
+                    <div id='noFriendsExists'>
+                        <img src={noFriends} className="no-user-icon" alt="אין חברים" />
+                        <strong>עדיין אין חברים</strong>
+                    </div>
                 ) : (
                     <div className="following-list">
                         {followingList.map((friend) => (

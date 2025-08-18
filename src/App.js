@@ -29,6 +29,7 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="" element={<Feed />} />
+          {/* <Route path="*" exact component={<NotFoundPage />} /> */}
           <Route path="/feed" element={<Feed />} />
           <Route path="/addPost" element={<AddPostForm />} />
           <Route path="/addPost/:descriptionForPost" element={<AddPostForm />} />

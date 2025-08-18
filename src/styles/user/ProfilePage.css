@@ -10,7 +10,8 @@
     align-items: flex-start;
 }
 
-#noUserLogged {
+#noUserLogged,
+#noFriendsExists {
     background-color: #ffffff;
     min-height: 100vh;
     padding-top: 7%;

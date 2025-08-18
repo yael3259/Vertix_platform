@@ -205,11 +205,8 @@ export const ProfilePage = () => {
 
             <div className="profile-dashboard">
                 <div className="profile-header">
-                    {userProfile.profilePicture ? (
-                        <img src={userProfile.profilePicture || avatar_profile} className="profile-picture" alt="תמונת פרופיל" />) :
-                        (<div className="avatar-fallback_InProfile">
-                            {(userProfile.userName || 'אורח').charAt(0).toUpperCase()}
-                        </div>)}
+                    <img src={userProfile.profilePicture || avatar_profile} className="profile-picture" alt="תמונת פרופיל" />
+                         
                     <div className="profile-info">
                         <h1>{userProfile.userName}</h1>
                         <div className="nickname">{userProfile.nickname}</div>
@@ -469,13 +466,13 @@ export const ProfilePage = () => {
                     {loggedInUserId &&
                         <div className="buttom_section">
                             <div className="card-section">
-                                <img src={post} className="icon" alt="אייקון פוסט"/>
+                                <img src={post} className="icon" alt="אייקון פוסט" />
                                 <h3>הוספת פוסט</h3>
                                 <NavLink to="/addPost" className="save-btn">להוספה</NavLink>
                             </div>
 
                             <div className="card-section">
-                                <img src={achievement} className="icon" alt="אייקון הישג"/>
+                                <img src={achievement} className="icon" alt="אייקון הישג" />
                                 <h3 id='linkToAchievement'>הוספת הישג</h3>
                                 <NavLink to="/profile/addAchievement" className="save-btn">להוספה</NavLink>
                             </div>
@@ -499,14 +496,14 @@ export const ProfilePage = () => {
                                                 {item.type === "boost" && <div className="boost-badge">בוסט</div>}
                                                 # {item.title}
                                                 {getStatusIcon(item.statusTable) && (
-                                                    <img src={getStatusIcon(item.statusTable)} className="status-icon" alt="סטטוס טבלה"/>
+                                                    <img src={getStatusIcon(item.statusTable)} className="status-icon" alt="סטטוס טבלה" />
                                                 )}
                                             </NavLink>
                                         ))
                                     ) : (
                                         <div className='achievements_con'>
                                             <p className="no-achievements_txt">אין לך עדיין הישגים</p>
-                                            <img src={no_achievements} className='no_achievements_icon' alt="אין הישגים"/>
+                                            <img src={no_achievements} className='no_achievements_icon' alt="אין הישגים" />
                                         </div>
                                     )}
                                 </div>
