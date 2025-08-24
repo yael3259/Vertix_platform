@@ -20,6 +20,7 @@ import { EditForm } from "./pages/user/EditDetails";
 import { EarningPointsAlert } from "./components/EarningPointsAlert";
 import { FollowAlert } from "./components/FollowAlert";
 import { FavoritePostAlert } from "./components/FavoritePostAlert";
+import { EditOptionsMenu } from "./components/EditOptionsMenu";
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signin" element={<RegistrationPage />} />
           <Route path="/reset_pass" element={<ResetPassword />} />
+          <Route path="/editOption" element={<EditOptionsMenu />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/board" element={<LeaderBoard />} />
           <Route path="/profile/:userId" element={<ProfilePage />} />

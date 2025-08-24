@@ -63,9 +63,7 @@ export const AddPostForm = () => {
 
         try {
             await addPost(formData, token);
-            alert("הפוסט נוסף בהצלחה");
             navigate("/feed");
-
         } catch (err) {
             console.error("שגיאה בשליחת הפוסט:", err);
             setErrorAlert(err.response.data.message || "שגיאה");

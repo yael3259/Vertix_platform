@@ -5,6 +5,7 @@ import { updateUserSkills, getOneUser, getFollowing, AddFriendToNetwork } from '
 import { getUserAchievements, getUserBoosts } from '../../routes/AchievementAPI';
 import { useUserContext } from '../../contexts/UserContext';
 import { getFavoritePosts, getPostsById } from '../../routes/PostAPI';
+import { EditOptionsMenu } from '../../components/EditOptionsMenu';
 import post from "../../files/icons/post.png";
 import daily_update from "../../files/icons/daily_update.png";
 import achievement from "../../files/icons/achievement.png";
@@ -26,6 +27,11 @@ import bronzeMedal from "../../files/icons/bronze-medal.png";
 import guestMode from "../../files/icons/guestMode.png"
 import { FollowAlert } from '../../components/FollowAlert';
 import { DynamicErrorAlert } from '../../components/DynamicErrorAlert';
+import firstLevel from "../../files/icons/firstLevel.png";
+import secondLevel from "../../files/icons/secondLevel.png";
+import thirdLevel from "../../files/icons/thirdLevel.png";
+import fourthLevel from "../../files/icons/fourthLevel.png";
+import { MoreVertical, MoreHorizontal } from "lucide-react";
 
 
 
@@ -46,6 +52,7 @@ export const ProfilePage = () => {
     const [showBoostAlert, setShowBoostAlert] = useState(false);
     const [followedUserName, setFollowedUserName] = useState(false);
     const [showFollowAlert, setShowFollowAlert] = useState(false);
+    const [activePostOptions, setActivePostOptions] = useState(null);
     const loggedInUserId = userId === loggedInUser.userId;
     const navigate = useNavigate();
     let token = loggedInUser.tokenUser;
@@ -108,6 +115,35 @@ export const ProfilePage = () => {
         }
     }, [errorAlert]);
 
+    const levels = [
+        { max: 70, label: 'מתחיל.ה', images: [firstLevel] },
+        { max: 200, label: 'מתקדמ.ת', images: [firstLevel, secondLevel] },
+        { max: 450, label: 'אלופ.ה', images: [firstLevel, secondLevel, thirdLevel] },
+        { max: Infinity, label: 'אגדה', images: [firstLevel, secondLevel, thirdLevel, fourthLevel] },
+    ];
+
+    const getLevelUser = (points) => {
+        const level = levels.find(l => points <= l.max);
+
+        return (
+            <div className="levelDisplay">
+                <div className="levelText">
+                    <p>סטטוס</p>
+                </div>
+                <div className="levelIcons">
+                    <h4>{level.label}</h4>
+                    {level.images.map((img, i) => (
+                        <img key={i} src={img} alt={level.label} className="levelIcon" />
+                    ))}
+                </div>
+            </div>
+        );
+    };
+
+    const toggleEditOptions = (postId) => {
+        setActivePostOptions(prev => (prev === postId ? null : postId));
+    };
+
     const allAchievements = [
         ...arrAchievements.map((a) => ({ ...a, type: "achievement" })),
         ...arrBoosts.map((b) => ({ ...b, type: "boost" }))
@@ -153,7 +189,7 @@ export const ProfilePage = () => {
         const userId = loggedInUser.userId;
 
         try {
-            const res = await AddFriendToNetwork(userId, idOfFriend, token);
+            await AddFriendToNetwork(userId, idOfFriend, token);
             setFollowedUserName(followedUserName);
             setShowFollowAlert(true);
         }
@@ -206,7 +242,7 @@ export const ProfilePage = () => {
             <div className="profile-dashboard">
                 <div className="profile-header">
                     <img src={userProfile.profilePicture || avatar_profile} className="profile-picture" alt="תמונת פרופיל" />
-                         
+
                     <div className="profile-info">
                         <h1>{userProfile.userName}</h1>
                         <div className="nickname">{userProfile.nickname}</div>
@@ -236,11 +272,10 @@ export const ProfilePage = () => {
                                 <li><strong>מין</strong> {userProfile.gender}</li>
                                 <li><strong>אימייל</strong> {userProfile.email}</li>
                                 <li><strong>הצטרפות</strong> {new Date(userProfile.enterDate).toLocaleDateString('he-IL')}</li>
-                                <li><strong>עוקבים</strong> {followingQTY}</li>
+                                <li><strong>חברים</strong> {followingQTY}</li>
                                 <li><div className="points_gem"><img src={gem} className="gemIconInProfile" alt="יהלום" /><strong>נקודות</strong></div><strong>{userProfile.points}</strong></li>
                             </ul>
                         </div>
-
                         {userId !== loggedInUser.userId && <button className='addUserToNetwork' onClick={() => addFriend(userProfile._id)}>התחבר/י ל{userProfile.nickname ? userProfile.nickname : userProfile.userName}</button>}
                     </div>
 
@@ -259,6 +294,8 @@ export const ProfilePage = () => {
                         {loggedInUserId && <NavLink to="/profile/edit">
                             <button className="routes_button_in_mobile">עריכה</button></NavLink>}
                     </div>
+
+                    <div className='gemsReached'>{getLevelUser(userProfile.points)}</div>
 
                     <div className="section" id='tags_section'>
                         <h3 className='titleTags'><FaTag className='iconForTitleInProfile' />שיאים</h3>
@@ -318,32 +355,38 @@ export const ProfilePage = () => {
 
                                 <div className="horizontal-posts-container" id="postsContainer">
                                     {arrPosts.slice().reverse().map((post, i) => (
-                                        <div
-                                            key={i}
-                                            className="horizontal-post-card"
-                                            onClick={() => navigate(`/profile/single_post/${post._id}`)}
-                                        >
-                                            <p className="postingDate">
-                                                {new Date(post.postingDate).toLocaleDateString('he-IL')}
-                                            </p>
-                                            <p className="post-text">
-                                                {post.content.length > 100
-                                                    ? post.content.slice(0, 56) + '...'
-                                                    : post.content}
-                                            </p>
-                                            <div className="fileOfPost">
-                                                {post.imagePost && post.imagePost.trim() !== "" && (
-                                                    post.imagePost.endsWith('.mp4') ? (
-                                                        <video className="post-image" alt="וידאו-פוסט" src={post.imagePost} controls />
-                                                    ) : (
-                                                        <img
-                                                            src={post.imagePost}
-                                                            alt="תמונת פוסט"
-                                                            className="post-image_inProfile"
-                                                        />
-                                                    )
+                                        <div key={i} className="horizontal-post-card">
+                                            <div className='postOptionsAndDate'>
+                                                {post.userId === loggedInUser.userId && (
+                                                    <>
+                                                        <button className="moreOptionsIconBtn" onClick={() => toggleEditOptions(post._id)}>
+                                                            <MoreHorizontal className='moreOptionsIcon' />
+                                                        </button>
+                                                        {activePostOptions === post._id && (
+                                                            <EditOptionsMenu onEdit={post._id} onDelete={post._id} />
+                                                        )}
+                                                    </>
                                                 )}
+                                                <p className="postingDate">
+                                                    {new Date(post.postingDate).toLocaleDateString('he-IL')}
+                                                </p>
                                             </div>
+
+                                            <div className='linkToSinglePost' onClick={() => navigate(`/profile/single_post/${post._id}`)}>
+                                                <p className="post-text">
+                                                    {post.content.length > 100 ? post.content.slice(0, 56) + '...' : post.content}
+                                                </p>
+                                                <div className="fileOfPost">
+                                                    {post.imagePost && post.imagePost.trim() !== "" && (
+                                                        post.imagePost.endsWith('.mp4') ? (
+                                                            <video className="post-image" alt="וידאו-פוסט" src={post.imagePost} controls />
+                                                        ) : (
+                                                            <img src={post.imagePost} alt="תמונת פוסט" className="post-image_inProfile" />
+                                                        )
+                                                    )}
+                                                </div>
+                                            </div>
+
                                             <div className="likesAndComments">
                                                 <div className="iconWithNumber">
                                                     <img src={comment_profile} alt="תגובות" />
@@ -390,47 +433,63 @@ export const ProfilePage = () => {
                                 )}
 
                                 <div className="horizontal-posts-container" id="favoritePostsContainer">
-                                    {arrFavorites.slice().reverse().map((post, i) => (
-                                        <div
-                                            key={i}
-                                            className="horizontal-post-card"
-                                            onClick={() => navigate(`/profile/single_post/${post._id}`)}
-                                        >
+                                    {arrFavorites.slice().reverse().map((post, _) => (
+                                        <div key={post._id} className="horizontal-post-card">
                                             <div className='topFavoritePost'>
-                                                <div className='urlAndName_favorite'>
-                                                    {post.userId?.profilePicture ? (
-                                                        <img src={post.userId?.profilePicture} className="profilePicture_favorites" alt="תמונת פרופיל" />
-                                                    ) : (
-                                                        <div className="avatar-fallback" id="avatar-fallback_postInFeed">
-                                                            {(post.userId?.userName || 'אורח').charAt(0).toUpperCase()}
+                                                {post.userId?._id === loggedInUser.userId ? (
+                                                    <div className='postOptionsAndDate' id='optionsAndDate'>
+                                                        <button className="moreOptionsIconBtn" onClick={() => toggleEditOptions(post._id)}>
+                                                            <MoreHorizontal className='moreOptionsIcon' />
+                                                        </button>
+                                                        {activePostOptions === post._id && (
+                                                            <EditOptionsMenu onEdit={post._id} onDelete={post._id} />
+                                                        )}
+
+                                                        <p className="postingDate">
+                                                            {new Date(post.postingDate).toLocaleDateString('he-IL')}
+                                                        </p>
+                                                    </div>
+                                                ) : (
+                                                    <>
+                                                        <div className='urlAndName_favorite'>
+                                                            {post.userId?.profilePicture ? (
+                                                                <img src={post.userId?.profilePicture} className="profilePicture_favorites" alt="תמונת פרופיל" />
+                                                            ) : (
+                                                                <div className="avatar-fallback" id="avatar-fallback_postInFeed">
+                                                                    {(post.userId?.userName || 'אורח').charAt(0).toUpperCase()}
+                                                                </div>
+                                                            )}
+                                                            <p className='username_favorates'>{post.userId?.userName}</p>
                                                         </div>
-                                                    )}
 
-                                                    <p className='username_favorates'>{post.userId?.userName}</p>
-                                                </div>
-                                                <p className="postingDate">
-                                                    {new Date(post.postingDate).toLocaleDateString('he-IL')}
-                                                </p>
-                                            </div>
-
-                                            <p className="post-text">
-                                                {post.content.length > 100
-                                                    ? post.content.slice(0, 56) + '...'
-                                                    : post.content}
-                                            </p>
-                                            <div className="fileOfPost">
-                                                {post.imagePost && post.imagePost.trim() !== "" && (
-                                                    post.imagePost.endsWith('.mp4') ? (
-                                                        <video className="post-image" alt="וידאו-פוסט" src={post.imagePost} controls />
-                                                    ) : (
-                                                        <img
-                                                            src={post.imagePost}
-                                                            alt="תמונת פוסט"
-                                                            className="post-image_inProfile"
-                                                        />
-                                                    )
+                                                        <p className="postingDate">
+                                                            {new Date(post.postingDate).toLocaleDateString('he-IL')}
+                                                        </p>
+                                                    </>
                                                 )}
                                             </div>
+
+                                            <div className='linkToSinglePost' onClick={() => navigate(`/profile/single_post/${post._id}`)}>
+                                                <p className="post-text">
+                                                    {post.content.length > 100
+                                                        ? post.content.slice(0, 56) + '...'
+                                                        : post.content}
+                                                </p>
+                                                <div className="fileOfPost">
+                                                    {post.imagePost && post.imagePost.trim() !== "" && (
+                                                        post.imagePost.endsWith('.mp4') ? (
+                                                            <video className="post-image" alt="וידאו-פוסט" src={post.imagePost} controls />
+                                                        ) : (
+                                                            <img
+                                                                src={post.imagePost}
+                                                                alt="תמונת פוסט"
+                                                                className="post-image_inProfile"
+                                                            />
+                                                        )
+                                                    )}
+                                                </div>
+                                            </div>
+
                                             <div className="likesAndComments">
                                                 <div className="iconWithNumber">
                                                     <img src={comment_profile} alt="תגובות" />

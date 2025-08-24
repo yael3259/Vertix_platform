@@ -32,18 +32,23 @@
 }
 
 .loading-spinner {
-  border: 4px solid rgba(0,0,0,0.1);
-  border-top: 4px solid #05b19d;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
-  margin: 100px auto;
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #05b19d;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 100px auto;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .profile-dashboard {
@@ -115,7 +120,8 @@
     margin-left: 8px;
 }
 
-.nickname, .role_inProfile {
+.nickname,
+.role_inProfile {
     font-size: 17.5px !important;
     margin-bottom: 0px;
     color: white;
@@ -178,7 +184,6 @@
     z-index: 10;
 }
 
-#details_section,
 #tags_section,
 #skills_section,
 #posts_section,
@@ -213,6 +218,13 @@
     position: relative;
 }
 
+#details_section {
+    border-right: 2px solid transparent;
+    padding-right: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
 .userInfoInProfile ul {
     list-style: none;
     padding: 0;
@@ -238,9 +250,66 @@
     background-image: repeating-linear-gradient(to right, #26a69a 0, #26a69a 5px, transparent 5px, transparent 12px);
 }
 
+.levelDisplay {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    background: linear-gradient(135deg, #fceabb, #f8b500);
+    border-radius: 30px;
+    width: 42%;
+    padding: 15px 25px;
+    flex-wrap: wrap;
+    margin-bottom: 120px;
+    margin-right: 20px;
+}
+
+.levelText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: right;
+    font-size: 15.5px;
+}
+
+.levelText p {
+    margin: 0;
+    font-size: 0.85rem;
+    font-weight: 500;
+    opacity: 0.8;
+    font-size: 15.5px;
+    color: #000;
+    font-weight: bold;
+}
+
+.levelIcons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.levelIcons h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #424242;
+    letter-spacing: 0.7px;
+}
+
+.levelIcon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: contain;
+    transition: transform 0.2s;
+    filter: drop-shadow(0 0 3px #ffffff) drop-shadow(0 0 3px #ffffffda);
+}
+
+.levelIcon:hover {
+    transform: scale(1.2);
+}
+
 .addUserToNetwork {
-    /* background-color: #b2dfdb;
-    color: #004d40; */
     color: #ffffff;
     background-color: #d77c05;
     font-size: 15px;
@@ -434,7 +503,29 @@
     justify-content: space-between;
     box-sizing: border-box;
     overflow: hidden;
+}
+
+.linkToSinglePost {
     cursor: pointer;
+}
+
+.postOptionsAndDate {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#optionsAndDate {
+    margin-top: 10px;
+    gap: 90px;
+}
+
+.moreOptionsIconBtn {
+    cursor: pointer;
+    background: none;
+    outline: none;
+    border: none;
 }
 
 .urlAndName_favorite {
@@ -472,14 +563,13 @@
     border: 0.5px solid rgb(85, 85, 85);
     border-radius: 50%;
     font-size: 14px;
-
     object-fit: cover;
 }
 
 .post-text {
     flex-grow: 1;
+    max-height: 35px;
     font-size: 12px;
-    overflow: hidden;
     text-overflow: ellipsis;
 }
 
@@ -761,8 +851,7 @@
     }
 
     .detailsAndNetwork {
-        padding: 0 50px !important;
-        margin-bottom: 60px !important;
+        align-items: center !important;
     }
 
     .routes-buttons_mobile-display {
@@ -825,6 +914,14 @@
         padding: 4px;
         border-radius: 50%;
         z-index: 1;
+    }
+
+    .levelDisplay {
+        justify-content: space-around;
+        padding: 15px !important;
+        margin-top: 50px !important;
+        margin-bottom: 0 !important;
+        width: 50%;
     }
 
     #posts_section,
@@ -925,6 +1022,50 @@
     .no-achievements_txt {
         margin-left: 0;
         text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .levelDisplay {
+        justify-content: space-around;
+        padding: 15px !important;
+        margin-top: 50px !important;
+        margin-bottom: 0 !important;
+        min-width: 180px;
+        margin-right: 0;
+    }
+
+    .levelText {
+        text-align: center;
+    }
+
+    .levelIcons {
+        flex-direction: row;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .levelIcon {
+        width: 28px;
+        height: 28px;
+    }
+
+    .levelText h4 {
+        font-size: 1rem;
+    }
+
+    .levelText p {
+        font-size: 0.75rem;
+    }
+
+    .buttom_section {
+        background: rgb(255, 224, 212);
+        margin: -20px;
+    }
+
+    #Achievement-section {
+        background: #ffffff;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
     }
 }
 

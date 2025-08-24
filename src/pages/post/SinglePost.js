@@ -127,7 +127,7 @@ export const SinglePost = () => {
 
     if (!post) {
         return <div className="profilePage" id='noUserLogged'>
-            <img src={display_loading} className="תצוגה לא זמינה" />
+            <img src={display_loading} className='noPostDisplay' alt="תצוגה לא זמינה" />
             <strong>תצוגה נטענת...</strong>
         </div>
     }

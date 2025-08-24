@@ -15,13 +15,14 @@ export const BoostInvite = ({ onClose }) => {
         <button className="boost-close" onClick={onClose}>×</button>
         <div className='boost-title-section'>
           <h2 className="boost-title">הבוסט השבועי<br />נפתח היום!</h2>
-          <img src={ship} className='boost-icon rocket' alt="חללית"/>
+          <img src={ship} className='boost-icon rocket' alt="חללית" />
         </div>
         <p className="boost-description">
           רוצים לטרוף את השבוע <strong>ולצבור נקודות במהירות שיא?</strong><br />
-          על כל יום בשבוע שבו תשלימו את הבוסט, תקבלו <br/>
-          <img src={diamond_gem} className="gemIconInProfile" id='gemSize' alt="יהלום"/> פי 4 נקודות! 
-          <img src={diamond_gem} className="gemIconInProfile" id='gemSize' alt="יהלום"/><br />
+          על כל יום בשבוע שבו תשלימו את הבוסט, תקבלו <br />
+          <img src={diamond_gem} className="gemIconInProfile" id='gemSize' alt="יהלום" />
+          &nbsp;פי 4 נקודות!&nbsp;
+          <img src={diamond_gem} className="gemIconInProfile" id='gemSize' alt="יהלום" /><br />
           זו ההזדמנות שלכם לזנק לטופ בלוח המובילים!
         </p>
 

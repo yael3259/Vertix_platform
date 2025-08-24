@@ -37,7 +37,7 @@ export const LeaderBoard = () => {
 
     const fetchToProfile = async (userId) => {
         try {
-            let res = await getOneUser(userId);
+            await getOneUser(userId);
             navigate(`/profile/${userId}`);
         }
         catch (err) {

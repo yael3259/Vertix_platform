@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { getAllPosts, addComment, addToFavoritePosts, toggleLikePost } from "../routes/PostAPI";
 import { getAllUsers, getOneUser } from "../routes/UserAPI";
 import { AddFriendToNetwork, getRandomUsers } from "../routes/UserAPI";
+import { UserBadge } from "../components/UserBadge";
 import commentIcon from "../files/icons/commentIcon.png";
 import starIcon from "../files/icons/starIcon.png";
 import categoryIcon from "../files/icons/categoryIcon.png";
@@ -31,7 +32,6 @@ export const Feed = () => {
     const [arrSkills, setArrSkills] = useState([]);
     const [arrTopUsers, setArrTopUsers] = useState([]);
     const [comment, setComment] = useState('');
-    const navigate = useNavigate();
     const { user, fetchNotifications, notificationsCount } = useUserContext();
     const [likedPosts, setLikedPosts] = useState({});
     const [selectedCategory, setSelectedCategory] = useState('הכל');
@@ -41,6 +41,7 @@ export const Feed = () => {
     const [showFavoritePostAlert, setShowFavoritePostAlert] = useState(false);
     const [showMobileFilter, setShowMobileFilter] = useState(false);
     const [showMobileAddFriend, setShowMobileAddFriend] = useState(false);
+    const navigate = useNavigate();
     let token = user.tokenUser;
 
     const categories = ['הכל', ...new Set(arr.map(post => post.category))];
@@ -379,7 +380,7 @@ export const Feed = () => {
                                     </div>
                                     <div className="userName_txt">
                                         <p id="userName_txt">{item.userId?.userName}</p>
-                                        <div onClick={() => fetchToProfile(item.userId?._id)}>
+                                        <div className="avatar-container" onClick={() => fetchToProfile(item.userId?._id)}>
                                             {item.userId?.profilePicture ? (
                                                 <img src={item.userId.profilePicture} className="profile_Picture" alt="תמונת פרופיל" />
                                             ) : (
@@ -387,6 +388,7 @@ export const Feed = () => {
                                                     {(item.userId?.userName || 'אורח').charAt(0).toUpperCase()}
                                                 </div>
                                             )}
+                                            <UserBadge points={item.userId?.points} />
                                         </div>
                                     </div>
                                 </div>
@@ -427,7 +429,7 @@ export const Feed = () => {
 
                                 {item.showComments && (
                                     <>
-                                        <div id="border-top"></div>
+                                        <div id="border-top" />
                                         <div className="addComment">
                                             <button className="send-comment-btn" onClick={() => addCommentToPost(item._id, comment)}><FaPaperPlane /></button>
                                             <input

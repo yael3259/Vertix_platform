@@ -23,12 +23,16 @@ export const addPost = (post, token) => {
     return axios.post(baseURL, post, { headers: { "x-access-token": token } });
 }
 
+export const editPost = (postId) => {
+    return axios.put(`${baseURL}/${postId}`);
+}
+
 export const deletePost = (postId) => {
     return axios.delete(`${baseURL}/${postId}`);
 }
 
 export const toggleLikePost = (userId, postId) => {
-    return axios.post(`${baseURL}/like/${userId}`, {postId});
+    return axios.post(`${baseURL}/like/${userId}`, { postId });
 }
 
 export const addComment = (postId, text, userId) => {
@@ -40,7 +44,7 @@ export const getCommentOfPostById = (postId) => {
 }
 
 export const addToFavoritePosts = (postId, userId) => {
-    return axios.post(`${baseURL}/favorites/${userId}`, {postId});
+    return axios.post(`${baseURL}/favorites/${userId}`, { postId });
 }
 
 export const getFavoritePosts = (userId) => {

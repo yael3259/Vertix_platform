@@ -1,0 +1,35 @@
+.editPost {
+    position: absolute;
+    top: 30px;
+    right: 45px;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    min-width: 120px;
+}
+
+.editOption,
+.deleteOption {
+    padding: 15px 20px;
+    font-size: 15px;
+    background: none;
+    outline: none;
+    border: none;
+}
+
+.editOption:hover,
+.deleteOption:hover {
+    background-color: rgb(231, 231, 231);
+}
+
+.editOption:hover {
+    border-radius:  8px 8px 0 0;
+}
+
+.deleteOption:hover {
+    border-radius: 0 0 8px 8px;
+}
