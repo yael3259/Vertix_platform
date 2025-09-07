@@ -11,7 +11,7 @@ export const UserBadge = ({ points }) => {
         const pts = Number(points || 0);
 
         if (pts < 70) return firstLevel;
-        else if (pts <= 200) return secondLevel;
+        else if (pts <= 199) return secondLevel;
         else if (pts <= 450) return thirdLevel;
         else return fourthLevel;
     }

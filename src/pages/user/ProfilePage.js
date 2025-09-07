@@ -31,7 +31,8 @@ import firstLevel from "../../files/icons/firstLevel.png";
 import secondLevel from "../../files/icons/secondLevel.png";
 import thirdLevel from "../../files/icons/thirdLevel.png";
 import fourthLevel from "../../files/icons/fourthLevel.png";
-import { MoreVertical, MoreHorizontal } from "lucide-react";
+import { MoreHorizontal } from "lucide-react";
+import { EditPost } from '../post/EditPost';
 
 
 
@@ -46,6 +47,7 @@ export const ProfilePage = () => {
     const [followingQTY, setFollowingQTY] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [errorAlert, setErrorAlert] = useState(null);
+    const [bonusIcon, setBonusIcon] = useState('');
     const { userId } = useParams();
     const [userProfile, setUserProfile] = useState(null);
     const { user: loggedInUser, notificationsCount } = useUserContext();
@@ -53,10 +55,10 @@ export const ProfilePage = () => {
     const [followedUserName, setFollowedUserName] = useState(false);
     const [showFollowAlert, setShowFollowAlert] = useState(false);
     const [activePostOptions, setActivePostOptions] = useState(null);
+    const [editingPostId, setEditingPostId] = useState(null);
     const loggedInUserId = userId === loggedInUser.userId;
     const navigate = useNavigate();
     let token = loggedInUser.tokenUser;
-
 
     useEffect(() => {
         // הצגת הזמנה להצטרפות לבוסט בכל יום ראשון
@@ -98,7 +100,7 @@ export const ProfilePage = () => {
 
             } catch (err) {
                 console.error("error fetching user data", err);
-                setErrorAlert(err.response?.data?.message || "שגיאה בטעינת הנתונים");
+                setErrorAlert(err.response?.data?.message || "שגיאה");
             } finally {
                 setIsLoading(false);
             }
@@ -109,11 +111,49 @@ export const ProfilePage = () => {
     }, [userId]);
 
     useEffect(() => {
+        if (!userProfile) return;
+
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key.endsWith("_fireEmoji")) {
+                const userId = key.slice(0, -10);
+
+                if (userId === userProfile._id) {
+                    const date = new Date();
+                    const today = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+                    let parsed;
+
+                    try {
+                        parsed = JSON.parse(localStorage.getItem(key));
+                    } catch {
+                        continue;
+                    }
+
+                    if (today === parsed.day) {
+                        setBonusIcon(parsed.emoji);
+                    } else {
+                        localStorage.removeItem(key);
+                    }
+                    break;
+                }
+            }
+        }
+    }, [userProfile]);
+
+    useEffect(() => {
         if (errorAlert) {
             const timer = setTimeout(() => setErrorAlert(null), 5500);
             return () => clearTimeout(timer);
         }
     }, [errorAlert]);
+
+    const refreshPosts = async () => {
+        const postsRes = await getPostsById(userId);
+        setArrPosts(postsRes.data);
+
+        const favoritesRes = await getFavoritePosts(userId);
+        setArrFavorites(favoritesRes.data);
+    };
 
     const levels = [
         { max: 70, label: 'מתחיל.ה', images: [firstLevel] },
@@ -143,6 +183,23 @@ export const ProfilePage = () => {
     const toggleEditOptions = (postId) => {
         setActivePostOptions(prev => (prev === postId ? null : postId));
     };
+
+    const closeEditOptions = () => {
+        setActivePostOptions(null);
+    };
+
+    const openPostEditor = (postId) => {
+        setEditingPostId(postId);
+    };
+
+    const closePostEditor = () => {
+        setEditingPostId(null);
+    };
+
+    const refreshAfterDelete = (deletedId) => {
+        setArrPosts(prev => prev.filter(p => p._id !== deletedId))
+        setArrFavorites(prev => prev.filter(p => p._id !== deletedId))
+    }
 
     const allAchievements = [
         ...arrAchievements.map((a) => ({ ...a, type: "achievement" })),
@@ -229,20 +286,22 @@ export const ProfilePage = () => {
     }
 
     return (
-        <div className="profilePage">
+        <div className="profilePage" >
             {(showBoostAlert && loggedInUserId || showFollowAlert && loggedInUserId) && (
-                <div className="overlay-background" onClick={() => {
-                    setShowBoostAlert(false);
-                }}></div>
+                <div className="overlay-background" onClick={() => { setShowBoostAlert(false) }}></div>
             )}
+
             {loggedInUserId && showBoostAlert && <BoostInvite onClose={handleCloseBoostInvite} />}
             {showFollowAlert && <FollowAlert onClose={handleCloseFollowAlert} followedUserName={userProfile?.userName} />}
             {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
+            {editingPostId && <EditPost postId={editingPostId} onClose={closePostEditor} onPostEdited={refreshPosts} />}
 
             <div className="profile-dashboard">
                 <div className="profile-header">
-                    <img src={userProfile.profilePicture || avatar_profile} className="profile-picture" alt="תמונת פרופיל" />
-
+                    <div className='profilePicAndIcon'>
+                        <img src={userProfile.profilePicture || avatar_profile} className="profile-picture" alt="תמונת פרופיל" />
+                        {bonusIcon && <span className="bonusIcon">{bonusIcon}</span>}
+                    </div>
                     <div className="profile-info">
                         <h1>{userProfile.userName}</h1>
                         <div className="nickname">{userProfile.nickname}</div>
@@ -268,19 +327,41 @@ export const ProfilePage = () => {
                         <div className="userInfoInProfile" >
                             <h3><FaIdBadge className='iconForTitleInProfile' />פרטים אישיים</h3>
                             <ul>
-                                <li><strong>כינוי</strong> {userProfile.nickname || "אין"}</li>
+                                <li><strong>כינוי</strong> {userProfile.nickname || "לא הוגדר"}</li>
                                 <li><strong>מין</strong> {userProfile.gender}</li>
                                 <li><strong>אימייל</strong> {userProfile.email}</li>
                                 <li><strong>הצטרפות</strong> {new Date(userProfile.enterDate).toLocaleDateString('he-IL')}</li>
                                 <li><strong>חברים</strong> {followingQTY}</li>
-                                <li><div className="points_gem"><img src={gem} className="gemIconInProfile" alt="יהלום" /><strong>נקודות</strong></div><strong>{userProfile.points}</strong></li>
+                                <li><div className="points_gem">
+                                    <img src={gem} className="gemIconInProfile" alt="יהלום" />
+                                    <strong>נקודות</strong></div>
+                                    <strong>{userProfile.points}</strong></li>
                             </ul>
                         </div>
-                        {userId !== loggedInUser.userId && <button className='addUserToNetwork' onClick={() => addFriend(userProfile._id)}>התחבר/י ל{userProfile.nickname ? userProfile.nickname : userProfile.userName}</button>}
+
+                        <div className="detailsAndNetwork">
+                            {loggedInUserId ? (
+                                <button className='dailyWheel-button' onClick={() => navigate("/profile/wheel")}>
+                                    סיבוב בגלגל המזל
+                                </button>
+                            ) : (
+                                <button className='addUserToNetwork' onClick={() => addFriend(userProfile._id)}>
+                                    התחבר/י ל{userProfile.nickname ? userProfile.nickname : userProfile.userName}
+                                </button>
+                            )}
+                        </div>
                     </div>
 
                     <div className="routes-buttons_mobile-display">
-                        {userId !== loggedInUser.userId && <button className='addUserToNetwork' id='Network_in_mobile' onClick={() => addFriend(userProfile._id)}>התחבר/י ל{userProfile.nickname ? userProfile.nickname : userProfile.userName}</button>}
+                        {loggedInUserId ? (
+                            <button className='routes_button_in_mobile' id='dailyWheel-button' onClick={() => navigate("/profile/wheel")}>
+                                סיבוב בגלגל המזל
+                            </button>
+                        ) : (
+                            <button className='routes_button_in_mobile' onClick={() => addFriend(userProfile._id)}>
+                                התחבר/י ל{userProfile.nickname ? userProfile.nickname : userProfile.userName}
+                            </button>
+                        )}
 
                         <NavLink to={`/network/${userId}`}><button className="routes_button_in_mobile">{loggedInUserId ? "הרשת שלי" : "חברים"}</button></NavLink>
 
@@ -295,7 +376,29 @@ export const ProfilePage = () => {
                             <button className="routes_button_in_mobile">עריכה</button></NavLink>}
                     </div>
 
-                    <div className='gemsReached'>{getLevelUser(userProfile.points)}</div>
+                    <div className='gemsReached'>
+                        <div className="tooltip-wrapper">
+                            {getLevelUser(userProfile.points)}
+                            <div className="tooltip">
+                                <div className="badge-item">
+                                    <img src={firstLevel} alt="אבן בסיסית" />
+                                    <span><strong>ספיר&nbsp;</strong> 0+ נקודות</span>
+                                </div>
+                                <div className="badge-item">
+                                    <img src={secondLevel} alt="אבן מתקדמת" />
+                                    <span><strong>רובי&nbsp;</strong> 70+ נקודות</span>
+                                </div>
+                                <div className="badge-item">
+                                    <img src={thirdLevel} alt="אבן אלופה" />
+                                    <span><strong>אמרלד&nbsp;</strong> 200+ נקודות</span>
+                                </div>
+                                <div className="badge-item">
+                                    <img src={fourthLevel} alt="אבן אגדה" />
+                                    <span><strong>טופז&nbsp;</strong> 450+ נקודות</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div className="section" id='tags_section'>
                         <h3 className='titleTags'><FaTag className='iconForTitleInProfile' />שיאים</h3>
@@ -363,7 +466,15 @@ export const ProfilePage = () => {
                                                             <MoreHorizontal className='moreOptionsIcon' />
                                                         </button>
                                                         {activePostOptions === post._id && (
-                                                            <EditOptionsMenu onEdit={post._id} onDelete={post._id} />
+                                                            <EditOptionsMenu
+                                                                onEdit={post._id}
+                                                                openPostEditor={() => {
+                                                                    openPostEditor(post._id);
+                                                                    closeEditOptions();
+                                                                }}
+                                                                onDelete={post._id}
+                                                                onPostDeleted={() => refreshAfterDelete(post._id)}
+                                                            />
                                                         )}
                                                     </>
                                                 )}
@@ -442,7 +553,15 @@ export const ProfilePage = () => {
                                                             <MoreHorizontal className='moreOptionsIcon' />
                                                         </button>
                                                         {activePostOptions === post._id && (
-                                                            <EditOptionsMenu onEdit={post._id} onDelete={post._id} />
+                                                            <EditOptionsMenu
+                                                                onEdit={post._id}
+                                                                openPostEditor={() => {
+                                                                    openPostEditor(post._id);
+                                                                    closeEditOptions();
+                                                                }}
+                                                                onDelete={post._id}
+                                                                onPostDeleted={() => refreshAfterDelete(post._id)}
+                                                            />
                                                         )}
 
                                                         <p className="postingDate">

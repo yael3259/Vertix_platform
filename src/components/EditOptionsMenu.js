@@ -1,34 +1,38 @@
 import "../styles/EditOptionsMenu.css";
-import { editPost } from "../routes/PostAPI";
+import { useState, useEffect } from "react";
 import { deletePost } from "../routes/PostAPI";
+import { DynamicErrorAlert } from "./DynamicErrorAlert";
 
 
 
-export const EditOptionsMenu = (onDelete, onEdit) => {
+export const EditOptionsMenu = ({ onDelete, onPostDeleted, onEdit, openPostEditor }) => {
+    const [errorAlert, setErrorAlert] = useState(null);
 
-    const handleEditPost = async (postId) => {
-        try {
-            let res = await editPost(postId);
-            console.log(res, "succsses");
+    useEffect(() => {
+        if (errorAlert) {
+            const timer = setTimeout(() => setErrorAlert(null), 5500);
+            return () => clearTimeout(timer);
         }
-        catch (err) {
-            console.log(err, "failed")
-        }
-    }
+    }, [errorAlert]);
 
     const handleDeletePost = async (postId) => {
         try {
-            let res = await deletePost(postId);
-            console.log(res, "succsses");
+            await deletePost(postId);
+
+            if (onPostDeleted)
+                onPostDeleted(postId);
         }
         catch (err) {
-            console.log(err, "failed")
+            console.error(err, "failed");
+            setErrorAlert(err.response.data.message || "שגיאה");
         }
     }
 
     return (
-        <div className="editPost">
-            <button className="editOption" onClick={() => handleEditPost(onEdit)}>עריכת פוסט</button>
+    <div className="editPost" >
+            {errorAlert && <DynamicErrorAlert errorText={errorAlert} />}
+            
+            <button className="editOption" onClick={() => openPostEditor(onEdit)}>עריכת פוסט</button>
             <button className="deleteOption" onClick={() => handleDeletePost(onDelete)}>מחיקת פוסט</button>
         </div>
     )

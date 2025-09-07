@@ -62,6 +62,11 @@ export const markNotificationsAsRead = (userId) => {
     return axios.put(`${baseURL}/markNotifications/${userId}`);
 }
 
+export const updateUserPoints = (userId, points) => {
+    console.log("react: ", userId, points);
+    return axios.put(`${baseURL}/updatePoints/${userId}`, { pointsToAdd: points });
+}
+
 export const editUserDetails = (userId, data) => {
     return axios.put(`${baseURL}/update/${userId}`, data);
 }

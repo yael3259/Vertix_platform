@@ -1,6 +1,4 @@
-import React from 'react';
 import "../styles/EarningPointsAlert.css";
-import { useNavigate } from 'react-router-dom';
 import clear_diamond from "../files/icons/clear_diamond.png"
 
 

@@ -296,6 +296,7 @@ export const Feed = () => {
                             <input
                                 type="text"
                                 placeholder="הקלד/י שם משתמש"
+                                className="sortByUsername"
                                 onChange={(e) => setUserNameFilter(e.target.value)} />
                         </div>
                     </div>

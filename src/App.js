@@ -21,6 +21,9 @@ import { EarningPointsAlert } from "./components/EarningPointsAlert";
 import { FollowAlert } from "./components/FollowAlert";
 import { FavoritePostAlert } from "./components/FavoritePostAlert";
 import { EditOptionsMenu } from "./components/EditOptionsMenu";
+import { DailyWheel } from "./pages/user/DailyWheel";
+import { EditPost } from "./pages/post/EditPost";
+
 
 
 function App() {
@@ -37,7 +40,7 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signin" element={<RegistrationPage />} />
           <Route path="/reset_pass" element={<ResetPassword />} />
-          <Route path="/editOption" element={<EditOptionsMenu />} />
+          <Route path="/editOptions" element={<EditOptionsMenu />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/board" element={<LeaderBoard />} />
           <Route path="/profile/:userId" element={<ProfilePage />} />
@@ -52,6 +55,7 @@ function App() {
           <Route path="/notifications" element={<NotificationsList />} />
           <Route path="/profile/single_post/:postId" element={<SinglePost />} />
           <Route path="/profile/edit" element={<EditForm />} />
+          <Route path="/profile/wheel" element={<DailyWheel />} />
         </Routes>
 
       </UserProvider>

@@ -11,12 +11,14 @@ import failedBoost from "../../files/icons/failedBoost.gif";
 import errorInDisplay from "../../files/icons/errorInDisplay.png";
 import { EarningPointsAlert } from "../../components/EarningPointsAlert";
 import { DynamicErrorAlert } from '../../components/DynamicErrorAlert';
+import confetti from "canvas-confetti";
 
 
 
 export const TrackingTable = () => {
     const [item, setItem] = useState(null);
     const [type, setType] = useState(null);
+    const [isItemFetched, setIsItemFetched] = useState(false);
     const [errorAlert, setErrorAlert] = useState(null);
     const [isCompleted, setIsCompleted] = useState(false);
     const [isFailed, setIsFailed] = useState(false);
@@ -33,8 +35,11 @@ export const TrackingTable = () => {
                 const resAchievement = await getAchievementByUser(token, itemId);
                 setItem(resAchievement.data.achievement);
                 setType("achievement");
+                setIsItemFetched(true);
+
                 if (resAchievement.data.achievement.statusTable === "completed") {
                     setIsCompleted(true);
+                    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
                 }
             } catch (err1) {
                 console.warn("Not an achievement. Trying boost");
@@ -43,9 +48,11 @@ export const TrackingTable = () => {
                     const resBoost = await getBoostByUser(token, itemId);
                     setItem(resBoost.data.boost);
                     setType("boost");
+                    setIsItemFetched(true);
 
                     if (resBoost.data.boost.statusTable === "completed") {
                         setIsCompleted(true);
+                        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
                     }
 
                     if (resBoost.data.boost.statusTable === "failed") {
@@ -55,10 +62,10 @@ export const TrackingTable = () => {
                         setIsFailed(true);
                         setIsTableActive(false);
                     }
-
                 }
                 catch (err2) {
                     console.error("Item not found in either boosts or achievements");
+                    setIsItemFetched(false);
                 }
             }
         };
@@ -121,6 +128,10 @@ export const TrackingTable = () => {
     const handleClosePointsAlert = () => {
         setShowPointsAlert(false);
     };
+
+    if (!isItemFetched) {
+        return <div className='loading-spinner' />
+    }
 
     if (!item || !type) {
         return <div className="trackingTablePage" id='noUserLogged'>

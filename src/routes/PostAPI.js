@@ -23,12 +23,12 @@ export const addPost = (post, token) => {
     return axios.post(baseURL, post, { headers: { "x-access-token": token } });
 }
 
-export const editPost = (postId) => {
-    return axios.put(`${baseURL}/${postId}`);
-}
-
 export const deletePost = (postId) => {
     return axios.delete(`${baseURL}/${postId}`);
+}
+
+export const editPost = (postId, data) => {
+    return axios.put(`${baseURL}/${postId}`, data);
 }
 
 export const toggleLikePost = (userId, postId) => {

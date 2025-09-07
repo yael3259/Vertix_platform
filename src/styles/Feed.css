@@ -338,6 +338,12 @@
   padding: 0 20px 20px 20px;
 }
 
+.sortByUsername{
+  letter-spacing: 0.8px;
+  font-weight: bold;
+  color: #b78d70;
+}
+
 .left p {
   font-weight: 500;
   margin-bottom: 8px;
@@ -372,7 +378,6 @@
 
 select option {
   background-color: white;
-  color: #2e8676;
 }
 
 .right {

@@ -11,6 +11,10 @@
     margin: 40px auto;
 }
 
+#avatar-fallback_inSinglePost {
+    margin-top: -3.5px;
+}
+
 .noPostDisplay {
     width: 100%;
     max-width: 100px;
