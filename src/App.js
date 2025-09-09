@@ -22,8 +22,7 @@ import { FollowAlert } from "./components/FollowAlert";
 import { FavoritePostAlert } from "./components/FavoritePostAlert";
 import { EditOptionsMenu } from "./components/EditOptionsMenu";
 import { DailyWheel } from "./pages/user/DailyWheel";
-import { EditPost } from "./pages/post/EditPost";
-
+import { AdminAccess } from "./components/AdminAccess";
 
 
 function App() {
@@ -43,6 +42,7 @@ function App() {
           <Route path="/editOptions" element={<EditOptionsMenu />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/board" element={<LeaderBoard />} />
+          <Route path="/notifications" element={<NotificationsList />} />
           <Route path="/profile/:userId" element={<ProfilePage />} />
           <Route path="/profile/network/:userId" element={<NetworkList />} />
           <Route path="/profile/table/:itemId" element={<TrackingTable />} />
@@ -52,8 +52,8 @@ function App() {
           <Route path="/profile/follow_alert" element={<FollowAlert />} />
           <Route path="/profile/favorite-post_alert" element={<FavoritePostAlert />} />
           <Route path="/profile/addAchievement/:boost" element={<AddAchievement />} />
-          <Route path="/notifications" element={<NotificationsList />} />
           <Route path="/profile/single_post/:postId" element={<SinglePost />} />
+          <Route path="/profile/admin-access" element={<AdminAccess />} />
           <Route path="/profile/edit" element={<EditForm />} />
           <Route path="/profile/wheel" element={<DailyWheel />} />
         </Routes>

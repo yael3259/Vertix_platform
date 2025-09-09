@@ -202,7 +202,8 @@
 #tags_section,
 #skills_section,
 #posts_section,
-#favoritePosts_section {
+#favoritePosts_section,
+#admin_section {
     border-right: 2px solid transparent;
     padding-right: 20px;
     margin-bottom: 120px;
@@ -213,7 +214,8 @@
 #tags_section:hover,
 #skills_section:hover,
 #posts_section:hover,
-#favoritePosts_section:hover {
+#favoritePosts_section:hover,
+#admin_section:hover {
     border-right: 2px solid #26a69a;
 }
 
@@ -611,7 +613,6 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    /* margin: -10px -4px; */
 }
 
 #optionsAndDate {
@@ -639,7 +640,6 @@
     justify-content: space-between;
     align-items: center;
     color: #5c5c5c;
-    /* gap: 20px; */
 }
 
 .postingDate {
@@ -717,6 +717,31 @@
 .no-posts-message {
     color: #515151;
     font-style: italic;
+}
+
+.UserManagementButton {
+  background-color: #4a5568;
+  color: #fff;
+  min-width: 120px;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.UserManagementButton:hover {
+  background-color: #2d3748;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.UserManagementButton:active {
+  transform: scale(0.97);
 }
 
 .buttom_section {

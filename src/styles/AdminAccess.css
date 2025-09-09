@@ -1,0 +1,214 @@
+.admin-access {
+    padding: 50px 70px 24px 70px;
+    font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ebfbfb;
+    min-height: 100vh;
+    direction: rtl;
+    color: #212529;
+}
+
+.admin-access h1 {
+    text-align: center;
+    color: #3e5857;
+    margin-bottom: 60px;
+    font-size: 1.7rem;
+    font-weight: 700;
+}
+
+.admin-access h1::after {
+    content: '';
+    display: block;
+    width: 110px;
+    height: 3.5px;
+    background-color: #3e5857;
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+.searchBoxInTable {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    padding: 24px;
+    margin-left: 45px;
+    z-index: 1000;
+    border-radius: 0 0 50px 0;
+    background: #ebfbfbc4;
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+}
+
+.searchBoxInTable input {
+    width: 320px;
+    max-width: 90%;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    border: 1px solid #ced4da;
+    border-radius: 25px;
+    background-color: #fff;
+    color: #212529;
+    outline: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.searchBoxInTable input:focus {
+    border-color: #3e5857;
+    box-shadow: 0 0 8px rgba(62, 88, 87, 0.3);
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    overflow: hidden;
+    table-layout: fixed;
+    word-wrap: break-word;
+}
+
+.users-table th {
+    padding: 12px 16px;
+    text-align: right;
+    font-weight: 600;
+    font-size: 0.95rem;
+    background-color: #d5d9dd;
+    color: #373a3d;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.users-table td {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    color: #212529;
+    border-bottom: 1px solid #dee2e6;
+    word-wrap: break-word;
+}
+
+.users-table tr:last-child td {
+    border-bottom: none;
+}
+
+.users-table tr:hover td {
+    background-color: #f1f3f5;
+    cursor: pointer;
+}
+
+.adminCll {
+    background-color: #c6f2ef;
+}
+
+.adminCll:hover td {
+    background-color: #daf1f0 !important;
+}
+
+.tag {
+    display: inline-block;
+    margin: 3px 0 5px 6px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #fff;
+}
+
+.tag.gold {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.tag.silver {
+    background-color: #6c757d;
+}
+
+.tag.bronze {
+    background-color: #cd7f32;
+}
+
+@media (max-width: 1090px) {
+    .admin-access {
+        padding-top: 90px;
+    }
+
+    .searchBoxInTable {
+        top: 55px;
+    }
+
+    .searchBoxInTable input {
+        width: 220px;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-access {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .searchBoxInTable {
+        top: 55px;
+        margin-left: 0;
+    }
+
+    .users-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .users-table,
+    .users-table thead,
+    .users-table tbody,
+    .users-table th,
+    .users-table td,
+    .users-table tr {
+        display: block;
+    }
+
+    .searchBoxInTable {
+        position: fixed;
+        top: 57px;
+        left: 0;
+        right: 0;
+        margin: 0;
+    }
+
+    .users-table thead {
+        display: none;
+    }
+
+    .users-table tr {
+        margin-bottom: 12px;
+        background: #fff;
+        border-radius: 6px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+        padding: 20px;
+    }
+
+    .users-table td {
+        text-align: right;
+        padding: 6px 0;
+        border: none;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .users-table td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #495057;
+        margin-left: 8px;
+        flex-shrink: 0;
+    }
+
+    .tag {
+        margin-left: 0;
+    }
+}

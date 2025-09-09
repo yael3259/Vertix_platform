@@ -20,6 +20,7 @@ import no_achievements from "../../files/icons/no_achievements.png";
 import gem from "../../files/icons/gem.png";
 import avatar_profile from "../../files/icons/avatar-profile.png"
 import { FaIdBadge, FaTag, FaRegFileAlt, FaStar } from "react-icons/fa";
+import { MdShield } from "react-icons/md";
 import { BoostInvite } from '../../components/BoostInvite';
 import goldMedal from "../../files/icons/gold-medal.png";
 import silverMedal from "../../files/icons/silver-medal.png";
@@ -640,6 +641,14 @@ export const ProfilePage = () => {
                             </p>
                         )}
                     </div>
+
+                    {(loggedInUserId && userProfile.role === 'ADMIN') && (
+                        <div className="section" id='admin_section'>
+                            <h3><MdShield className='iconForTitleInProfile' />הרשאות מנהל</h3>
+                            <button className='UserManagementButton' onClick={() => navigate('/profile/admin-access')}>ניהול משתמשים</button>
+                            <button className='UserManagementButton' onClick={() => navigate('/profile/admin-access')}>ניהול משתמשים</button>
+                        </div>
+                    )}
 
                     {loggedInUserId &&
                         <div className="buttom_section">

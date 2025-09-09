@@ -12,6 +12,8 @@ import empty_likeIcon from "../files/icons/empty_likeIcon.png";
 import fill_likeIcon from "../files/icons/fill_likeIcon.png";
 import filterIcon from "../files/icons/filterIcon.png";
 import networkIcon from "../files/icons/networkIcon.png";
+import EmojiPicker from "emoji-picker-react";
+import { Smile } from "lucide-react";
 import { FaPaperPlane } from 'react-icons/fa';
 import { useUserContext } from '../contexts/UserContext';
 import { FaBell, FaUserFriends, FaEdit } from "react-icons/fa";
@@ -41,6 +43,7 @@ export const Feed = () => {
     const [showFavoritePostAlert, setShowFavoritePostAlert] = useState(false);
     const [showMobileFilter, setShowMobileFilter] = useState(false);
     const [showMobileAddFriend, setShowMobileAddFriend] = useState(false);
+    const [showPicker, setShowPicker] = useState(false);
     const navigate = useNavigate();
     let token = user.tokenUser;
 
@@ -169,6 +172,11 @@ export const Feed = () => {
             console.error('error adding comment', err);
             setErrorAlert(err.response.data.message || "שגיאה");
         }
+    };
+
+    const handleEmojiClick = (emojiData) => {
+        setComment(prev => prev + emojiData.emoji);
+        setShowPicker(false);
     };
 
     const addPostToFavoritePosts = async (postId, userId) => {
@@ -433,6 +441,14 @@ export const Feed = () => {
                                         <div id="border-top" />
                                         <div className="addComment">
                                             <button className="send-comment-btn" onClick={() => addCommentToPost(item._id, comment)}><FaPaperPlane /></button>
+
+                                            <button className="addEmojiButton" onClick={() => setShowPicker(!showPicker)}>
+                                                <Smile className="emojiIconInComment" />
+                                            </button>
+                                            {showPicker && (
+                                                <div ><EmojiPicker onEmojiClick={handleEmojiClick} /></div>
+                                            )}
+
                                             <input
                                                 type="text"
                                                 placeholder="הוספת תגובה..."

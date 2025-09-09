@@ -338,7 +338,7 @@
   padding: 0 20px 20px 20px;
 }
 
-.sortByUsername{
+.sortByUsername {
   letter-spacing: 0.8px;
   font-weight: bold;
   color: #b78d70;
@@ -598,6 +598,27 @@ select option {
 
 .send-comment-btn:hover {
   transform: scale(1.1);
+}
+
+.addEmojiButton {
+  background: none;
+  border: none;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.addEmojiButton:hover .emojiIconInComment {
+  cursor: pointer;
+  color: #ccb042;
+}
+
+.emojiIconInComment {
+  color: #c6c5c5;
+  height: 32px;
+  width: 32px;
 }
 
 .load-more {
@@ -970,11 +991,6 @@ select option {
     font-size: 13px;
   }
 
-  .send-comment-btn {
-    padding: 5px;
-    font-size: 14px;
-  }
-
   .comment {
     padding: 10px;
     font-size: 13px;
@@ -1159,6 +1175,10 @@ select option {
     margin-top: 120px;
   }
 
+  .addpost_feed{
+    width: 50px;
+  }
+
   .grid-item {
     width: 100%;
     max-width: 80%;
@@ -1184,11 +1204,6 @@ select option {
   .comment {
     font-size: 13px;
     padding: 10px;
-  }
-
-  .send-comment-btn {
-    padding: 6px;
-    font-size: 12px;
   }
 
   .load-more {

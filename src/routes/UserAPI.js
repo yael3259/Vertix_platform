@@ -18,6 +18,10 @@ export const getUsersByValue = (value) => {
     return axios.get(`${baseURL}/getUsersWithSameLetters?value=${encodeURIComponent(value)}`);
 }
 
+export const usersDisplayInTable = () => {
+    return axios.get(`${baseURL}/tableDisplay`);
+}
+
 export const addUser = (user) => {
     return axios.post(baseURL, user);
 }

@@ -236,19 +236,19 @@ export const SinglePost = () => {
                                                     <img src={comment.userId.profilePicture} className="userUrlInComment" alt="תמונת פרופיל" />
                                                 ) : (
                                                     <div className="avatar-fallback" id="avatar-fallback_inAddComment">
-                                                            {(comment.userId?.userName || '').charAt(0).toUpperCase()}
-                                                        </div>
-                                                )}
+                                                        {(comment.userId?.userName || '').charAt(0).toUpperCase()}
                                                     </div>
-                                        </div>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                    <p className="comment-text">{comment.text}</p>
                                 </div>
-                        ))}
-                            </>
-                        )}
-                    </div>
+                                <p className="comment-text">{comment.text}</p>
+                            </div>
+                        )).reverse()}
+                    </>
+                )}
             </div>
-            );
+        </div>
+    );
 };
