@@ -645,8 +645,10 @@ export const ProfilePage = () => {
                     {(loggedInUserId && userProfile.role === 'ADMIN') && (
                         <div className="section" id='admin_section'>
                             <h3><MdShield className='iconForTitleInProfile' />הרשאות מנהל</h3>
-                            <button className='UserManagementButton' onClick={() => navigate('/profile/admin-access')}>ניהול משתמשים</button>
-                            <button className='UserManagementButton' onClick={() => navigate('/profile/admin-access')}>ניהול משתמשים</button>
+                            <div className='ManagementButtons'>
+                                <button className='UserManagementButton' onClick={() => navigate('/profile/users-table')}>ניהול משתמשים</button>
+                                <button className='UserManagementButton' onClick={() => navigate('/profile/analytics')}>אנליטיקות ונתונים</button>
+                            </div>
                         </div>
                     )}
 

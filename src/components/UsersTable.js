@@ -1,9 +1,9 @@
-import "../styles/AdminAccess.css";
+import "../styles/UsersTable.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usersDisplayInTable } from "../routes/UserAPI";
 
-export const AdminAccess = () => {
+export const UsersTable = () => {
     const [usersArr, setUsersArr] = useState([]);
     const [search, setSearch] = useState("");
     const navigate = useNavigate();

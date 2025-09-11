@@ -719,29 +719,30 @@
     font-style: italic;
 }
 
+.ManagementButtons{
+    display: flex;
+    gap: 10px;
+}
+
 .UserManagementButton {
-  background-color: #4a5568;
-  color: #fff;
-  min-width: 120px;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 12px;
-  font-weight: 500;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  user-select: none;
-  white-space: nowrap;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background-color: #ffffff;
+    color: #26a69a;
+    border: 1px solid #26a69a;
+    border-radius: 12px;
+    padding: 12px 22px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .UserManagementButton:hover {
-  background-color: #2d3748;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    background: #26a69a;
+    color: #ffffff;
 }
 
 .UserManagementButton:active {
-  transform: scale(0.97);
+    transform: scale(0.97);
 }
 
 .buttom_section {

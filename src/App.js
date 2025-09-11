@@ -22,7 +22,8 @@ import { FollowAlert } from "./components/FollowAlert";
 import { FavoritePostAlert } from "./components/FavoritePostAlert";
 import { EditOptionsMenu } from "./components/EditOptionsMenu";
 import { DailyWheel } from "./pages/user/DailyWheel";
-import { AdminAccess } from "./components/AdminAccess";
+import { UsersTable } from "./components/UsersTable";
+import { Analytics } from "./components/Analytics";
 
 
 function App() {
@@ -53,9 +54,10 @@ function App() {
           <Route path="/profile/favorite-post_alert" element={<FavoritePostAlert />} />
           <Route path="/profile/addAchievement/:boost" element={<AddAchievement />} />
           <Route path="/profile/single_post/:postId" element={<SinglePost />} />
-          <Route path="/profile/admin-access" element={<AdminAccess />} />
           <Route path="/profile/edit" element={<EditForm />} />
           <Route path="/profile/wheel" element={<DailyWheel />} />
+          <Route path="/profile/users-table" element={<UsersTable />} />
+          <Route path="/profile/analytics" element={<Analytics />} />
         </Routes>
 
       </UserProvider>
