@@ -22,8 +22,9 @@ import { FollowAlert } from "./components/FollowAlert";
 import { FavoritePostAlert } from "./components/FavoritePostAlert";
 import { EditOptionsMenu } from "./components/EditOptionsMenu";
 import { DailyWheel } from "./pages/user/DailyWheel";
-import { UsersTable } from "./components/UsersTable";
-import { Analytics } from "./components/Analytics";
+import { UsersTable } from "./pages/UsersTable";
+import { ConfirmUserDelete } from "./components/ConfirmUserDelete";
+import { Analytics } from "./pages/Analytics";
 
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
           <Route path="/profile/edit" element={<EditForm />} />
           <Route path="/profile/wheel" element={<DailyWheel />} />
           <Route path="/profile/users-table" element={<UsersTable />} />
+          <Route path="/profile/deleteAlert" element={<ConfirmUserDelete />} />
           <Route path="/profile/analytics" element={<Analytics />} />
         </Routes>
 

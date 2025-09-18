@@ -61,6 +61,13 @@ export const ProfilePage = () => {
     const navigate = useNavigate();
     let token = loggedInUser.tokenUser;
 
+    const levels = [
+        { max: 70, label: 'מתחיל.ה', images: [firstLevel] },
+        { max: 200, label: 'מתקדמ.ת', images: [firstLevel, secondLevel] },
+        { max: 450, label: 'אלופ.ה', images: [firstLevel, secondLevel, thirdLevel] },
+        { max: Infinity, label: 'אגדה', images: [firstLevel, secondLevel, thirdLevel, fourthLevel] },
+    ];
+
     useEffect(() => {
         // הצגת הזמנה להצטרפות לבוסט בכל יום ראשון
         const today = new Date().getDay();
@@ -155,13 +162,6 @@ export const ProfilePage = () => {
         const favoritesRes = await getFavoritePosts(userId);
         setArrFavorites(favoritesRes.data);
     };
-
-    const levels = [
-        { max: 70, label: 'מתחיל.ה', images: [firstLevel] },
-        { max: 200, label: 'מתקדמ.ת', images: [firstLevel, secondLevel] },
-        { max: 450, label: 'אלופ.ה', images: [firstLevel, secondLevel, thirdLevel] },
-        { max: Infinity, label: 'אגדה', images: [firstLevel, secondLevel, thirdLevel, fourthLevel] },
-    ];
 
     const getLevelUser = (points) => {
         const level = levels.find(l => points <= l.max);
@@ -330,7 +330,7 @@ export const ProfilePage = () => {
                             <ul>
                                 <li><strong>כינוי</strong> {userProfile.nickname || "לא הוגדר"}</li>
                                 <li><strong>מין</strong> {userProfile.gender}</li>
-                                <li><strong>אימייל</strong> {userProfile.email}</li>
+                                {loggedInUserId && <li><strong>אימייל</strong> {userProfile.email}</li>}
                                 <li><strong>הצטרפות</strong> {new Date(userProfile.enterDate).toLocaleDateString('he-IL')}</li>
                                 <li><strong>חברים</strong> {followingQTY}</li>
                                 <li><div className="points_gem">

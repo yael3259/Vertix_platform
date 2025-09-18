@@ -1,22 +1,29 @@
 import "../styles/UsersTable.css";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { usersDisplayInTable } from "../routes/UserAPI";
+import { deleteUser, usersDisplayInTable } from "../routes/UserAPI";
+import { FaTrash } from "react-icons/fa";
+import { ConfirmUserDelete } from "../components/ConfirmUserDelete";
+
+
 
 export const UsersTable = () => {
     const [usersArr, setUsersArr] = useState([]);
     const [search, setSearch] = useState("");
+    const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+    const [userToDelete, setUserToDelete] = useState({});
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchUsers = async () => {
+            console.log("ffff")
             try {
                 let res = await usersDisplayInTable();
                 setUsersArr(res.data);
             } catch (err) {
                 console.error("failed fetching users", err);
             }
-        };
+        }
         fetchUsers();
     }, []);
 
@@ -24,9 +31,30 @@ export const UsersTable = () => {
         user.userName.toLowerCase().includes(search.toLowerCase())
     );
 
+    const deleteAlert = (_id, userName) => {
+        setUserToDelete({ _id, userName });
+        setShowDeleteAlert(true);
+    }
+
+    const handleDeleteUser = async (userId) => {
+        try {
+            await deleteUser(userId);
+            setUsersArr(prev => prev.filter(user => user._id !== userId));
+            setShowDeleteAlert(false);
+        } catch (err) {
+            console.error("failed", err);
+        }
+    };
+
+    const closeDeleteAlert = () => {
+        setShowDeleteAlert(false);
+    }
+
     return (
         <div className="admin-access">
             <h1>ניהול משתמשים</h1>
+
+            {showDeleteAlert && <ConfirmUserDelete user={userToDelete} onDelete={handleDeleteUser} onClose={closeDeleteAlert} />}
 
             <div className="searchBoxInTable">
                 <input
@@ -56,7 +84,7 @@ export const UsersTable = () => {
                     {filteredUsers.map((user) => (
                         <tr
                             key={user._id}
-                            className={user.role === "ADMIN" ? "adminCll" : ""}
+                            className={user.role === "ADMIN" ? "adminCll" : "userCell"}
                             onClick={() => navigate(`/profile/${user._id}`)}
                         >
                             <td data-label="שם משתמש"><strong>{user.userName}</strong></td>
@@ -74,7 +102,31 @@ export const UsersTable = () => {
                                     </span>
                                 )) || "-"}
                             </td>
-                            <td data-label="חברים">{user.following?.length || 0}</td>
+                            <td data-label="חברים">
+                                <button
+                                    className="deleteUserIcon"
+                                    title="מחיקת משתמש"
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        deleteAlert(user._id, user.userName);
+                                    }} >
+                                    <FaTrash />
+                                </button>
+
+                                <div className="friendsWrapper">
+                                    <span>{user.following?.length || 0}</span>
+
+                                    <button
+                                        className="deleteUserIconForMobile"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            deleteAlert(user._id, user.userName);
+                                        }}
+                                    >
+                                        מחיקת משתמש
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

@@ -46,10 +46,16 @@ def get_signups_last_six_months():
         date = user.get("enterDate")
         if not date:
             continue
+
+        if isinstance(date, str):
+            try:
+                date = datetime.fromisoformat(date)
+            except Exception:
+                continue
         month_key = date.strftime("%Y-%m")
         monthly_signups[month_key] += 1
 
-    return dict(sorted(monthly_signups.items()))
+    return {str(k): int(v) for k, v in sorted(monthly_signups.items())}
 
 
 if __name__ == "__main__":

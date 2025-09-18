@@ -34,7 +34,6 @@ export const DailyWheel = () => {
 
     const createSlicePath = (index, total) => {
         const sliceAngle = 360 / total;
-        // קיזוז של 90 מעלות כדי שהפרוסה הראשונה תתחיל למעלה
         const startAngle = (sliceAngle * index - 90) * (Math.PI / 180);
         const endAngle = (sliceAngle * (index + 1) - 90) * (Math.PI / 180);
 
@@ -51,7 +50,6 @@ export const DailyWheel = () => {
         if (spinning) return;
 
         setSpinning(true);
-        localStorage.removeItem("lastSpin");
         const isSpin = localStorage.getItem("lastSpin");
 
         if (isSpin) {
@@ -70,12 +68,6 @@ export const DailyWheel = () => {
 
         const idx = Math.floor(Math.random() * REWARDS.length);
         const slice = 360 / REWARDS.length;
-
-        // חישוב זווית העצירה המדויקת
-        // 1. נסובב את הגלגל בכמה סיבובים מלאים (360 * 5)
-        // 2. נוסיף את הזווית של הסלייס שנבחר (idx * slice)
-        // 3. נוסיף חצי מזווית הסלייס כדי שהפוינטר יעצור בדיוק באמצע (slice / 2)
-        // 4. נקזז 90 מעלות כדי שהפוינטר יעצור בראש הגלגל (0 מעלות)
         const target = 360 * 5 + (idx * slice + slice / 2) - 90;
 
         setAngle(target);

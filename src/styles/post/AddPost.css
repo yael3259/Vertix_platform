@@ -139,6 +139,18 @@
   margin-top: 5px;
 }
 
+.imagePreview {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.preview-image {
+  max-width: 100%;
+  border-radius: 10px;
+  object-fit: contain; /* או cover אם את רוצה שהתמונה תתמלא */
+  border: 1px solid #ccc;
+}
+
 .bg_color_change {
     width: 40px !important;
     height: 40px;

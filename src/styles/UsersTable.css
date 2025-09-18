@@ -50,12 +50,10 @@
     color: #212529;
     outline: none;
     transition: all 0.25s ease;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
 .searchBoxInTable input:focus {
-    border-color: #3e5857;
-    box-shadow: 0 0 8px rgba(62, 88, 87, 0.3);
+    border-bottom: 1px solid #3e5857;
 }
 
 .users-table {
@@ -79,6 +77,46 @@
     border-bottom: 1px solid #dee2e6;
 }
 
+.userCell {
+    position: relative;
+}
+
+.deleteUserIcon {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #000000;
+    cursor: pointer;
+    display: none;
+}
+
+.deleteUserIcon:hover {
+    color: #656565;
+}
+
+.userCell:hover .deleteUserIcon,
+.adminCll:hover .deleteUserIcon {
+    display: block;
+}
+
+.deleteUserIconForMobile {
+    background-color: #3f6a6c;
+    color: #ffffff;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    text-align: center;
+    font-weight: 500;
+    padding: 6px 12px;
+    margin-top: 10px;
+    width: auto;
+    align-self: flex-start;
+    display: none;
+}
+
 .users-table td {
     padding: 12px 16px;
     font-size: 0.9rem;
@@ -97,11 +135,18 @@
 }
 
 .adminCll {
+    position: relative;
     background-color: #c6f2ef;
 }
 
 .adminCll:hover td {
     background-color: #daf1f0 !important;
+}
+
+.friendsWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .tag {
@@ -125,6 +170,12 @@
 
 .tag.bronze {
     background-color: #cd7f32;
+}
+
+@media (max-width: 1500px) {
+    .deleteUserIcon {
+        display: block;
+    }
 }
 
 @media (max-width: 1090px) {
@@ -168,6 +219,7 @@
     .users-table td,
     .users-table tr {
         display: block;
+        background-color: transparent;
     }
 
     .searchBoxInTable {
@@ -176,6 +228,7 @@
         left: 0;
         right: 0;
         margin: 0;
+        border-radius: 0;
     }
 
     .users-table thead {
@@ -197,7 +250,13 @@
         position: relative;
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
+    }
+
+    .friendsWrapper {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
     }
 
     .users-table td::before {
@@ -206,6 +265,14 @@
         color: #495057;
         margin-left: 8px;
         flex-shrink: 0;
+    }
+
+    .deleteUserIcon {
+        display: none;
+    }
+
+    .deleteUserIconForMobile {
+        display: block;
     }
 
     .tag {

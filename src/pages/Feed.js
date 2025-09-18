@@ -75,6 +75,7 @@ export const Feed = () => {
 
         getAllPosts(currentPage, 15)
             .then((res) => {
+                console.log("res", res.data)
                 const postsWithFlag = res.data.map(post => ({
                     ...post,
                     showComments: false,
@@ -201,11 +202,12 @@ export const Feed = () => {
             const res = await toggleLikePost(userId, postId);
             setArr(prevArr =>
                 prevArr.map(post =>
-                    post._id === postId ? { ...post, likes: res.data.likes } : post
+                    post._id === postId ? { ...post, likes: res.data.likes, showComments: true } : post
                 )
             );
 
             setLikedPosts(prev => ({ ...prev, [postId]: res.data.liked }));
+
         } catch (err) {
             console.error("failed to like post", err);
             setErrorAlert(err.response.data.message || "שגיאה");

@@ -24,6 +24,7 @@ export const AddPostForm = () => {
     const location = useLocation();
     const fromNotifPage = location.state?.fromNotifPage;
     const { descriptionForPost } = useParams();
+    const [imagePreview, setImagePreview] = useState(null);
     let token = user.tokenUser;
 
     useEffect(() => {
@@ -46,6 +47,12 @@ export const AddPostForm = () => {
 
     const onSubmit = async (data) => {
         const formData = new FormData();
+        const maxSize = 2 * 1024 * 1024; // 2MB
+
+        if (data.imagePost && data.imagePost.size && data.imagePost.size > maxSize) {
+            alert("תמונה גדולה מידי");
+            return;
+        }
 
         formData.append("category", data.category.value);
         formData.append("content", content);
@@ -75,6 +82,19 @@ export const AddPostForm = () => {
         setShowPicker(false);
     };
 
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImagePreview(reader.result);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            setImagePreview(null);
+        }
+    };
+
     const opacityBackground = (hex, alpha = 0.5) => {
         const bigint = parseInt(hex.replace("#", ""), 16);
         const r = (bigint >> 16) & 255;
@@ -95,9 +115,11 @@ export const AddPostForm = () => {
         { value: 'שאלות והתלבטויות', label: 'שאלות והתלבטויות' },
         { value: 'ממים ובדיחות', label: 'ממים ובדיחות' },
         { value: 'טיפים שימושיים', label: 'טיפים שימושיים' },
+        { value: 'אקטואליה🎗️', label: 'אקטואליה🎗️' },
         { value: 'פיתוח אישי', label: 'פיתוח אישי' },
         { value: 'עיצוב ויצירה', label: 'עיצוב ויצירה' },
-        { value: 'טכנולוגיה וחדשנות', label: 'טכנולוגיה וחדשנות' }
+        { value: 'טכנולוגיה וחדשנות', label: 'טכנולוגיה וחדשנות' },
+        { value: 'הישג חדש🎖️', label: 'הישג חדש🎖️' }
     ];
 
     if (user.userId === "guest") {
@@ -182,9 +204,14 @@ export const AddPostForm = () => {
                                 <label><Upload size={15} />
                                     העלאת תמונה מהמחשב
                                 </label>
-                                <input type="file" accept="image/*,video/*" {...register("mediaFile")} />
+                                <input type="file" accept="image/*,video/*" {...register("mediaFile")} onChange={handleFileChange} />
                             </div>
                         </div>
+                        {imagePreview && (
+                            <div className="imagePreview">
+                                <img src={imagePreview} alt="תצוגה מקדימה" className="preview-image" />
+                            </div>
+                        )}
                     </>)}
                 </div>
 
