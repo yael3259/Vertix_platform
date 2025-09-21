@@ -17,6 +17,8 @@ export const LeaderBoard = () => {
     const [arrUsers, setArrUsers] = useState([]);
     const [timeLeftText, setTimeLeftText] = useState('');
     const { user: loggedInUser } = useUserContext();
+    const [role, setRole] = useState("");
+    const isAdmin = role === "ADMIN";
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -75,31 +77,33 @@ export const LeaderBoard = () => {
                 <p className="board_title">לוח המובילים</p>
                 {timeLeftText && <p className="timeLeftToTags">{timeLeftText}</p>}
                 <div className="leaderboard-list">
-                    {arrUsers.map((user, i) => (
-                        <div key={user._id} className={`leaderboard-item rank-${i}`} id={user._id === loggedInUser.userId ? 'currentUserInList' : ''} onClick={() => fetchToProfile(user._id)}>
-                            <div className="userSection">
-                                {user.profilePicture ? (
-                                    <img
-                                        className="userPicInBoard"
-                                        src={user.profilePicture}
-                                        alt="תמונת פרופיל"
-                                        loading="lazy" />
-                                ) : (
-                                    <div className="avatar-fallback" id="avatar-fallback_inBoard">
-                                        {(user.userName || 'אורח').charAt(0).toUpperCase()}
-                                    </div>
-                                )}
-                                <div className="nameAndPoints">
-                                    <p className="username_inBoard">{user.userName}</p>
-                                    <div className="points_con">
-                                        <img src={gem} className="gemIcon" alt="יהלום" />
-                                        <p className="points_inBoard">{user.points ? user.points : 0} נקודות</p>
+                    {arrUsers.
+                        filter(user => user.role !== "ADMIN")
+                        .map((user, i) => (
+                            <div key={user._id} className={`leaderboard-item rank-${i}`} id={user._id === loggedInUser.userId ? 'currentUserInList' : ''} onClick={() => fetchToProfile(user._id)}>
+                                <div className="userSection">
+                                    {user.profilePicture ? (
+                                        <img
+                                            className="userPicInBoard"
+                                            src={user.profilePicture}
+                                            alt="תמונת פרופיל"
+                                            loading="lazy" />
+                                    ) : (
+                                        <div className="avatar-fallback" id="avatar-fallback_inBoard">
+                                            {(user.userName || 'אורח').charAt(0).toUpperCase()}
+                                        </div>
+                                    )}
+                                    <div className="nameAndPoints">
+                                        <p className="username_inBoard">{user.userName}</p>
+                                        <div className="points_con">
+                                            <img src={gem} className="gemIcon" alt="יהלום" />
+                                            <p className="points_inBoard">{user.points ? user.points : 0} נקודות</p>
+                                        </div>
                                     </div>
                                 </div>
+                                <div className="rank-badge">{getMedal(i)}</div>
                             </div>
-                            <div className="rank-badge">{getMedal(i)}</div>
-                        </div>
-                    ))}
+                        ))}
                 </div>
             </div>
         </div>

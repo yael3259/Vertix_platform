@@ -169,6 +169,10 @@
 
 import axios from "axios";
 import { useEffect, useState } from "react";
+import "../styles/Analytics.css";
+import noDisplayIcon from "../files/icons/noDisplayIcon.png"
+
+
 
 export const Analytics = () => {
   const [data, setData] = useState(null);
@@ -179,8 +183,16 @@ export const Analytics = () => {
       .catch((err) => console.error("Error fetching data:", err));
   }, []);
 
-  if (!data) return <div>Loading...</div>;
-  return <div>{JSON.stringify(data)}</div>;
-}
+  if (!data) {
+    return <div className="analyticsPage" id='noUserLogged'>
+      <img src={noDisplayIcon} className="noDisplayIcon" alt="אורח" />
+      <p>העמוד הזה בבנייה</p>
+    </div>;
+  }
 
-export default Analytics;
+  return (
+    <div className="analyticsPage">
+      {JSON.stringify(data)}
+    </div>
+  )
+}

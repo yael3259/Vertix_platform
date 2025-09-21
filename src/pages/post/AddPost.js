@@ -47,12 +47,6 @@ export const AddPostForm = () => {
 
     const onSubmit = async (data) => {
         const formData = new FormData();
-        const maxSize = 2 * 1024 * 1024; // 2MB
-
-        if (data.imagePost && data.imagePost.size && data.imagePost.size > maxSize) {
-            alert("תמונה גדולה מידי");
-            return;
-        }
 
         formData.append("category", data.category.value);
         formData.append("content", content);
@@ -119,8 +113,16 @@ export const AddPostForm = () => {
         { value: 'פיתוח אישי', label: 'פיתוח אישי' },
         { value: 'עיצוב ויצירה', label: 'עיצוב ויצירה' },
         { value: 'טכנולוגיה וחדשנות', label: 'טכנולוגיה וחדשנות' },
-        { value: 'הישג חדש🎖️', label: 'הישג חדש🎖️' }
+        { value: 'הישג חדש🎖️', label: 'הישג חדש🎖️' },
+        { value: 'חשוב לדעת❗', label: 'חשוב לדעת❗', adminOnly: true }
     ];
+
+    const filteredCategoryOptions = categoryOptions.filter(cat => {
+        if (cat.adminOnly) {
+            return user.userRole === "ADMIN";
+        }
+        return true;
+    });
 
     if (user.userId === "guest") {
         return <div className="profilePage" id='noUserLogged'>
@@ -145,7 +147,7 @@ export const AddPostForm = () => {
                     render={({ field }) => (
                         <Select
                             {...field}
-                            options={categoryOptions}
+                            options={filteredCategoryOptions}
                             placeholder="בחר קטגוריה"
                             className="react-select-container"
                             classNamePrefix="react-select"

@@ -60,6 +60,8 @@ export const ProfilePage = () => {
     const loggedInUserId = userId === loggedInUser.userId;
     const navigate = useNavigate();
     let token = loggedInUser.tokenUser;
+    const [role, setRole] = useState("");
+    const isAdmin = role === "ADMIN";
 
     const levels = [
         { max: 70, label: 'מתחיל.ה', images: [firstLevel] },
@@ -68,15 +70,6 @@ export const ProfilePage = () => {
         { max: Infinity, label: 'אגדה', images: [firstLevel, secondLevel, thirdLevel, fourthLevel] },
     ];
 
-    useEffect(() => {
-        // הצגת הזמנה להצטרפות לבוסט בכל יום ראשון
-        const today = new Date().getDay();
-        if (today === 0) {
-            setShowBoostAlert(true);
-        } else {
-            setShowBoostAlert(false);
-        }
-    }, []);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -105,6 +98,7 @@ export const ProfilePage = () => {
                 setArrFavorites(favoritesRes.data);
                 setArrAchievements(achievementsRes.data);
                 setArrBoosts(boostsRes.data);
+                setRole(userRes.data.role);
 
             } catch (err) {
                 console.error("error fetching user data", err);
@@ -146,6 +140,8 @@ export const ProfilePage = () => {
                 }
             }
         }
+        if (userProfile)
+            showBoostInvite();
     }, [userProfile]);
 
     useEffect(() => {
@@ -154,6 +150,16 @@ export const ProfilePage = () => {
             return () => clearTimeout(timer);
         }
     }, [errorAlert]);
+
+
+    const showBoostInvite = () => {
+        const today = new Date().getDay();
+        if (today === 0 && !isAdmin) {
+            setShowBoostAlert(true);
+        } else {
+            setShowBoostAlert(false);
+        }
+    }
 
     const refreshPosts = async () => {
         const postsRes = await getPostsById(userId);
@@ -305,7 +311,7 @@ export const ProfilePage = () => {
                     </div>
                     <div className="profile-info">
                         <h1>{userProfile.userName}</h1>
-                        <div className="nickname">{userProfile.nickname}</div>
+                        {!isAdmin && <div className="nickname">{userProfile.nickname}</div>}
                         <div className="role_inProfile">{userProfile.role === 'USER' ? 'משתמש.ת רגיל.ה' : userProfile.role === 'ADMIN' ? 'מנהל.ת' : null}</div>
                     </div>
                     <div className="profile-buttons">
@@ -328,39 +334,39 @@ export const ProfilePage = () => {
                         <div className="userInfoInProfile" >
                             <h3><FaIdBadge className='iconForTitleInProfile' />פרטים אישיים</h3>
                             <ul>
-                                <li><strong>כינוי</strong> {userProfile.nickname || "לא הוגדר"}</li>
+                                {!isAdmin && <li><strong>כינוי</strong> {userProfile.nickname || "לא הוגדר"}</li>}
                                 <li><strong>מין</strong> {userProfile.gender}</li>
                                 {loggedInUserId && <li><strong>אימייל</strong> {userProfile.email}</li>}
                                 <li><strong>הצטרפות</strong> {new Date(userProfile.enterDate).toLocaleDateString('he-IL')}</li>
                                 <li><strong>חברים</strong> {followingQTY}</li>
-                                <li><div className="points_gem">
+                                {!isAdmin && <li><div className="points_gem">
                                     <img src={gem} className="gemIconInProfile" alt="יהלום" />
                                     <strong>נקודות</strong></div>
-                                    <strong>{userProfile.points}</strong></li>
+                                    <strong>{userProfile.points}</strong>
+                                </li>}
                             </ul>
                         </div>
 
                         <div className="detailsAndNetwork">
-                            {loggedInUserId ? (
-                                <button className='dailyWheel-button' onClick={() => navigate("/profile/wheel")}>
-                                    סיבוב בגלגל המזל
-                                </button>
-                            ) : (
-                                <button className='addUserToNetwork' onClick={() => addFriend(userProfile._id)}>
-                                    התחבר/י ל{userProfile.nickname ? userProfile.nickname : userProfile.userName}
+                            {(!isAdmin || !loggedInUserId) && (
+                                <button
+                                    className={loggedInUserId ? 'dailyWheel-button' : 'addUserToNetwork'}
+                                    onClick={() => loggedInUserId ? navigate("/profile/wheel") : addFriend(userProfile._id)}>
+
+                                    {loggedInUserId ? "סיבוב בגלגל המזל" : `התחבר/י ל${userProfile.nickname || userProfile.userName}`}
                                 </button>
                             )}
                         </div>
                     </div>
 
                     <div className="routes-buttons_mobile-display">
-                        {loggedInUserId ? (
-                            <button className='routes_button_in_mobile' id='dailyWheel-button' onClick={() => navigate("/profile/wheel")}>
-                                סיבוב בגלגל המזל
-                            </button>
-                        ) : (
-                            <button className='routes_button_in_mobile' onClick={() => addFriend(userProfile._id)}>
-                                התחבר/י ל{userProfile.nickname ? userProfile.nickname : userProfile.userName}
+                        {(!isAdmin || !loggedInUserId) && (
+                            <button
+                                className={loggedInUserId ? 'routes_button_in_mobile' : 'routes_button_in_mobile'}
+                                id={loggedInUserId ? 'dailyWheel-button' : undefined}
+                                onClick={() => loggedInUserId ? navigate("/profile/wheel") : addFriend(userProfile._id)}>
+
+                                {loggedInUserId ? "סיבוב בגלגל המזל" : `התחבר/י ל${userProfile.nickname || userProfile.userName}`}
                             </button>
                         )}
 
@@ -377,7 +383,7 @@ export const ProfilePage = () => {
                             <button className="routes_button_in_mobile">עריכה</button></NavLink>}
                     </div>
 
-                    <div className='gemsReached'>
+                    {!isAdmin && <div className='gemsReached'>
                         <div className="tooltip-wrapper">
                             {getLevelUser(userProfile.points)}
                             <div className="tooltip">
@@ -399,9 +405,9 @@ export const ProfilePage = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>}
 
-                    <div className="section" id='tags_section'>
+                    {!isAdmin && <div className="section" id='tags_section'>
                         <h3 className='titleTags'><FaTag className='iconForTitleInProfile' />שיאים</h3>
                         <div className='tagsContainer'>
                             <div className='goldTag' id='userTag'>
@@ -414,9 +420,9 @@ export const ProfilePage = () => {
                                 <p>{getTagValue("bronze")} פעמים <br />במקום השלישי</p><img src={bronzeMedal} id='medalInProfile' alt="מדליית ארד" />
                             </div>
                         </div>
-                    </div>
+                    </div>}
 
-                    <div className="section" id='skills_section'>
+                    {!isAdmin && <div className="section" id='skills_section'>
                         <h3><FaTag className='iconForTitleInProfile' />תחומי עניין</h3>
                         {loggedInUserId && (
                             <div className='skills_input'>
@@ -442,7 +448,7 @@ export const ProfilePage = () => {
                                     : `${userProfile.userName} עדיין לא הוסיף/ה כישורים`}
                             </p>
                         )}
-                    </div>
+                    </div>}
 
                     <div className="section" id='posts_section'>
                         <h3><FaRegFileAlt className='iconForTitleInProfile' />הפוסטים שלי</h3>
@@ -642,7 +648,7 @@ export const ProfilePage = () => {
                         )}
                     </div>
 
-                    {(loggedInUserId && userProfile.role === 'ADMIN') && (
+                    {(loggedInUserId && isAdmin) && (
                         <div className="section" id='admin_section'>
                             <h3><MdShield className='iconForTitleInProfile' />הרשאות מנהל</h3>
                             <div className='ManagementButtons'>
@@ -660,43 +666,45 @@ export const ProfilePage = () => {
                                 <NavLink to="/addPost" className="save-btn">להוספה</NavLink>
                             </div>
 
-                            <div className="card-section">
-                                <img src={achievement} className="icon" alt="אייקון הישג" />
-                                <h3 id='linkToAchievement'>הוספת הישג</h3>
-                                <NavLink to="/profile/addAchievement" className="save-btn">להוספה</NavLink>
-                            </div>
-
-                            <div className="card-section" id="Achievement-section">
-                                <div className="rightSideAchievement">
-                                    <img src={daily_update} className="icon" id='achievementIcon' alt="עדכון יומי בטבלה" />
-                                    <h3 id='achievement_h3'>עדכון יומי</h3>
-                                    <p className='small_title'>הישגים וטבלאות מעקב</p>
+                            {!isAdmin && <>
+                                <div className="card-section">
+                                    <img src={achievement} className="icon" alt="אייקון הישג" />
+                                    <h3 id='linkToAchievement'>הוספת הישג</h3>
+                                    <NavLink to="/profile/addAchievement" className="save-btn">להוספה</NavLink>
                                 </div>
 
-                                <div className="leftSideAchievement">
-                                    {allAchievements.length > 0 ? (
-                                        allAchievements.map((item, i) => (
-                                            <NavLink
-                                                to={`/profile/table/${item._id}`}
-                                                key={i}
-                                                className={`achievement-item ${item.statusTable === 'completed' ? 'completed-achievementTable' : ''}`}
-                                                id={item.type === "boost" ? 'boostStyle' : ''}
-                                            >
-                                                {item.type === "boost" && <div className="boost-badge">בוסט</div>}
-                                                # {item.title}
-                                                {getStatusIcon(item.statusTable) && (
-                                                    <img src={getStatusIcon(item.statusTable)} className="status-icon" alt="סטטוס טבלה" />
-                                                )}
-                                            </NavLink>
-                                        ))
-                                    ) : (
-                                        <div className='achievements_con'>
-                                            <p className="no-achievements_txt">אין לך עדיין הישגים</p>
-                                            <img src={no_achievements} className='no_achievements_icon' alt="אין הישגים" />
-                                        </div>
-                                    )}
+                                <div className="card-section" id="Achievement-section">
+                                    <div className="rightSideAchievement">
+                                        <img src={daily_update} className="icon" id='achievementIcon' alt="עדכון יומי בטבלה" />
+                                        <h3 id='achievement_h3'>עדכון יומי</h3>
+                                        <p className='small_title'>הישגים וטבלאות מעקב</p>
+                                    </div>
+
+                                    <div className="leftSideAchievement">
+                                        {allAchievements.length > 0 ? (
+                                            allAchievements.map((item, i) => (
+                                                <NavLink
+                                                    to={`/profile/table/${item._id}`}
+                                                    key={i}
+                                                    className={`achievement-item ${item.statusTable === 'completed' ? 'completed-achievementTable' : ''}`}
+                                                    id={item.type === "boost" ? 'boostStyle' : ''}
+                                                >
+                                                    {item.type === "boost" && <div className="boost-badge">בוסט</div>}
+                                                    # {item.title}
+                                                    {getStatusIcon(item.statusTable) && (
+                                                        <img src={getStatusIcon(item.statusTable)} className="status-icon" alt="סטטוס טבלה" />
+                                                    )}
+                                                </NavLink>
+                                            ))
+                                        ) : (
+                                            <div className='achievements_con'>
+                                                <p className="no-achievements_txt">אין לך עדיין הישגים</p>
+                                                <img src={no_achievements} className='no_achievements_icon' alt="אין הישגים" />
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
+                            </>}
                         </div>
                     }
                 </div>
