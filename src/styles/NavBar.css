@@ -51,7 +51,7 @@
     position: relative;
 }
 
-#boardLink{
+#boardLink {
     margin-top: -5px;
     margin-bottom: -5px;
 }
@@ -226,6 +226,7 @@
 }
 
 @media (max-width: 1024px) {
+
     .search_in_navbar,
     .search-icon {
         margin-left: 20px;
@@ -325,5 +326,6 @@
     .nav-item:hover {
         background-color: #e3fff8;
         transition: background-color 1.2s ease-in-out;
+        border-radius: 12px;
     }
 }

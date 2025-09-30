@@ -109,6 +109,7 @@ export const ProfilePage = () => {
         }
         if (userId) {
             fetchUserData();
+            showBoostInvite()
         }
     }, [userId]);
 
@@ -140,8 +141,8 @@ export const ProfilePage = () => {
                 }
             }
         }
-        if (userProfile)
-            showBoostInvite();
+        // if (userProfile)
+        //     showBoostInvite();
     }, [userProfile]);
 
     useEffect(() => {
@@ -154,12 +155,13 @@ export const ProfilePage = () => {
 
     const showBoostInvite = () => {
         const today = new Date().getDay();
+        console.log(today)
         if (today === 0 && !isAdmin) {
             setShowBoostAlert(true);
         } else {
             setShowBoostAlert(false);
         }
-    }
+    };
 
     const refreshPosts = async () => {
         const postsRes = await getPostsById(userId);
@@ -206,7 +208,7 @@ export const ProfilePage = () => {
     const refreshAfterDelete = (deletedId) => {
         setArrPosts(prev => prev.filter(p => p._id !== deletedId))
         setArrFavorites(prev => prev.filter(p => p._id !== deletedId))
-    }
+    };
 
     const allAchievements = [
         ...arrAchievements.map((a) => ({ ...a, type: "achievement" })),
@@ -261,7 +263,7 @@ export const ProfilePage = () => {
             console.error("failed to add user to network", err);
             setErrorAlert(err.response.data.message || "שגיאה");
         }
-    }
+    };
 
     const handleCloseFollowAlert = () => {
         setShowFollowAlert(false);
@@ -278,11 +280,11 @@ export const ProfilePage = () => {
             default:
                 return null;
         }
-    }
+    };
 
     if (isLoading) {
         return <div className='loading-spinner' />
-    }
+    };
 
     if (!userProfile) {
         return <div className="profilePage" id='noUserLogged'>
@@ -290,7 +292,7 @@ export const ProfilePage = () => {
             <strong>משתמש לא מחובר</strong>
             <p>התחבר או הרשם <NavLink to="/login" id='linkToLogin'>כאן</NavLink> כדי לצפות בפרופיל</p>
         </div>
-    }
+    };
 
     return (
         <div className="profilePage" >
@@ -331,7 +333,7 @@ export const ProfilePage = () => {
 
                 <div className="profile-body">
                     <div className="detailsAndNetwork" id='details_section'>
-                        <div className="userInfoInProfile" >
+                        <div className="userInfoInProfile">
                             <h3><FaIdBadge className='iconForTitleInProfile' />פרטים אישיים</h3>
                             <ul>
                                 {!isAdmin && <li><strong>כינוי</strong> {userProfile.nickname || "לא הוגדר"}</li>}
@@ -406,6 +408,8 @@ export const ProfilePage = () => {
                             </div>
                         </div>
                     </div>}
+
+                    <div className={isAdmin ? "adminSpace" : ""}></div>
 
                     {!isAdmin && <div className="section" id='tags_section'>
                         <h3 className='titleTags'><FaTag className='iconForTitleInProfile' />שיאים</h3>

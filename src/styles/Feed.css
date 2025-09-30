@@ -179,7 +179,7 @@
   flex-wrap: wrap;
   gap: 6px;
   justify-content: center;
-  margin: 10px 0;
+  margin-top: 10px;
   max-height: 26px;
   overflow-y: auto;
 }
@@ -198,7 +198,6 @@
   display: flex;
   justify-content: center;
   gap: 14px;
-  margin-top: -10px;
   margin-bottom: 10px;
 }
 
@@ -1175,7 +1174,7 @@ select option {
     margin-top: 120px;
   }
 
-  .addpost_feed{
+  .addpost_feed {
     width: 50px;
   }
 

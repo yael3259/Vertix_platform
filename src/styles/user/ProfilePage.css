@@ -147,6 +147,10 @@
     opacity: 0.8;
 }
 
+.adminSpace {
+    padding-bottom: 60px;
+}
+
 .profile-buttons {
     display: flex;
     flex-direction: column;
@@ -719,7 +723,7 @@
     font-style: italic;
 }
 
-.ManagementButtons{
+.ManagementButtons {
     display: flex;
     gap: 10px;
 }
